@@ -11,6 +11,8 @@ struct task* init_task(void* entry, struct vmm_context* context)
     uint8_t* stack = vmm_alloc(context, 1);
     uint8_t* user_stack = vmm_alloc(context, 1);
 
+		//kprintf("entry: %x", (uint32_t) entry);
+
     struct cpu_state new_state = {
         .eax = 0,
         .ebx = 0,

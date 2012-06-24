@@ -14,7 +14,6 @@ void* pmm_alloc() {
 			for(s = 0; s < 32; s++) {
 				if(allocatable[i] & (1 << s)) {
 					allocatable[i] &= ~(1 << s);
-					kprintf("Allocated: %x (%x) \n", ((i * 32 + s) * 4096), (i * 32 + s));
 					return (uint8_t*)((i * 32 + s) * 4096);
 				}
 			}
