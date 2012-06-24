@@ -1,0 +1,4 @@
+title mikrOS
+kernel /kernel
+module /csh.elf
+boot
