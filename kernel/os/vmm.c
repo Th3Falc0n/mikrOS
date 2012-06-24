@@ -1,15 +1,20 @@
 #include "vmm.h"
 #include "pmm.h"
+#include "console.h"
 
 struct vmm_context* vmm_create_context(void)
 {
     struct vmm_context* context = pmm_alloc();
     int i;
+
  
     context->pagedir = pmm_alloc();
     for (i = 0; i < 1024; i++) {
         context->pagedir[i] = 0;
     }
+
+		vmm_map_page(context, context, context, PTE_PRESENT | PTE_WRITE);
+		vmm_map_page(context, context->pagedir, context->pagedir, PTE_PRESENT | PTE_WRITE);
  
     return context;
 }
@@ -25,6 +30,7 @@ int vmm_map_page(struct vmm_context* context, uintptr_t virt, uintptr_t phys, ui
 
     /* Wir brauchen 4k-Alignment */
     if ((virt & 0xFFF) || (phys & 0xFFF)) {
+				kprintf("map err %x to %x\n", phys, virt);
         return -1;
     }
 
@@ -35,6 +41,9 @@ int vmm_map_page(struct vmm_context* context, uintptr_t virt, uintptr_t phys, ui
     } else {
         /* Neue Page Table muss angelegt werden */
         page_table = pmm_alloc();
+
+				vmm_map_page(context, page_table, page_table, PTE_PRESENT | PTE_WRITE);
+
         for (i = 0; i < 1024; i++) {
             page_table[i] = 0;
         }
@@ -45,6 +54,8 @@ int vmm_map_page(struct vmm_context* context, uintptr_t virt, uintptr_t phys, ui
     /* Neues Mapping in the Page Table eintragen */
     page_table[pt_index] = phys | flags;
     asm volatile("invlpg %0" : : "m" (*(char*)virt));
+
+		kprintf("mapped %x to %x\n", phys, virt);
  
     return 0;
 }
@@ -79,7 +90,7 @@ void* vmm_alloc(struct vmm_context* context, uint16_t count) {
 	uintptr_t ptr = context->alloc_offset;
 	
 	while(count--) {
-		vmm_map_page(context, context->alloc_offset, pmm_alloc(), PTE_PRESENT | PTE_WRITE | PTE_USER);
+		vmm_map_page(context, context->alloc_offset, (uintptr_t) pmm_alloc(), PTE_PRESENT | PTE_WRITE | PTE_USER);
 		context->alloc_offset += 0x1000;
 	}
 
@@ -114,6 +125,8 @@ struct vmm_context* vmm_init(struct multiboot_info* mb_info)
           addr += 0x1000;
       }
   }
+
+	vmm_set_alloc_offset(kernel_context, 0x0);
  
   vmm_activate_context(kernel_context);
 
