@@ -55,6 +55,8 @@ void init_elf(void* image)
 
 void task() {
 	kprintf("task");
+
+	while(1) { };
 }
 
 void kernel_main(struct multiboot_info* mb_info) {	
@@ -68,6 +70,8 @@ void kernel_main(struct multiboot_info* mb_info) {
 
 		init_elf((void*) modules[i].start);
 	}*/
+
+	vmm_set_alloc_offset(context, 0x200000);
 
 	init_task(task, context);
 

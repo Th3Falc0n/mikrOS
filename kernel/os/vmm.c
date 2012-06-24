@@ -13,8 +13,8 @@ struct vmm_context* vmm_create_context(void)
         context->pagedir[i] = 0;
     }
 
-		vmm_map_page(context, context, context, PTE_PRESENT | PTE_WRITE);
-		vmm_map_page(context, context->pagedir, context->pagedir, PTE_PRESENT | PTE_WRITE);
+		vmm_map_page(context, (uintptr_t) context, (uintptr_t) context, PTE_PRESENT | PTE_WRITE);
+		vmm_map_page(context, (uintptr_t) context->pagedir, (uintptr_t) context->pagedir, PTE_PRESENT | PTE_WRITE);
  
     return context;
 }
@@ -42,7 +42,7 @@ int vmm_map_page(struct vmm_context* context, uintptr_t virt, uintptr_t phys, ui
         /* Neue Page Table muss angelegt werden */
         page_table = pmm_alloc();
 
-				vmm_map_page(context, page_table, page_table, PTE_PRESENT | PTE_WRITE);
+				vmm_map_page(context, (uintptr_t) page_table, (uintptr_t) page_table, PTE_PRESENT | PTE_WRITE);
 
         for (i = 0; i < 1024; i++) {
             page_table[i] = 0;
@@ -71,13 +71,13 @@ void vmm_map_kernel(struct vmm_context* context) {
 	 
 	uintptr_t addr = (uintptr_t) &kernel_start;
 	while (addr < (uintptr_t) &kernel_end) {
-		vmm_map_page(context, addr, addr, PTE_PRESENT | PTE_WRITE);
+		vmm_map_page(context, (uintptr_t) addr, (uintptr_t) addr, PTE_PRESENT | PTE_WRITE);
 		addr += 0x1000;
 	}
 
 	addr = 0xB8000;
 	while (addr < 0xC0000) {
-		vmm_map_page(context, addr, addr, PTE_PRESENT | PTE_WRITE);
+		vmm_map_page(context, (uintptr_t) addr, (uintptr_t) addr, PTE_PRESENT | PTE_WRITE);
 		addr += 0x1000;
 	}
 }
