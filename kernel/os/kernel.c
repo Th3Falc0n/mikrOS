@@ -6,6 +6,7 @@
 #include "pmm.h"
 #include "string.h"
 #include "elf.h"
+#include "vmm.h"
 
 struct cpu_state* syscall(struct cpu_state* cpu)
 {
@@ -53,7 +54,8 @@ void init_elf(void* image)
 }
 
 void kernel_main(struct multiboot_info* mb_info) {	
-	struct multiboot_module* modules = mb_info->mi_mods_addr;
+	vmm_init(mb_info);
+	/*struct multiboot_module* modules = mb_info->mi_mods_addr;
 
 	int i = 0;
 
@@ -61,7 +63,7 @@ void kernel_main(struct multiboot_info* mb_info) {
 		kprintf("Loading MB-Mod %x: S: %x E: %x\n", i, modules[i].start, modules[i].end);
 
 		init_elf((void*) modules[i].start);
-	}
+	}*/
 
-	while(1) { }
+	while(1) { kprintf("abc"); }
 }
