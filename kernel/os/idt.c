@@ -151,8 +151,13 @@ struct cpu_state* handle_interrupt(struct cpu_state* cpu)
 		kprintf("EAX: %x EBX: %x ECX: %x EDX: %x\n", cpu->eax, cpu->ebx, cpu->ecx, cpu->edx);
 		kprintf("ESI: %x EDI: %x EBP: %x EIP: %x\n", cpu->esi, cpu->edi, cpu->ebp, cpu->eip);
 		kprintf("CS: %x EFLAGS: %x ESP: %x SS: %x\n", cpu->cs, cpu->eflags, cpu->esp, cpu->ss);
-		
 
+		uint32_t cr2 = 0;
+
+		asm volatile("mov %%cr2, %0" : "=r" (cr2));
+
+		kprintf("CR2: %x", cr2);
+	
     while(1) {
       asm volatile("cli; hlt");
     }
@@ -161,7 +166,7 @@ struct cpu_state* handle_interrupt(struct cpu_state* cpu)
       outb(0xa0, 0x20);
     }
     if (cpu->intr == 0x20) {
-        new_cpu = schedule(cpu);
+        //new_cpu = schedule(cpu);
         tss[1] = (uint32_t) (new_cpu + 1);
     }
     outb(0x20, 0x20);

@@ -14,4 +14,7 @@ cp menu.lst /mnt/grub
 
 umount /mnt
 
+rm kernel.objdump
+objdump -dS kernel > kernel.objdump
+
 qemu -fda boot.img -monitor stdio

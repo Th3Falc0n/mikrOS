@@ -92,7 +92,7 @@ void* vmm_alloc(struct vmm_context* context, uint16_t count) {
  */
 static struct vmm_context* kernel_context;
  
-void vmm_init(struct multiboot_info* mb_info)
+struct vmm_context* vmm_init(struct multiboot_info* mb_info)
 {
   uint32_t cr0;
   int i;
@@ -120,4 +120,6 @@ void vmm_init(struct multiboot_info* mb_info)
   asm volatile("mov %%cr0, %0" : "=r" (cr0));
   cr0 |= (1 << 31);
   asm volatile("mov %0, %%cr0" : : "r" (cr0));
+
+	return kernel_context;
 }

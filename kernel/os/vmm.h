@@ -18,6 +18,6 @@ struct vmm_context* vmm_create_context(void);
 void vmm_map_kernel(struct vmm_context* context);
 int vmm_map_page(struct vmm_context* context, uintptr_t virt, uintptr_t phys, uint32_t flags);
 void vmm_activate_context(struct vmm_context* context);
-void vmm_init(struct multiboot_info* mb_info);
+struct vmm_context* vmm_init(struct multiboot_info* mb_info);
 
 #endif

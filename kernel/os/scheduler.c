@@ -6,10 +6,10 @@
 static struct task* first_task = NULL;
 static struct task* current_task = NULL;
 
-struct task* init_task(void* entry)
+struct task* init_task(void* entry, struct vmm_context* context)
 {
-    uint8_t* stack = pmm_alloc();
-    uint8_t* user_stack = pmm_alloc();
+    uint8_t* stack = vmm_alloc(context, 1);
+    uint8_t* user_stack = vmm_alloc(context, 1);
 
     struct cpu_state new_state = {
         .eax = 0,
@@ -31,7 +31,7 @@ struct task* init_task(void* entry)
     struct cpu_state* state = (void*) (stack + 4096 - sizeof(new_state));
     *state = new_state;
 
-    struct task* task = pmm_alloc();
+    struct task* task = vmm_alloc(context, 1);
     task->cpu_state = state;
     task->next = first_task;
     first_task = task;

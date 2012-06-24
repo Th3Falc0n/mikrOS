@@ -143,7 +143,7 @@ void send_command(uint8_t command) {
 void init_keyboard_drv() {
 	register_intr_handler(0x21, &keyboard_handler);
 
-	buffer = pmm_alloc();
+	//buffer = pmm_alloc();
 
 	while(inb(0x64) & 0x1) {
 		inb(0x60);
