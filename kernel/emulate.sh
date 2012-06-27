@@ -17,4 +17,4 @@ umount /mnt
 rm kernel.objdump
 objdump -dS kernel > kernel.objdump
 
-qemu -fda boot.img -d int -monitor stdio
+qemu -fda boot.img -d int

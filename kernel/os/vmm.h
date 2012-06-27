@@ -10,6 +10,7 @@
 
 struct vmm_context {
     uint32_t* pagedir;
+    uint32_t* vpagedir;
 		uintptr_t alloc_offset;
 };
 

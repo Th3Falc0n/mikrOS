@@ -2,6 +2,8 @@
 #include "pmm.h"
 #include "console.h"
 
+uint8_t use_phys_addr = 1;
+
 struct vmm_context* vmm_create_context(void)
 {
     struct vmm_context* context = pmm_alloc();
@@ -12,9 +14,6 @@ struct vmm_context* vmm_create_context(void)
     for (i = 0; i < 1024; i++) {
         context->pagedir[i] = 0;
     }
-
-		vmm_map_page(context, (uintptr_t) context, (uintptr_t) context, PTE_PRESENT | PTE_WRITE);
-		vmm_map_page(context, (uintptr_t) context->pagedir, (uintptr_t) context->pagedir, PTE_PRESENT | PTE_WRITE);
 
     return context;
 }
@@ -45,8 +44,6 @@ int vmm_map_page(struct vmm_context* context, uintptr_t virt, uintptr_t phys, ui
         for (i = 0; i < 1024; i++) {
             page_table[i] = 0;
         }
-				
-				vmm_map_page(context, (uintptr_t) page_table, (uintptr_t) page_table, PTE_PRESENT | PTE_WRITE);
 
         context->pagedir[pd_index] =
             (uint32_t) page_table | PTE_PRESENT | PTE_WRITE;
@@ -74,9 +71,9 @@ void vmm_map_kernel(struct vmm_context* context) {
 	while (addr < (uintptr_t) &kernel_end) {
 		vmm_map_page(context, (uintptr_t) addr, (uintptr_t) addr, PTE_PRESENT | PTE_WRITE);
 		addr += 0x1000;
-	}*
+	}
 
-	uintptr_t addr = 0xB8000;
+	addr = 0xB8000;
 	while (addr < 0xBFFFF) {
 		vmm_map_page(context, (uintptr_t) addr, (uintptr_t) addr, PTE_PRESENT | PTE_WRITE);
 		addr += 0x1000;
@@ -102,14 +99,12 @@ static struct vmm_context* kernel_context;
  
 struct vmm_context* vmm_init(struct multiboot_info* mb_info)
 {
-  uint32_t cr0;
-  int i;
-
   kernel_context = vmm_create_context();
 
-  struct multiboot_module* modules = mb_info->mi_mods_addr;
-
 	vmm_map_kernel(kernel_context);
+	
+  struct multiboot_module* modules = mb_info->mi_mods_addr;
+  int i;
 
   vmm_map_page(kernel_context, (uintptr_t) mb_info, (uintptr_t) mb_info, PTE_PRESENT | PTE_WRITE);
   vmm_map_page(kernel_context, (uintptr_t) modules, (uintptr_t) modules, PTE_PRESENT | PTE_WRITE);
@@ -126,6 +121,8 @@ struct vmm_context* vmm_init(struct multiboot_info* mb_info)
 	vmm_set_alloc_offset(kernel_context, 0x1000000);
  
   vmm_activate_context(kernel_context);
+  
+  uint32_t cr0;
 
   asm volatile("mov %%cr0, %0" : "=r" (cr0));
   cr0 |= (1 << 31);
