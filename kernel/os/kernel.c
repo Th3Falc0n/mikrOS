@@ -50,11 +50,17 @@ void init_elf(void* image)
         memcpy(dest, src, ph->file_size);
     }
  
-    init_task((void*) header->entry);
+    //init_task((void*) header->entry);
+}
+
+void task() {
+  kprintf("task");
+  
+  while(1) { }
 }
 
 void kernel_main(struct multiboot_info* mb_info) {	
-	vmm_init(mb_info);
+	//struct vmm_context* context = vmm_init(mb_info);
 	/*struct multiboot_module* modules = mb_info->mi_mods_addr;
 
 	int i = 0;
@@ -64,6 +70,8 @@ void kernel_main(struct multiboot_info* mb_info) {
 
 		init_elf((void*) modules[i].start);
 	}*/
+	
+	init_task(task, NULL);
 
 	kprintf("abc");
 

@@ -2,7 +2,10 @@
 #include "pmm.h"
 #include "console.h"
 
-uint8_t use_phys_addr = 1;
+#define VIRT_PDIR 0xFFF00000
+#define ACT_CONTEXT 0xFFEFF000
+
+static uint8_t use_phys_addr = 1;
 
 struct vmm_context* vmm_create_context(void)
 {
@@ -11,51 +14,66 @@ struct vmm_context* vmm_create_context(void)
 
  
     context->pagedir = pmm_alloc();
-    for (i = 0; i < 1024; i++) {
+    for (i = 0; i < 1023; i++) {
         context->pagedir[i] = 0;
     }
+    context->pagedir[1023] = context->pagedir;
+    
+    vmm_map_page(context, VIRT_PDIR, context->pagedir, PTE_PRESENT | PTE_WRITE);
+    context->vpagedir = VIRT_PDIR;
 
+    vmm_map_page(context, ACT_CONTEXT, context, PTE_PRESENT | PTE_WRITE);
+    
     return context;
 }
 
 int vmm_map_page(struct vmm_context* context, uintptr_t virt, uintptr_t phys, uint32_t flags)
 {
-    uint32_t page_index = virt / 0x1000;
-    uint32_t pd_index = page_index / 1024;
-    uint32_t pt_index = page_index % 1024;
+  uint32_t page_index = virt / 0x1000;
+  uint32_t pd_index = page_index / 1024;
+  uint32_t pt_index = page_index % 1024;
+  
+  uint32_t* page_dir;
+  
+  if(use_phys_addr) {
+    page_dir = context->pagedir;
+  }
+  else
+  {
+    page_dir = context->vpagedir;
+  }
 
-    uint32_t* page_table;
-    int i;
+  uint32_t* page_table;
+  int i;
 
-    /* Wir brauchen 4k-Alignment */
-    if ((virt & 0xFFF) || (phys & 0xFFF)) {
-				kprintf("map err %x to %x\n", phys, virt);
-        return -1;
+  /* Wir brauchen 4k-Alignment */
+  if ((virt & 0xFFF) || (phys & 0xFFF)) {
+			kprintf("map err %x to %x\n", phys, virt);
+      return -1;
+  }
+
+  /* Page Table heraussuchen bzw. anlegen */
+  if (page_dir[pd_index] & PTE_PRESENT) {
+    page_table = (uint32_t*) (page_dir[pd_index] & ~0xFFF);
+  } else {
+    /* Neue Page Table muss angelegt werden */
+    page_table = pmm_alloc();
+
+    for (i = 0; i < 1024; i++) {
+        page_table[i] = 0;
     }
+    
+    page_dir[pd_index] =
+      (uint32_t) page_table | PTE_PRESENT | PTE_WRITE;
+  }
 
-    /* Page Table heraussuchen bzw. anlegen */
-    if (context->pagedir[pd_index] & PTE_PRESENT) {
-        /* Page Table ist schon vorhanden */
-        page_table = (uint32_t*) (context->pagedir[pd_index] & ~0xFFF);
-    } else {
-        /* Neue Page Table muss angelegt werden */
-        page_table = pmm_alloc();
+  /* Neues Mapping in the Page Table eintragen */
+  page_table[pt_index] = phys | flags;
+  asm volatile("invlpg %0" : : "m" (*(char*)virt));
 
-        for (i = 0; i < 1024; i++) {
-            page_table[i] = 0;
-        }
+	kprintf("mapped %x to %x\n", phys, virt);
 
-        context->pagedir[pd_index] =
-            (uint32_t) page_table | PTE_PRESENT | PTE_WRITE;
-    }
- 
-    /* Neues Mapping in the Page Table eintragen */
-    page_table[pt_index] = phys | flags;
-    asm volatile("invlpg %0" : : "m" (*(char*)virt));
-
-		kprintf("mapped %x to %x\n", phys, virt);
- 
-    return 0;
+  return 0;
 }
  
 void vmm_activate_context(struct vmm_context* context)
@@ -118,7 +136,7 @@ struct vmm_context* vmm_init(struct multiboot_info* mb_info)
       }
   }
 
-	vmm_set_alloc_offset(kernel_context, 0x1000000);
+	vmm_set_alloc_offset(kernel_context, 0x200000);
  
   vmm_activate_context(kernel_context);
   
@@ -127,6 +145,8 @@ struct vmm_context* vmm_init(struct multiboot_info* mb_info)
   asm volatile("mov %%cr0, %0" : "=r" (cr0));
   cr0 |= (1 << 31);
   asm volatile("mov %0, %%cr0" : : "r" (cr0));
+  
+  use_phys_addr = 0;
 
 	return kernel_context;
 }
