@@ -755,158 +755,162 @@ struct task* init_task(void* entry, struct vmm_context* context)
   1005a4:	56                   	push   %esi
   1005a5:	53                   	push   %ebx
   1005a6:	83 ec 7c             	sub    $0x7c,%esp
-    uint8_t* stack = pmm_alloc(1);
-  1005a9:	c7 04 24 01 00 00 00 	movl   $0x1,(%esp)
-  1005b0:	e8 47 08 00 00       	call   100dfc <pmm_alloc>
-  1005b5:	89 45 d8             	mov    %eax,-0x28(%ebp)
-    uint8_t* user_stack = pmm_alloc(1);
-  1005b8:	c7 04 24 01 00 00 00 	movl   $0x1,(%esp)
-  1005bf:	e8 38 08 00 00       	call   100dfc <pmm_alloc>
-  1005c4:	89 45 dc             	mov    %eax,-0x24(%ebp)
+    uint8_t* stack = pmm_alloc();
+  1005a9:	e8 4e 08 00 00       	call   100dfc <pmm_alloc>
+  1005ae:	89 45 d8             	mov    %eax,-0x28(%ebp)
+    uint8_t* user_stack = pmm_alloc();
+  1005b1:	e8 46 08 00 00       	call   100dfc <pmm_alloc>
+  1005b6:	89 45 dc             	mov    %eax,-0x24(%ebp)
+
+		kprintf("entry: %x", (uint32_t) entry);
+  1005b9:	8b 45 08             	mov    0x8(%ebp),%eax
+  1005bc:	89 44 24 04          	mov    %eax,0x4(%esp)
+  1005c0:	c7 04 24 27 30 10 00 	movl   $0x103027,(%esp)
+  1005c7:	e8 ad 0c 00 00       	call   101279 <kprintf>
         .edx = 0,
         .esi = 0,
         .edi = 0,
         .ebp = 0,
         .esp = (uint32_t) user_stack + 4096,
         .eip = (uint32_t) entry,
-  1005c7:	8b 75 08             	mov    0x8(%ebp),%esi
+  1005cc:	8b 75 08             	mov    0x8(%ebp),%esi
         .ecx = 0,
         .edx = 0,
         .esi = 0,
         .edi = 0,
         .ebp = 0,
         .esp = (uint32_t) user_stack + 4096,
-  1005ca:	8b 45 dc             	mov    -0x24(%ebp),%eax
-  1005cd:	05 00 10 00 00       	add    $0x1000,%eax
-  1005d2:	89 45 94             	mov    %eax,-0x6c(%ebp)
+  1005cf:	8b 45 dc             	mov    -0x24(%ebp),%eax
+  1005d2:	05 00 10 00 00       	add    $0x1000,%eax
+  1005d7:	89 45 94             	mov    %eax,-0x6c(%ebp)
 
         .cs  = 0x18 | 0x03,
         .ss  = 0x20 | 0x03,
 
         .eflags = 0x200,
     };
-  1005d5:	8d 5d a0             	lea    -0x60(%ebp),%ebx
-  1005d8:	b8 00 00 00 00       	mov    $0x0,%eax
-  1005dd:	ba 0e 00 00 00       	mov    $0xe,%edx
-  1005e2:	89 df                	mov    %ebx,%edi
-  1005e4:	89 d1                	mov    %edx,%ecx
-  1005e6:	f3 ab                	rep stos %eax,%es:(%edi)
-  1005e8:	89 75 c4             	mov    %esi,-0x3c(%ebp)
-  1005eb:	c7 45 c8 1b 00 00 00 	movl   $0x1b,-0x38(%ebp)
-  1005f2:	c7 45 cc 00 02 00 00 	movl   $0x200,-0x34(%ebp)
-  1005f9:	8b 45 94             	mov    -0x6c(%ebp),%eax
-  1005fc:	89 45 d0             	mov    %eax,-0x30(%ebp)
-  1005ff:	c7 45 d4 23 00 00 00 	movl   $0x23,-0x2c(%ebp)
+  1005da:	8d 5d a0             	lea    -0x60(%ebp),%ebx
+  1005dd:	b8 00 00 00 00       	mov    $0x0,%eax
+  1005e2:	ba 0e 00 00 00       	mov    $0xe,%edx
+  1005e7:	89 df                	mov    %ebx,%edi
+  1005e9:	89 d1                	mov    %edx,%ecx
+  1005eb:	f3 ab                	rep stos %eax,%es:(%edi)
+  1005ed:	89 75 c4             	mov    %esi,-0x3c(%ebp)
+  1005f0:	c7 45 c8 1b 00 00 00 	movl   $0x1b,-0x38(%ebp)
+  1005f7:	c7 45 cc 00 02 00 00 	movl   $0x200,-0x34(%ebp)
+  1005fe:	8b 45 94             	mov    -0x6c(%ebp),%eax
+  100601:	89 45 d0             	mov    %eax,-0x30(%ebp)
+  100604:	c7 45 d4 23 00 00 00 	movl   $0x23,-0x2c(%ebp)
 
     struct cpu_state* state = (void*) (stack + 4096 - sizeof(new_state));
-  100606:	8b 45 d8             	mov    -0x28(%ebp),%eax
-  100609:	05 c8 0f 00 00       	add    $0xfc8,%eax
-  10060e:	89 45 e0             	mov    %eax,-0x20(%ebp)
+  10060b:	8b 45 d8             	mov    -0x28(%ebp),%eax
+  10060e:	05 c8 0f 00 00       	add    $0xfc8,%eax
+  100613:	89 45 e0             	mov    %eax,-0x20(%ebp)
     *state = new_state;
-  100611:	8b 45 e0             	mov    -0x20(%ebp),%eax
-  100614:	8b 55 a0             	mov    -0x60(%ebp),%edx
-  100617:	89 10                	mov    %edx,(%eax)
-  100619:	8b 55 a4             	mov    -0x5c(%ebp),%edx
-  10061c:	89 50 04             	mov    %edx,0x4(%eax)
-  10061f:	8b 55 a8             	mov    -0x58(%ebp),%edx
-  100622:	89 50 08             	mov    %edx,0x8(%eax)
-  100625:	8b 55 ac             	mov    -0x54(%ebp),%edx
-  100628:	89 50 0c             	mov    %edx,0xc(%eax)
-  10062b:	8b 55 b0             	mov    -0x50(%ebp),%edx
-  10062e:	89 50 10             	mov    %edx,0x10(%eax)
-  100631:	8b 55 b4             	mov    -0x4c(%ebp),%edx
-  100634:	89 50 14             	mov    %edx,0x14(%eax)
-  100637:	8b 55 b8             	mov    -0x48(%ebp),%edx
-  10063a:	89 50 18             	mov    %edx,0x18(%eax)
-  10063d:	8b 55 bc             	mov    -0x44(%ebp),%edx
-  100640:	89 50 1c             	mov    %edx,0x1c(%eax)
-  100643:	8b 55 c0             	mov    -0x40(%ebp),%edx
-  100646:	89 50 20             	mov    %edx,0x20(%eax)
-  100649:	8b 55 c4             	mov    -0x3c(%ebp),%edx
-  10064c:	89 50 24             	mov    %edx,0x24(%eax)
-  10064f:	8b 55 c8             	mov    -0x38(%ebp),%edx
-  100652:	89 50 28             	mov    %edx,0x28(%eax)
-  100655:	8b 55 cc             	mov    -0x34(%ebp),%edx
-  100658:	89 50 2c             	mov    %edx,0x2c(%eax)
-  10065b:	8b 55 d0             	mov    -0x30(%ebp),%edx
-  10065e:	89 50 30             	mov    %edx,0x30(%eax)
-  100661:	8b 55 d4             	mov    -0x2c(%ebp),%edx
-  100664:	89 50 34             	mov    %edx,0x34(%eax)
+  100616:	8b 45 e0             	mov    -0x20(%ebp),%eax
+  100619:	8b 55 a0             	mov    -0x60(%ebp),%edx
+  10061c:	89 10                	mov    %edx,(%eax)
+  10061e:	8b 55 a4             	mov    -0x5c(%ebp),%edx
+  100621:	89 50 04             	mov    %edx,0x4(%eax)
+  100624:	8b 55 a8             	mov    -0x58(%ebp),%edx
+  100627:	89 50 08             	mov    %edx,0x8(%eax)
+  10062a:	8b 55 ac             	mov    -0x54(%ebp),%edx
+  10062d:	89 50 0c             	mov    %edx,0xc(%eax)
+  100630:	8b 55 b0             	mov    -0x50(%ebp),%edx
+  100633:	89 50 10             	mov    %edx,0x10(%eax)
+  100636:	8b 55 b4             	mov    -0x4c(%ebp),%edx
+  100639:	89 50 14             	mov    %edx,0x14(%eax)
+  10063c:	8b 55 b8             	mov    -0x48(%ebp),%edx
+  10063f:	89 50 18             	mov    %edx,0x18(%eax)
+  100642:	8b 55 bc             	mov    -0x44(%ebp),%edx
+  100645:	89 50 1c             	mov    %edx,0x1c(%eax)
+  100648:	8b 55 c0             	mov    -0x40(%ebp),%edx
+  10064b:	89 50 20             	mov    %edx,0x20(%eax)
+  10064e:	8b 55 c4             	mov    -0x3c(%ebp),%edx
+  100651:	89 50 24             	mov    %edx,0x24(%eax)
+  100654:	8b 55 c8             	mov    -0x38(%ebp),%edx
+  100657:	89 50 28             	mov    %edx,0x28(%eax)
+  10065a:	8b 55 cc             	mov    -0x34(%ebp),%edx
+  10065d:	89 50 2c             	mov    %edx,0x2c(%eax)
+  100660:	8b 55 d0             	mov    -0x30(%ebp),%edx
+  100663:	89 50 30             	mov    %edx,0x30(%eax)
+  100666:	8b 55 d4             	mov    -0x2c(%ebp),%edx
+  100669:	89 50 34             	mov    %edx,0x34(%eax)
 
-    struct task* task = pmm_alloc(1);
-  100667:	c7 04 24 01 00 00 00 	movl   $0x1,(%esp)
-  10066e:	e8 89 07 00 00       	call   100dfc <pmm_alloc>
-  100673:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+    struct task* task = pmm_alloc();
+  10066c:	e8 8b 07 00 00       	call   100dfc <pmm_alloc>
+  100671:	89 45 e4             	mov    %eax,-0x1c(%ebp)
     task->cpu_state = state;
-  100676:	8b 45 e4             	mov    -0x1c(%ebp),%eax
-  100679:	8b 55 e0             	mov    -0x20(%ebp),%edx
-  10067c:	89 10                	mov    %edx,(%eax)
+  100674:	8b 45 e4             	mov    -0x1c(%ebp),%eax
+  100677:	8b 55 e0             	mov    -0x20(%ebp),%edx
+  10067a:	89 10                	mov    %edx,(%eax)
     task->next = first_task;
-  10067e:	8b 15 00 40 10 00    	mov    0x104000,%edx
-  100684:	8b 45 e4             	mov    -0x1c(%ebp),%eax
-  100687:	89 50 04             	mov    %edx,0x4(%eax)
+  10067c:	8b 15 00 40 10 00    	mov    0x104000,%edx
+  100682:	8b 45 e4             	mov    -0x1c(%ebp),%eax
+  100685:	89 50 04             	mov    %edx,0x4(%eax)
     first_task = task;
-  10068a:	8b 45 e4             	mov    -0x1c(%ebp),%eax
-  10068d:	a3 00 40 10 00       	mov    %eax,0x104000
+  100688:	8b 45 e4             	mov    -0x1c(%ebp),%eax
+  10068b:	a3 00 40 10 00       	mov    %eax,0x104000
     return task;
-  100692:	8b 45 e4             	mov    -0x1c(%ebp),%eax
+  100690:	8b 45 e4             	mov    -0x1c(%ebp),%eax
 }
-  100695:	83 c4 7c             	add    $0x7c,%esp
-  100698:	5b                   	pop    %ebx
-  100699:	5e                   	pop    %esi
-  10069a:	5f                   	pop    %edi
-  10069b:	5d                   	pop    %ebp
-  10069c:	c3                   	ret    
+  100693:	83 c4 7c             	add    $0x7c,%esp
+  100696:	5b                   	pop    %ebx
+  100697:	5e                   	pop    %esi
+  100698:	5f                   	pop    %edi
+  100699:	5d                   	pop    %ebp
+  10069a:	c3                   	ret    
 
-0010069d <schedule>:
+0010069b <schedule>:
 
 struct cpu_state* schedule(struct cpu_state* cpu)
 {
-  10069d:	55                   	push   %ebp
-  10069e:	89 e5                	mov    %esp,%ebp
+  10069b:	55                   	push   %ebp
+  10069c:	89 e5                	mov    %esp,%ebp
     if (current_task != NULL) {
-  1006a0:	a1 04 40 10 00       	mov    0x104004,%eax
-  1006a5:	85 c0                	test   %eax,%eax
-  1006a7:	74 0a                	je     1006b3 <schedule+0x16>
+  10069e:	a1 04 40 10 00       	mov    0x104004,%eax
+  1006a3:	85 c0                	test   %eax,%eax
+  1006a5:	74 0a                	je     1006b1 <schedule+0x16>
         current_task->cpu_state = cpu;
-  1006a9:	a1 04 40 10 00       	mov    0x104004,%eax
-  1006ae:	8b 55 08             	mov    0x8(%ebp),%edx
-  1006b1:	89 10                	mov    %edx,(%eax)
+  1006a7:	a1 04 40 10 00       	mov    0x104004,%eax
+  1006ac:	8b 55 08             	mov    0x8(%ebp),%edx
+  1006af:	89 10                	mov    %edx,(%eax)
     }
 
     if (current_task == NULL) {
-  1006b3:	a1 04 40 10 00       	mov    0x104004,%eax
-  1006b8:	85 c0                	test   %eax,%eax
-  1006ba:	75 0c                	jne    1006c8 <schedule+0x2b>
+  1006b1:	a1 04 40 10 00       	mov    0x104004,%eax
+  1006b6:	85 c0                	test   %eax,%eax
+  1006b8:	75 0c                	jne    1006c6 <schedule+0x2b>
         current_task = first_task;
-  1006bc:	a1 00 40 10 00       	mov    0x104000,%eax
-  1006c1:	a3 04 40 10 00       	mov    %eax,0x104004
-  1006c6:	eb 20                	jmp    1006e8 <schedule+0x4b>
+  1006ba:	a1 00 40 10 00       	mov    0x104000,%eax
+  1006bf:	a3 04 40 10 00       	mov    %eax,0x104004
+  1006c4:	eb 20                	jmp    1006e6 <schedule+0x4b>
     } else {
         current_task = current_task->next;
-  1006c8:	a1 04 40 10 00       	mov    0x104004,%eax
-  1006cd:	8b 40 04             	mov    0x4(%eax),%eax
-  1006d0:	a3 04 40 10 00       	mov    %eax,0x104004
+  1006c6:	a1 04 40 10 00       	mov    0x104004,%eax
+  1006cb:	8b 40 04             	mov    0x4(%eax),%eax
+  1006ce:	a3 04 40 10 00       	mov    %eax,0x104004
         if (current_task == NULL) {
-  1006d5:	a1 04 40 10 00       	mov    0x104004,%eax
-  1006da:	85 c0                	test   %eax,%eax
-  1006dc:	75 0a                	jne    1006e8 <schedule+0x4b>
+  1006d3:	a1 04 40 10 00       	mov    0x104004,%eax
+  1006d8:	85 c0                	test   %eax,%eax
+  1006da:	75 0a                	jne    1006e6 <schedule+0x4b>
             current_task = first_task;
-  1006de:	a1 00 40 10 00       	mov    0x104000,%eax
-  1006e3:	a3 04 40 10 00       	mov    %eax,0x104004
+  1006dc:	a1 00 40 10 00       	mov    0x104000,%eax
+  1006e1:	a3 04 40 10 00       	mov    %eax,0x104004
         }
     }  
 
     cpu = current_task->cpu_state;
-  1006e8:	a1 04 40 10 00       	mov    0x104004,%eax
-  1006ed:	8b 00                	mov    (%eax),%eax
-  1006ef:	89 45 08             	mov    %eax,0x8(%ebp)
+  1006e6:	a1 04 40 10 00       	mov    0x104004,%eax
+  1006eb:	8b 00                	mov    (%eax),%eax
+  1006ed:	89 45 08             	mov    %eax,0x8(%ebp)
 
     return cpu;
-  1006f2:	8b 45 08             	mov    0x8(%ebp),%eax
+  1006f0:	8b 45 08             	mov    0x8(%ebp),%eax
 }
-  1006f5:	5d                   	pop    %ebp
-  1006f6:	c3                   	ret    
+  1006f3:	5d                   	pop    %ebp
+  1006f4:	c3                   	ret    
+  1006f5:	00 00                	add    %al,(%eax)
 	...
 
 001006f8 <inb>:
@@ -1018,7 +1022,7 @@ uint8_t translate_scancode(int set, uint16_t scancode)
   100794:	8b 55 08             	mov    0x8(%ebp),%edx
   100797:	89 54 24 08          	mov    %edx,0x8(%esp)
   10079b:	89 44 24 04          	mov    %eax,0x4(%esp)
-  10079f:	c7 04 24 28 30 10 00 	movl   $0x103028,(%esp)
+  10079f:	c7 04 24 34 30 10 00 	movl   $0x103034,(%esp)
   1007a6:	e8 ce 0a 00 00       	call   101279 <kprintf>
   }
 
@@ -1447,7 +1451,7 @@ int vmm_map_page(struct vmm_context* context, uintptr_t virt, uintptr_t phys, ui
   100af6:	89 44 24 08          	mov    %eax,0x8(%esp)
   100afa:	8b 45 10             	mov    0x10(%ebp),%eax
   100afd:	89 44 24 04          	mov    %eax,0x4(%esp)
-  100b01:	c7 04 24 4e 30 10 00 	movl   $0x10304e,(%esp)
+  100b01:	c7 04 24 5a 30 10 00 	movl   $0x10305a,(%esp)
   100b08:	e8 6c 07 00 00       	call   101279 <kprintf>
       return -1;
   100b0d:	b8 ff ff ff ff       	mov    $0xffffffff,%eax
@@ -1532,7 +1536,7 @@ int vmm_map_page(struct vmm_context* context, uintptr_t virt, uintptr_t phys, ui
   100b98:	89 44 24 08          	mov    %eax,0x8(%esp)
   100b9c:	8b 45 10             	mov    0x10(%ebp),%eax
   100b9f:	89 44 24 04          	mov    %eax,0x4(%esp)
-  100ba3:	c7 04 24 60 30 10 00 	movl   $0x103060,(%esp)
+  100ba3:	c7 04 24 6c 30 10 00 	movl   $0x10306c,(%esp)
   100baa:	e8 ca 06 00 00       	call   101279 <kprintf>
 
   return 0;
@@ -2074,7 +2078,7 @@ void pmm_init(struct multiboot_info* mb_info) {
   100f8d:	89 44 24 08          	mov    %eax,0x8(%esp)
   100f91:	c7 44 24 04 80 64 10 	movl   $0x106480,0x4(%esp)
   100f98:	00 
-  100f99:	c7 04 24 71 30 10 00 	movl   $0x103071,(%esp)
+  100f99:	c7 04 24 7d 30 10 00 	movl   $0x10307d,(%esp)
   100fa0:	e8 d4 02 00 00       	call   101279 <kprintf>
 	 
 	while (mmap < mmap_end) {
@@ -2403,7 +2407,7 @@ static void kputn(unsigned long x, int base)
   1011d1:	83 ec 58             	sub    $0x58,%esp
     char buf[65];
     const char* digits = "0123456789abcdefghijklmnopqrstuvwxyz";
-  1011d4:	c7 45 f8 88 30 10 00 	movl   $0x103088,-0x8(%ebp)
+  1011d4:	c7 45 f8 94 30 10 00 	movl   $0x103094,-0x8(%ebp)
     char* p;
 
     if (base > 36) {
@@ -3274,7 +3278,7 @@ struct cpu_state* handle_interrupt(struct cpu_state* cpu)
   101bc9:	8b 40 1c             	mov    0x1c(%eax),%eax
   101bcc:	89 54 24 08          	mov    %edx,0x8(%esp)
   101bd0:	89 44 24 04          	mov    %eax,0x4(%esp)
-  101bd4:	c7 04 24 b0 30 10 00 	movl   $0x1030b0,(%esp)
+  101bd4:	c7 04 24 bc 30 10 00 	movl   $0x1030bc,(%esp)
   101bdb:	e8 99 f6 ff ff       	call   101279 <kprintf>
 
 		kprintf("EAX: %x EBX: %x ECX: %x EDX: %x\n", cpu->eax, cpu->ebx, cpu->ecx, cpu->edx);
@@ -3290,7 +3294,7 @@ struct cpu_state* handle_interrupt(struct cpu_state* cpu)
   101bfb:	89 4c 24 0c          	mov    %ecx,0xc(%esp)
   101bff:	89 54 24 08          	mov    %edx,0x8(%esp)
   101c03:	89 44 24 04          	mov    %eax,0x4(%esp)
-  101c07:	c7 04 24 d4 30 10 00 	movl   $0x1030d4,(%esp)
+  101c07:	c7 04 24 e0 30 10 00 	movl   $0x1030e0,(%esp)
   101c0e:	e8 66 f6 ff ff       	call   101279 <kprintf>
 		kprintf("ESI: %x EDI: %x EBP: %x EIP: %x\n", cpu->esi, cpu->edi, cpu->ebp, cpu->eip);
   101c13:	8b 45 08             	mov    0x8(%ebp),%eax
@@ -3305,7 +3309,7 @@ struct cpu_state* handle_interrupt(struct cpu_state* cpu)
   101c2f:	89 4c 24 0c          	mov    %ecx,0xc(%esp)
   101c33:	89 54 24 08          	mov    %edx,0x8(%esp)
   101c37:	89 44 24 04          	mov    %eax,0x4(%esp)
-  101c3b:	c7 04 24 f8 30 10 00 	movl   $0x1030f8,(%esp)
+  101c3b:	c7 04 24 04 31 10 00 	movl   $0x103104,(%esp)
   101c42:	e8 32 f6 ff ff       	call   101279 <kprintf>
 		kprintf("CS: %x EFLAGS: %x ESP: %x SS: %x\n", cpu->cs, cpu->eflags, cpu->esp, cpu->ss);
   101c47:	8b 45 08             	mov    0x8(%ebp),%eax
@@ -3320,7 +3324,7 @@ struct cpu_state* handle_interrupt(struct cpu_state* cpu)
   101c63:	89 4c 24 0c          	mov    %ecx,0xc(%esp)
   101c67:	89 54 24 08          	mov    %edx,0x8(%esp)
   101c6b:	89 44 24 04          	mov    %eax,0x4(%esp)
-  101c6f:	c7 04 24 1c 31 10 00 	movl   $0x10311c,(%esp)
+  101c6f:	c7 04 24 28 31 10 00 	movl   $0x103128,(%esp)
   101c76:	e8 fe f5 ff ff       	call   101279 <kprintf>
 
 		uint32_t cr2 = 0;
@@ -3333,7 +3337,7 @@ struct cpu_state* handle_interrupt(struct cpu_state* cpu)
 		kprintf("CR2: %x", cr2);
   101c88:	8b 45 f4             	mov    -0xc(%ebp),%eax
   101c8b:	89 44 24 04          	mov    %eax,0x4(%esp)
-  101c8f:	c7 04 24 3e 31 10 00 	movl   $0x10313e,(%esp)
+  101c8f:	c7 04 24 4a 31 10 00 	movl   $0x10314a,(%esp)
   101c96:	e8 de f5 ff ff       	call   101279 <kprintf>
 	
     while(1) {
@@ -3346,181 +3350,192 @@ struct cpu_state* handle_interrupt(struct cpu_state* cpu)
   101c9f:	8b 45 08             	mov    0x8(%ebp),%eax
   101ca2:	8b 40 1c             	mov    0x1c(%eax),%eax
   101ca5:	83 f8 1f             	cmp    $0x1f,%eax
-  101ca8:	76 60                	jbe    101d0a <handle_interrupt+0x166>
-  101caa:	8b 45 08             	mov    0x8(%ebp),%eax
-  101cad:	8b 40 1c             	mov    0x1c(%eax),%eax
-  101cb0:	83 f8 2f             	cmp    $0x2f,%eax
-  101cb3:	77 55                	ja     101d0a <handle_interrupt+0x166>
+  101ca8:	0f 86 84 00 00 00    	jbe    101d32 <handle_interrupt+0x18e>
+  101cae:	8b 45 08             	mov    0x8(%ebp),%eax
+  101cb1:	8b 40 1c             	mov    0x1c(%eax),%eax
+  101cb4:	83 f8 2f             	cmp    $0x2f,%eax
+  101cb7:	77 79                	ja     101d32 <handle_interrupt+0x18e>
     if (cpu->intr >= 0x28) {
-  101cb5:	8b 45 08             	mov    0x8(%ebp),%eax
-  101cb8:	8b 40 1c             	mov    0x1c(%eax),%eax
-  101cbb:	83 f8 27             	cmp    $0x27,%eax
-  101cbe:	76 14                	jbe    101cd4 <handle_interrupt+0x130>
+  101cb9:	8b 45 08             	mov    0x8(%ebp),%eax
+  101cbc:	8b 40 1c             	mov    0x1c(%eax),%eax
+  101cbf:	83 f8 27             	cmp    $0x27,%eax
+  101cc2:	76 14                	jbe    101cd8 <handle_interrupt+0x134>
       outb(0xa0, 0x20);
-  101cc0:	c7 44 24 04 20 00 00 	movl   $0x20,0x4(%esp)
-  101cc7:	00 
-  101cc8:	c7 04 24 a0 00 00 00 	movl   $0xa0,(%esp)
-  101ccf:	e8 08 f7 ff ff       	call   1013dc <outb>
+  101cc4:	c7 44 24 04 20 00 00 	movl   $0x20,0x4(%esp)
+  101ccb:	00 
+  101ccc:	c7 04 24 a0 00 00 00 	movl   $0xa0,(%esp)
+  101cd3:	e8 04 f7 ff ff       	call   1013dc <outb>
     }
     if (cpu->intr == 0x20) {
-        //new_cpu = schedule(cpu);
-        //tss[1] = (uint32_t) (new_cpu + 1);
+  101cd8:	8b 45 08             	mov    0x8(%ebp),%eax
+  101cdb:	8b 40 1c             	mov    0x1c(%eax),%eax
+  101cde:	83 f8 20             	cmp    $0x20,%eax
+  101ce1:	75 19                	jne    101cfc <handle_interrupt+0x158>
+        new_cpu = schedule(cpu);
+  101ce3:	8b 45 08             	mov    0x8(%ebp),%eax
+  101ce6:	89 04 24             	mov    %eax,(%esp)
+  101ce9:	e8 ad e9 ff ff       	call   10069b <schedule>
+  101cee:	89 45 f0             	mov    %eax,-0x10(%ebp)
+        tss[1] = (uint32_t) (new_cpu + 1);
+  101cf1:	8b 45 f0             	mov    -0x10(%ebp),%eax
+  101cf4:	83 c0 38             	add    $0x38,%eax
+  101cf7:	a3 24 21 10 00       	mov    %eax,0x102124
     }
     outb(0x20, 0x20);
-  101cd4:	c7 44 24 04 20 00 00 	movl   $0x20,0x4(%esp)
-  101cdb:	00 
-  101cdc:	c7 04 24 20 00 00 00 	movl   $0x20,(%esp)
-  101ce3:	e8 f4 f6 ff ff       	call   1013dc <outb>
+  101cfc:	c7 44 24 04 20 00 00 	movl   $0x20,0x4(%esp)
+  101d03:	00 
+  101d04:	c7 04 24 20 00 00 00 	movl   $0x20,(%esp)
+  101d0b:	e8 cc f6 ff ff       	call   1013dc <outb>
 		if(handler_set[cpu->intr]) {
-  101ce8:	8b 45 08             	mov    0x8(%ebp),%eax
-  101ceb:	8b 40 1c             	mov    0x1c(%eax),%eax
-  101cee:	8b 04 85 40 43 10 00 	mov    0x104340(,%eax,4),%eax
-  101cf5:	85 c0                	test   %eax,%eax
-  101cf7:	74 3c                	je     101d35 <handle_interrupt+0x191>
+  101d10:	8b 45 08             	mov    0x8(%ebp),%eax
+  101d13:	8b 40 1c             	mov    0x1c(%eax),%eax
+  101d16:	8b 04 85 40 43 10 00 	mov    0x104340(,%eax,4),%eax
+  101d1d:	85 c0                	test   %eax,%eax
+  101d1f:	74 3c                	je     101d5d <handle_interrupt+0x1b9>
 			handlers[cpu->intr]();
-  101cf9:	8b 45 08             	mov    0x8(%ebp),%eax
-  101cfc:	8b 40 1c             	mov    0x1c(%eax),%eax
-  101cff:	8b 04 85 40 42 10 00 	mov    0x104240(,%eax,4),%eax
-  101d06:	ff d0                	call   *%eax
+  101d21:	8b 45 08             	mov    0x8(%ebp),%eax
+  101d24:	8b 40 1c             	mov    0x1c(%eax),%eax
+  101d27:	8b 04 85 40 42 10 00 	mov    0x104240(,%eax,4),%eax
+  101d2e:	ff d0                	call   *%eax
 		kprintf("CR2: %x", cr2);
 	
     while(1) {
       asm volatile("cli; hlt");
     }
   } else if (cpu->intr >= 0x20 && cpu->intr <= 0x2f) {
-  101d08:	eb 2c                	jmp    101d36 <handle_interrupt+0x192>
+  101d30:	eb 2c                	jmp    101d5e <handle_interrupt+0x1ba>
     }
     outb(0x20, 0x20);
 		if(handler_set[cpu->intr]) {
 			handlers[cpu->intr]();
 		}
   } else if (cpu->intr == 0x30) {
-  101d0a:	8b 45 08             	mov    0x8(%ebp),%eax
-  101d0d:	8b 40 1c             	mov    0x1c(%eax),%eax
-  101d10:	83 f8 30             	cmp    $0x30,%eax
-  101d13:	75 10                	jne    101d25 <handle_interrupt+0x181>
+  101d32:	8b 45 08             	mov    0x8(%ebp),%eax
+  101d35:	8b 40 1c             	mov    0x1c(%eax),%eax
+  101d38:	83 f8 30             	cmp    $0x30,%eax
+  101d3b:	75 10                	jne    101d4d <handle_interrupt+0x1a9>
 		new_cpu = syscall(new_cpu);
-  101d15:	8b 45 f0             	mov    -0x10(%ebp),%eax
-  101d18:	89 04 24             	mov    %eax,(%esp)
-  101d1b:	e8 63 e7 ff ff       	call   100483 <syscall>
-  101d20:	89 45 f0             	mov    %eax,-0x10(%ebp)
-  101d23:	eb 11                	jmp    101d36 <handle_interrupt+0x192>
+  101d3d:	8b 45 f0             	mov    -0x10(%ebp),%eax
+  101d40:	89 04 24             	mov    %eax,(%esp)
+  101d43:	e8 3b e7 ff ff       	call   100483 <syscall>
+  101d48:	89 45 f0             	mov    %eax,-0x10(%ebp)
+  101d4b:	eb 11                	jmp    101d5e <handle_interrupt+0x1ba>
   } else {
     kprintf("Unbekannter Interrupt\n");
-  101d25:	c7 04 24 46 31 10 00 	movl   $0x103146,(%esp)
-  101d2c:	e8 48 f5 ff ff       	call   101279 <kprintf>
+  101d4d:	c7 04 24 52 31 10 00 	movl   $0x103152,(%esp)
+  101d54:	e8 20 f5 ff ff       	call   101279 <kprintf>
     while(1) {
       // Prozessor anhalten
       asm volatile("cli; hlt");
-  101d31:	fa                   	cli    
-  101d32:	f4                   	hlt    
+  101d59:	fa                   	cli    
+  101d5a:	f4                   	hlt    
     }
-  101d33:	eb fc                	jmp    101d31 <handle_interrupt+0x18d>
+  101d5b:	eb fc                	jmp    101d59 <handle_interrupt+0x1b5>
 		kprintf("CR2: %x", cr2);
 	
     while(1) {
       asm volatile("cli; hlt");
     }
   } else if (cpu->intr >= 0x20 && cpu->intr <= 0x2f) {
-  101d35:	90                   	nop
+  101d5d:	90                   	nop
       // Prozessor anhalten
       asm volatile("cli; hlt");
     }
   }  
 
   return new_cpu;
-  101d36:	8b 45 f0             	mov    -0x10(%ebp),%eax
+  101d5e:	8b 45 f0             	mov    -0x10(%ebp),%eax
 }
-  101d39:	83 c4 34             	add    $0x34,%esp
-  101d3c:	5b                   	pop    %ebx
-  101d3d:	5d                   	pop    %ebp
-  101d3e:	c3                   	ret    
+  101d61:	83 c4 34             	add    $0x34,%esp
+  101d64:	5b                   	pop    %ebx
+  101d65:	5d                   	pop    %ebp
+  101d66:	c3                   	ret    
 	...
 
-00101d40 <init_drivers>:
+00101d68 <init_drivers>:
 #ifndef DRVINIT_H
 #define DRVINIT_H
 
 #include "keyboard.h"
 
 static inline void init_drivers() {
-  101d40:	55                   	push   %ebp
-  101d41:	89 e5                	mov    %esp,%ebp
-  101d43:	83 ec 08             	sub    $0x8,%esp
+  101d68:	55                   	push   %ebp
+  101d69:	89 e5                	mov    %esp,%ebp
+  101d6b:	83 ec 08             	sub    $0x8,%esp
 	init_keyboard_drv();
-  101d46:	e8 4c ec ff ff       	call   100997 <init_keyboard_drv>
+  101d6e:	e8 24 ec ff ff       	call   100997 <init_keyboard_drv>
 }
-  101d4b:	c9                   	leave  
-  101d4c:	c3                   	ret    
+  101d73:	c9                   	leave  
+  101d74:	c3                   	ret    
 
-00101d4d <init>:
+00101d75 <init>:
 
 #define true 1
 #define false 2
 
 void init(struct multiboot_info* mb_info)
 {
-  101d4d:	55                   	push   %ebp
-  101d4e:	89 e5                	mov    %esp,%ebp
-  101d50:	83 ec 18             	sub    $0x18,%esp
+  101d75:	55                   	push   %ebp
+  101d76:	89 e5                	mov    %esp,%ebp
+  101d78:	83 ec 18             	sub    $0x18,%esp
 	clrscr();
-  101d53:	e8 e0 f4 ff ff       	call   101238 <clrscr>
+  101d7b:	e8 b8 f4 ff ff       	call   101238 <clrscr>
   pmm_init(mb_info);
-  101d58:	8b 45 08             	mov    0x8(%ebp),%eax
-  101d5b:	89 04 24             	mov    %eax,(%esp)
-  101d5e:	e8 e6 f1 ff ff       	call   100f49 <pmm_init>
+  101d80:	8b 45 08             	mov    0x8(%ebp),%eax
+  101d83:	89 04 24             	mov    %eax,(%esp)
+  101d86:	e8 be f1 ff ff       	call   100f49 <pmm_init>
 
 	kprintf("Welcome to mikrOS (version '%s')!\n", _VERSION);
-  101d63:	c7 44 24 04 60 31 10 	movl   $0x103160,0x4(%esp)
-  101d6a:	00 
-  101d6b:	c7 04 24 6c 31 10 00 	movl   $0x10316c,(%esp)
-  101d72:	e8 02 f5 ff ff       	call   101279 <kprintf>
+  101d8b:	c7 44 24 04 6c 31 10 	movl   $0x10316c,0x4(%esp)
+  101d92:	00 
+  101d93:	c7 04 24 78 31 10 00 	movl   $0x103178,(%esp)
+  101d9a:	e8 da f4 ff ff       	call   101279 <kprintf>
 	kprintf("(C) Copyright 2012 Fabian Sachara.  All Rights Reserved.\n");
-  101d77:	c7 04 24 90 31 10 00 	movl   $0x103190,(%esp)
-  101d7e:	e8 f6 f4 ff ff       	call   101279 <kprintf>
+  101d9f:	c7 04 24 9c 31 10 00 	movl   $0x10319c,(%esp)
+  101da6:	e8 ce f4 ff ff       	call   101279 <kprintf>
 
 	kprintf("Initializing GDT...\n");
-  101d83:	c7 04 24 ca 31 10 00 	movl   $0x1031ca,(%esp)
-  101d8a:	e8 ea f4 ff ff       	call   101279 <kprintf>
+  101dab:	c7 04 24 d6 31 10 00 	movl   $0x1031d6,(%esp)
+  101db2:	e8 c2 f4 ff ff       	call   101279 <kprintf>
 	
 	init_gdt();
-  101d8f:	e8 a1 e4 ff ff       	call   100235 <init_gdt>
+  101db7:	e8 79 e4 ff ff       	call   100235 <init_gdt>
 
 	kprintf("Initializing IDT...\n");
-  101d94:	c7 04 24 df 31 10 00 	movl   $0x1031df,(%esp)
-  101d9b:	e8 d9 f4 ff ff       	call   101279 <kprintf>
+  101dbc:	c7 04 24 eb 31 10 00 	movl   $0x1031eb,(%esp)
+  101dc3:	e8 b1 f4 ff ff       	call   101279 <kprintf>
 
 	init_idt();
-  101da0:	e8 74 f7 ff ff       	call   101519 <init_idt>
+  101dc8:	e8 4c f7 ff ff       	call   101519 <init_idt>
 
 	kprintf("init_drivers()\n");
-  101da5:	c7 04 24 f4 31 10 00 	movl   $0x1031f4,(%esp)
-  101dac:	e8 c8 f4 ff ff       	call   101279 <kprintf>
+  101dcd:	c7 04 24 00 32 10 00 	movl   $0x103200,(%esp)
+  101dd4:	e8 a0 f4 ff ff       	call   101279 <kprintf>
 
 	init_drivers();
-  101db1:	e8 8a ff ff ff       	call   101d40 <init_drivers>
+  101dd9:	e8 8a ff ff ff       	call   101d68 <init_drivers>
 	
 	kprintf("switching to kernel_main()\n");
-  101db6:	c7 04 24 04 32 10 00 	movl   $0x103204,(%esp)
-  101dbd:	e8 b7 f4 ff ff       	call   101279 <kprintf>
+  101dde:	c7 04 24 10 32 10 00 	movl   $0x103210,(%esp)
+  101de5:	e8 8f f4 ff ff       	call   101279 <kprintf>
 
 	kernel_main(mb_info);
-  101dc2:	8b 45 08             	mov    0x8(%ebp),%eax
-  101dc5:	89 04 24             	mov    %eax,(%esp)
-  101dc8:	e8 a9 e7 ff ff       	call   100576 <kernel_main>
+  101dea:	8b 45 08             	mov    0x8(%ebp),%eax
+  101ded:	89 04 24             	mov    %eax,(%esp)
+  101df0:	e8 81 e7 ff ff       	call   100576 <kernel_main>
 
   return;
 }
-  101dcd:	c9                   	leave  
-  101dce:	c3                   	ret    
+  101df5:	c9                   	leave  
+  101df6:	c3                   	ret    
 	...
 
-00101dd0 <_start>:
-  101dd0:	bc 40 64 10 00       	mov    $0x106440,%esp
-  101dd5:	53                   	push   %ebx
-  101dd6:	e8 72 ff ff ff       	call   101d4d <init>
+00101df8 <_start>:
+  101df8:	bc 40 64 10 00       	mov    $0x106440,%esp
+  101dfd:	53                   	push   %ebx
+  101dfe:	e8 72 ff ff ff       	call   101d75 <init>
 
-00101ddb <_stop>:
-  101ddb:	fa                   	cli    
-  101ddc:	f4                   	hlt    
-  101ddd:	eb fc                	jmp    101ddb <_stop>
+00101e03 <_stop>:
+  101e03:	fa                   	cli    
+  101e04:	f4                   	hlt    
+  101e05:	eb fc                	jmp    101e03 <_stop>
