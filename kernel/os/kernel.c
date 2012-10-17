@@ -60,7 +60,7 @@ void task() {
 }
 
 void kernel_main(struct multiboot_info* mb_info) {	
-	//struct vmm_context* context = vmm_init(mb_info);
+	struct vmm_context* context = vmm_init(mb_info);
 	/*struct multiboot_module* modules = mb_info->mi_mods_addr;
 
 	int i = 0;
@@ -71,7 +71,7 @@ void kernel_main(struct multiboot_info* mb_info) {
 		init_elf((void*) modules[i].start);
 	}*/
 	
-	init_task(task, NULL);
+	init_task(task, context);
 
 	kprintf("abc");
 
