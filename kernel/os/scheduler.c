@@ -42,6 +42,8 @@ struct task* init_task(void* entry, struct vmm_context* context)
 
 struct cpu_state* schedule(struct cpu_state* cpu)
 {
+    if(first_task == NULL) return cpu;
+    
     if (current_task != NULL) {
         current_task->cpu_state = cpu;
     }

@@ -2,8 +2,8 @@
 #include "pmm.h"
 #include "console.h"
 
-#define VIRT_PDIR 0xFFF00000
-#define ACT_CONTEXT 0xFFEFF000
+#define VIRT_PDIR 0xFFFFF000
+#define ACT_CONTEXT 0xFF000000
 
 static uint8_t use_phys_addr = 1;
 
@@ -19,7 +19,6 @@ struct vmm_context* vmm_create_context(void)
     }
     context->pagedir[1023] = context->pagedir;
     
-    vmm_map_page(context, VIRT_PDIR, context->pagedir, PTE_PRESENT | PTE_WRITE);
     context->vpagedir = VIRT_PDIR;
 
     vmm_map_page(context, ACT_CONTEXT, context, PTE_PRESENT | PTE_WRITE);
@@ -54,17 +53,16 @@ int vmm_map_page(struct vmm_context* context, uintptr_t virt, uintptr_t phys, ui
 
   /* Page Table heraussuchen bzw. anlegen */
   if (page_dir[pd_index] & PTE_PRESENT) {
-    page_table = (uint32_t*) (page_dir[pd_index] & ~0xFFF);
+    page_table = (uint32_t*) (0xFFC00000 + pt_index * 4096);
   } else {
     /* Neue Page Table muss angelegt werden */
-    page_table = pmm_alloc();
+    page_dir[pd_index] = (uint32_t) pmm_alloc() | PTE_PRESENT | PTE_WRITE;
+    
+    page_table = (uint32_t*) (0xFFC00000 + pt_index * 4096);
 
     for (i = 0; i < 1024; i++) {
         page_table[i] = 0;
     }
-    
-    page_dir[pd_index] =
-      (uint32_t) page_table | PTE_PRESENT | PTE_WRITE;
   }
 
   /* Neues Mapping in the Page Table eintragen */
