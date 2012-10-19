@@ -71,7 +71,7 @@ void kernel_main(struct multiboot_info* mb_info) {
 		init_elf((void*) modules[i].start);
 	}*/
 	
-	init_task(task, context);
+	//init_task(task, context);
 
 	kprintf("abc");
 
