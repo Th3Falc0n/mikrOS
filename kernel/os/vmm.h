@@ -9,7 +9,7 @@
 #define PTE_USER    0x4
 
 struct vmm_context {
-    uint32_t** pagedir;
+    uint32_t* pagedir;
 };
 
 void vmm_init(struct multiboot_info* mb_info);
