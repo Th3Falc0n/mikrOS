@@ -166,8 +166,8 @@ struct cpu_state* handle_interrupt(struct cpu_state* cpu)
       outb(0xa0, 0x20);
     }
     if (cpu->intr == 0x20) {
-        new_cpu = schedule(cpu);
-        tss[1] = (uint32_t) (new_cpu + 1);
+      new_cpu = schedule(cpu);
+      tss[1] = (uint32_t) (new_cpu + 1);
     }
     outb(0x20, 0x20);
 		if(handler_set[cpu->intr]) {

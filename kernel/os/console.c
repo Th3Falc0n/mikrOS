@@ -101,10 +101,10 @@ int kprintf(const char* fmt, ...)
           n = va_arg(ap, unsigned long int);
           kputn(n, 16);
           break;
-				case 'c':
-					c = va_arg(ap, int);
-					kputc(c);
-					break;
+        case 'c':
+          c = va_arg(ap, int);
+          kputc(c);
+          break;
         case '%':
           kputc('%');
           break;

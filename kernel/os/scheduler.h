@@ -9,7 +9,7 @@ struct task {
     struct task*        next;
 };
 
-struct task* init_task(void* entry, struct vmm_context* context);
+struct task* init_task(void* entry);
 struct cpu_state* schedule(struct cpu_state* cpu);
 
 #endif

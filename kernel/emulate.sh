@@ -1,12 +1,9 @@
-cd ../modules/csh
-make -B
-
 cd ../../kernel
-make -B
+make -B || exit 1
 
 mount -oloop boot.img /mnt
 
-rm /mnt/*
+rm /mnt/* > /dev/null
 
 cp kernel /mnt
 cp ../modules/csh/csh.elf /mnt
@@ -17,4 +14,4 @@ umount /mnt
 rm kernel.objdump
 objdump -dS kernel > kernel.objdump
 
-qemu -fda boot.img -d int -monitor stdio
+qemu -fda boot.img -d int -monitor stdio --no-reboot --no-shutdown
