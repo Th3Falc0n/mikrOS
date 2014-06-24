@@ -552,28 +552,27 @@ void pmm_init(struct multiboot_info* mb_info) {
   10046b:	66 b8 10 00          	mov    $0x10,%ax
   10046f:	66 8e d8             	mov    %ax,%ds
   100472:	66 8e c0             	mov    %ax,%es
-  100475:	54                   	push   %esp
-  100476:	e8 b5 20 00 00       	call   102530 <handle_interrupt>
-  10047b:	89 c4                	mov    %eax,%esp
-  10047d:	66 b8 23 00          	mov    $0x23,%ax
-  100481:	66 8e d8             	mov    %ax,%ds
-  100484:	66 8e c0             	mov    %ax,%es
-  100487:	58                   	pop    %eax
-  100488:	5b                   	pop    %ebx
-  100489:	59                   	pop    %ecx
-  10048a:	5a                   	pop    %edx
-  10048b:	5e                   	pop    %esi
-  10048c:	5f                   	pop    %edi
-  10048d:	5d                   	pop    %ebp
-  10048e:	83 c4 08             	add    $0x8,%esp
-  100491:	cf                   	iret   
-  100492:	66 90                	xchg   %ax,%ax
-  100494:	66 90                	xchg   %ax,%ax
-  100496:	66 90                	xchg   %ax,%ax
-  100498:	66 90                	xchg   %ax,%ax
-  10049a:	66 90                	xchg   %ax,%ax
-  10049c:	66 90                	xchg   %ax,%ax
-  10049e:	66 90                	xchg   %ax,%ax
+  100475:	89 e0                	mov    %esp,%eax
+  100477:	bc 30 94 10 00       	mov    $0x109430,%esp
+  10047c:	50                   	push   %eax
+  10047d:	e8 ae 20 00 00       	call   102530 <handle_interrupt>
+  100482:	89 c4                	mov    %eax,%esp
+  100484:	66 b8 23 00          	mov    $0x23,%ax
+  100488:	66 8e d8             	mov    %ax,%ds
+  10048b:	66 8e c0             	mov    %ax,%es
+  10048e:	58                   	pop    %eax
+  10048f:	5b                   	pop    %ebx
+  100490:	59                   	pop    %ecx
+  100491:	5a                   	pop    %edx
+  100492:	5e                   	pop    %esi
+  100493:	5f                   	pop    %edi
+  100494:	5d                   	pop    %ebp
+  100495:	83 c4 08             	add    $0x8,%esp
+  100498:	cf                   	iret   
+  100499:	66 90                	xchg   %ax,%ax
+  10049b:	66 90                	xchg   %ax,%ax
+  10049d:	66 90                	xchg   %ax,%ax
+  10049f:	90                   	nop
 
 001004a0 <translate_scancode>:
 

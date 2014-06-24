@@ -13,6 +13,8 @@ intr_stub_\nr:
     jmp intr_common_handler
 .endm
 
+.extern kernel_stack
+
 // Exceptions
 intr_stub 0
 intr_stub 1
@@ -70,8 +72,10 @@ intr_common_handler:
     mov %ax, %ds
     mov %ax, %es
 
-    // Handler aufrufen
-    push %esp
+    mov %esp, %eax
+    mov $kernel_stack, %esp
+    push %eax
+        
     call handle_interrupt
     mov %eax, %esp
 

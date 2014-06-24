@@ -27,4 +27,5 @@ _stop:
 
 .section .bss
 .space 16384
+.global kernel_stack
 kernel_stack:
