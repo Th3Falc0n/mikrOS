@@ -26,6 +26,8 @@ _stop:
     jmp _stop
 
 .section .bss
-.space 16384
-.global kernel_stack
+.space 8192
 kernel_stack:
+.global interrupt_stack
+.space 8192
+interrupt_stack:

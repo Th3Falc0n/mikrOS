@@ -54,16 +54,20 @@ void init_elf(void* image)
 }
 
 void task2() {
-  kprintf("TASK2: \n");
-    
+  uint32_t n = 0;
+
   while(1) { 
+    n++;
+    kprintf("1111: %x \n", n);
   }
 }
 
 void task1() {
-  kprintf("TASK1: \n");
-    
+  uint32_t n = 0;
+  
   while(1) { 
+    n++;
+    kprintf("2222: %x \n", n);
   }
 }
 

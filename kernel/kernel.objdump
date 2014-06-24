@@ -1637,37 +1637,39 @@ void init_elf(void* image)
 00100f50 <task2>:
 
 void task2() {
-  100f50:	55                   	push   %ebp
-  100f51:	89 e5                	mov    %esp,%ebp
-  100f53:	83 ec 08             	sub    $0x8,%esp
-  100f56:	8d 05 af 40 10 00    	lea    0x1040af,%eax
-  kprintf("TASK2: \n");
-  100f5c:	89 04 24             	mov    %eax,(%esp)
-  100f5f:	e8 6c fa ff ff       	call   1009d0 <kprintf>
-  100f64:	89 45 fc             	mov    %eax,-0x4(%ebp)
-    
+  uint32_t n = 0;
+  100f50:	50                   	push   %eax
+  100f51:	c7 04 24 00 00 00 00 	movl   $0x0,(%esp)
+
   while(1) { 
+    n++;
+  100f58:	8b 04 24             	mov    (%esp),%eax
+  100f5b:	05 01 00 00 00       	add    $0x1,%eax
+  100f60:	89 04 24             	mov    %eax,(%esp)
+    //kprintf("1111: %x \n", n);
   }
-  100f67:	e9 fb ff ff ff       	jmp    100f67 <task2+0x17>
-  100f6c:	0f 1f 40 00          	nopl   0x0(%eax)
+  100f63:	e9 f0 ff ff ff       	jmp    100f58 <task2+0x8>
+  100f68:	0f 1f 84 00 00 00 00 	nopl   0x0(%eax,%eax,1)
+  100f6f:	00 
 
 00100f70 <task1>:
 }
 
 void task1() {
-  100f70:	55                   	push   %ebp
-  100f71:	89 e5                	mov    %esp,%ebp
-  100f73:	83 ec 08             	sub    $0x8,%esp
-  100f76:	8d 05 b8 40 10 00    	lea    0x1040b8,%eax
-  kprintf("TASK1: \n");
-  100f7c:	89 04 24             	mov    %eax,(%esp)
-  100f7f:	e8 4c fa ff ff       	call   1009d0 <kprintf>
-  100f84:	89 45 fc             	mov    %eax,-0x4(%ebp)
-    
+  uint32_t n = 0;
+  100f70:	50                   	push   %eax
+  100f71:	c7 04 24 00 00 00 00 	movl   $0x0,(%esp)
+  
   while(1) { 
+    n++;
+  100f78:	8b 04 24             	mov    (%esp),%eax
+  100f7b:	05 01 00 00 00       	add    $0x1,%eax
+  100f80:	89 04 24             	mov    %eax,(%esp)
+    //kprintf("2222: %x \n", n);
   }
-  100f87:	e9 fb ff ff ff       	jmp    100f87 <task1+0x17>
-  100f8c:	0f 1f 40 00          	nopl   0x0(%eax)
+  100f83:	e9 f0 ff ff ff       	jmp    100f78 <task1+0x8>
+  100f88:	0f 1f 84 00 00 00 00 	nopl   0x0(%eax,%eax,1)
+  100f8f:	00 
 
 00100f90 <kernel_main>:
 }
@@ -2244,7 +2246,7 @@ void* vmm_alloc_static(uint32_t offset) {
   1015ac:	25 00 f0 ff ff       	and    $0xfffff000,%eax
   1015b1:	3b 45 f8             	cmp    -0x8(%ebp),%eax
   1015b4:	0f 84 11 00 00 00    	je     1015cb <vmm_alloc_static+0x3b>
-  1015ba:	8d 05 c1 40 10 00    	lea    0x1040c1,%eax
+  1015ba:	8d 05 af 40 10 00    	lea    0x1040af,%eax
       kprintf("Tried to allocate not 4K-aligned static vaddr. \n");
   1015c0:	89 04 24             	mov    %eax,(%esp)
   1015c3:	e8 08 f4 ff ff       	call   1009d0 <kprintf>
@@ -2267,7 +2269,7 @@ void* vmm_alloc_static(uint32_t offset) {
   1015f0:	8b 45 f4             	mov    -0xc(%ebp),%eax
   1015f3:	89 45 fc             	mov    %eax,-0x4(%ebp)
   1015f6:	e9 18 00 00 00       	jmp    101613 <vmm_alloc_static+0x83>
-  1015fb:	8d 05 f2 40 10 00    	lea    0x1040f2,%eax
+  1015fb:	8d 05 e0 40 10 00    	lea    0x1040e0,%eax
   }
   else
   {
@@ -3327,7 +3329,7 @@ struct cpu_state* handle_interrupt(struct cpu_state* cpu)
   102545:	8b 45 f0             	mov    -0x10(%ebp),%eax
   102548:	81 78 1c 1f 00 00 00 	cmpl   $0x1f,0x1c(%eax)
   10254f:	0f 87 fb 00 00 00    	ja     102650 <handle_interrupt+0x120>
-  102555:	8d 05 2b 41 10 00    	lea    0x10412b,%eax
+  102555:	8d 05 19 41 10 00    	lea    0x104119,%eax
     kprintf("\nException I:%d E:%x, Kernel halt!\n", cpu->intr, cpu->error);
   10255b:	8b 4d f0             	mov    -0x10(%ebp),%ecx
   10255e:	8b 49 1c             	mov    0x1c(%ecx),%ecx
@@ -3337,7 +3339,7 @@ struct cpu_state* handle_interrupt(struct cpu_state* cpu)
   10256a:	89 4c 24 04          	mov    %ecx,0x4(%esp)
   10256e:	89 54 24 08          	mov    %edx,0x8(%esp)
   102572:	e8 59 e4 ff ff       	call   1009d0 <kprintf>
-  102577:	8d 0d 4f 41 10 00    	lea    0x10414f,%ecx
+  102577:	8d 0d 3d 41 10 00    	lea    0x10413d,%ecx
 
 		kprintf("EAX: %x EBX: %x ECX: %x EDX: %x\n", cpu->eax, cpu->ebx, cpu->ecx, cpu->edx);
   10257d:	8b 55 f0             	mov    -0x10(%ebp),%edx
@@ -3355,7 +3357,7 @@ struct cpu_state* handle_interrupt(struct cpu_state* cpu)
   1025a3:	89 5c 24 10          	mov    %ebx,0x10(%esp)
   1025a7:	89 45 e4             	mov    %eax,-0x1c(%ebp)
   1025aa:	e8 21 e4 ff ff       	call   1009d0 <kprintf>
-  1025af:	8d 0d 70 41 10 00    	lea    0x104170,%ecx
+  1025af:	8d 0d 5e 41 10 00    	lea    0x10415e,%ecx
 		kprintf("ESI: %x EDI: %x EBP: %x EIP: %x\n", cpu->esi, cpu->edi, cpu->ebp, cpu->eip);
   1025b5:	8b 55 f0             	mov    -0x10(%ebp),%edx
   1025b8:	8b 52 10             	mov    0x10(%edx),%edx
@@ -3372,7 +3374,7 @@ struct cpu_state* handle_interrupt(struct cpu_state* cpu)
   1025dc:	89 5c 24 10          	mov    %ebx,0x10(%esp)
   1025e0:	89 45 e0             	mov    %eax,-0x20(%ebp)
   1025e3:	e8 e8 e3 ff ff       	call   1009d0 <kprintf>
-  1025e8:	8d 0d 91 41 10 00    	lea    0x104191,%ecx
+  1025e8:	8d 0d 7f 41 10 00    	lea    0x10417f,%ecx
 		kprintf("CS: %x EFLAGS: %x ESP: %x SS: %x\n", cpu->cs, cpu->eflags, cpu->esp, cpu->ss);
   1025ee:	8b 55 f0             	mov    -0x10(%ebp),%edx
   1025f1:	8b 52 28             	mov    0x28(%edx),%edx
@@ -3389,7 +3391,7 @@ struct cpu_state* handle_interrupt(struct cpu_state* cpu)
   102615:	89 5c 24 10          	mov    %ebx,0x10(%esp)
   102619:	89 45 dc             	mov    %eax,-0x24(%ebp)
   10261c:	e8 af e3 ff ff       	call   1009d0 <kprintf>
-  102621:	8d 0d b3 41 10 00    	lea    0x1041b3,%ecx
+  102621:	8d 0d a1 41 10 00    	lea    0x1041a1,%ecx
 
 		uint32_t cr2 = 0;
   102627:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
@@ -3477,7 +3479,7 @@ struct cpu_state* handle_interrupt(struct cpu_state* cpu)
   10272f:	89 45 ec             	mov    %eax,-0x14(%ebp)
   } else {
   102732:	e9 18 00 00 00       	jmp    10274f <handle_interrupt+0x21f>
-  102737:	8d 05 bb 41 10 00    	lea    0x1041bb,%eax
+  102737:	8d 05 a9 41 10 00    	lea    0x1041a9,%eax
     kprintf("Unbekannter Interrupt\n");
   10273d:	89 04 24             	mov    %eax,(%esp)
   102740:	e8 8b e2 ff ff       	call   1009d0 <kprintf>
@@ -3643,142 +3645,139 @@ uint32_t init_task(uint32_t task_pagedir, void* entry)
   10289f:	8b 45 f0             	mov    -0x10(%ebp),%eax
   1028a2:	a3 28 54 10 00       	mov    %eax,0x105428
   }
-  1028a7:	e9 15 00 00 00       	jmp    1028c1 <init_task+0x61>
+  1028a7:	e9 10 00 00 00       	jmp    1028bc <init_task+0x5c>
   else
   {
-    task_next_pagedir = *next_pagedir;
-  1028ac:	a1 8c 31 10 00       	mov    0x10318c,%eax
-  1028b1:	8b 00                	mov    (%eax),%eax
-  1028b3:	89 45 e0             	mov    %eax,-0x20(%ebp)
-    *next_pagedir = task_pagedir;
-  1028b6:	8b 45 f0             	mov    -0x10(%ebp),%eax
-  1028b9:	8b 0d 8c 31 10 00    	mov    0x10318c,%ecx
-  1028bf:	89 01                	mov    %eax,(%ecx)
+    task_next_pagedir = first_pagedir;
+  1028ac:	a1 28 54 10 00       	mov    0x105428,%eax
+  1028b1:	89 45 e0             	mov    %eax,-0x20(%ebp)
+    first_pagedir = task_pagedir;
+  1028b4:	8b 45 f0             	mov    -0x10(%ebp),%eax
+  1028b7:	a3 28 54 10 00       	mov    %eax,0x105428
   }
   
   vmm_activate_pagedir(task_pagedir);
-  1028c1:	8b 45 f0             	mov    -0x10(%ebp),%eax
-  1028c4:	89 04 24             	mov    %eax,(%esp)
-  1028c7:	e8 54 ed ff ff       	call   101620 <vmm_activate_pagedir>
-  1028cc:	b8 00 00 00 00       	mov    $0x0,%eax
+  1028bc:	8b 45 f0             	mov    -0x10(%ebp),%eax
+  1028bf:	89 04 24             	mov    %eax,(%esp)
+  1028c2:	e8 59 ed ff ff       	call   101620 <vmm_activate_pagedir>
+  1028c7:	b8 00 00 00 00       	mov    $0x0,%eax
   
                         vmm_alloc_static(0x0000);
-  1028d1:	c7 04 24 00 00 00 00 	movl   $0x0,(%esp)
-  1028d8:	89 45 9c             	mov    %eax,-0x64(%ebp)
-  1028db:	e8 b0 ec ff ff       	call   101590 <vmm_alloc_static>
-  1028e0:	b9 00 10 00 00       	mov    $0x1000,%ecx
+  1028cc:	c7 04 24 00 00 00 00 	movl   $0x0,(%esp)
+  1028d3:	89 45 9c             	mov    %eax,-0x64(%ebp)
+  1028d6:	e8 b5 ec ff ff       	call   101590 <vmm_alloc_static>
+  1028db:	b9 00 10 00 00       	mov    $0x1000,%ecx
   uint8_t* user_stack = vmm_alloc_static(0x1000);
-  1028e5:	c7 04 24 00 10 00 00 	movl   $0x1000,(%esp)
-  1028ec:	89 45 98             	mov    %eax,-0x68(%ebp)
-  1028ef:	89 4d 94             	mov    %ecx,-0x6c(%ebp)
-  1028f2:	e8 99 ec ff ff       	call   101590 <vmm_alloc_static>
-  1028f7:	b9 00 20 00 00       	mov    $0x2000,%ecx
-  1028fc:	89 45 dc             	mov    %eax,-0x24(%ebp)
+  1028e0:	c7 04 24 00 10 00 00 	movl   $0x1000,(%esp)
+  1028e7:	89 45 98             	mov    %eax,-0x68(%ebp)
+  1028ea:	89 4d 94             	mov    %ecx,-0x6c(%ebp)
+  1028ed:	e8 9e ec ff ff       	call   101590 <vmm_alloc_static>
+  1028f2:	b9 00 20 00 00       	mov    $0x2000,%ecx
+  1028f7:	89 45 dc             	mov    %eax,-0x24(%ebp)
                         vmm_alloc_static(0x2000);
-  1028ff:	c7 04 24 00 20 00 00 	movl   $0x2000,(%esp)
-  102906:	89 4d 90             	mov    %ecx,-0x70(%ebp)
-  102909:	e8 82 ec ff ff       	call   101590 <vmm_alloc_static>
-  10290e:	b9 38 00 00 00       	mov    $0x38,%ecx
-  102913:	8d 55 a0             	lea    -0x60(%ebp),%edx
+  1028fa:	c7 04 24 00 20 00 00 	movl   $0x2000,(%esp)
+  102901:	89 4d 90             	mov    %ecx,-0x70(%ebp)
+  102904:	e8 87 ec ff ff       	call   101590 <vmm_alloc_static>
+  102909:	b9 38 00 00 00       	mov    $0x38,%ecx
+  10290e:	8d 55 a0             	lea    -0x60(%ebp),%edx
   
   *next_pagedir = task_next_pagedir;
-  102916:	8b 75 e0             	mov    -0x20(%ebp),%esi
-  102919:	8b 3d 8c 31 10 00    	mov    0x10318c,%edi
-  10291f:	89 37                	mov    %esi,(%edi)
+  102911:	8b 75 e0             	mov    -0x20(%ebp),%esi
+  102914:	8b 3d 8c 31 10 00    	mov    0x10318c,%edi
+  10291a:	89 37                	mov    %esi,(%edi)
       /* Ring-3-Segmentregister */
       .cs  = 0x18 | 0x03,
       .ss  = 0x20 | 0x03,
       
       .eflags = 0x202,
   };
-  102921:	c7 45 a0 00 00 00 00 	movl   $0x0,-0x60(%ebp)
-  102928:	c7 45 a4 00 00 00 00 	movl   $0x0,-0x5c(%ebp)
-  10292f:	c7 45 a8 00 00 00 00 	movl   $0x0,-0x58(%ebp)
-  102936:	c7 45 ac 00 00 00 00 	movl   $0x0,-0x54(%ebp)
-  10293d:	c7 45 b0 00 00 00 00 	movl   $0x0,-0x50(%ebp)
-  102944:	c7 45 b4 00 00 00 00 	movl   $0x0,-0x4c(%ebp)
-  10294b:	c7 45 b8 00 00 00 00 	movl   $0x0,-0x48(%ebp)
-  102952:	c7 45 bc 00 00 00 00 	movl   $0x0,-0x44(%ebp)
-  102959:	c7 45 c0 00 00 00 00 	movl   $0x0,-0x40(%ebp)
-  102960:	8b 75 ec             	mov    -0x14(%ebp),%esi
-  102963:	89 75 c4             	mov    %esi,-0x3c(%ebp)
-  102966:	c7 45 c8 1b 00 00 00 	movl   $0x1b,-0x38(%ebp)
-  10296d:	c7 45 cc 02 02 00 00 	movl   $0x202,-0x34(%ebp)
-  102974:	8b 75 dc             	mov    -0x24(%ebp),%esi
-  102977:	81 c6 00 10 00 00    	add    $0x1000,%esi
-  10297d:	89 75 d0             	mov    %esi,-0x30(%ebp)
-  102980:	c7 45 d4 23 00 00 00 	movl   $0x23,-0x2c(%ebp)
+  10291c:	c7 45 a0 00 00 00 00 	movl   $0x0,-0x60(%ebp)
+  102923:	c7 45 a4 00 00 00 00 	movl   $0x0,-0x5c(%ebp)
+  10292a:	c7 45 a8 00 00 00 00 	movl   $0x0,-0x58(%ebp)
+  102931:	c7 45 ac 00 00 00 00 	movl   $0x0,-0x54(%ebp)
+  102938:	c7 45 b0 00 00 00 00 	movl   $0x0,-0x50(%ebp)
+  10293f:	c7 45 b4 00 00 00 00 	movl   $0x0,-0x4c(%ebp)
+  102946:	c7 45 b8 00 00 00 00 	movl   $0x0,-0x48(%ebp)
+  10294d:	c7 45 bc 00 00 00 00 	movl   $0x0,-0x44(%ebp)
+  102954:	c7 45 c0 00 00 00 00 	movl   $0x0,-0x40(%ebp)
+  10295b:	8b 75 ec             	mov    -0x14(%ebp),%esi
+  10295e:	89 75 c4             	mov    %esi,-0x3c(%ebp)
+  102961:	c7 45 c8 1b 00 00 00 	movl   $0x1b,-0x38(%ebp)
+  102968:	c7 45 cc 02 02 00 00 	movl   $0x202,-0x34(%ebp)
+  10296f:	8b 75 dc             	mov    -0x24(%ebp),%esi
+  102972:	81 c6 00 10 00 00    	add    $0x1000,%esi
+  102978:	89 75 d0             	mov    %esi,-0x30(%ebp)
+  10297b:	c7 45 d4 23 00 00 00 	movl   $0x23,-0x2c(%ebp)
       
   *current_pdir_cpu = new_state;
-  102987:	8b 35 88 31 10 00    	mov    0x103188,%esi
-  10298d:	89 34 24             	mov    %esi,(%esp)
-  102990:	89 54 24 04          	mov    %edx,0x4(%esp)
-  102994:	c7 44 24 08 38 00 00 	movl   $0x38,0x8(%esp)
-  10299b:	00 
-  10299c:	89 45 8c             	mov    %eax,-0x74(%ebp)
-  10299f:	89 4d 88             	mov    %ecx,-0x78(%ebp)
-  1029a2:	e8 29 fe ff ff       	call   1027d0 <memcpy>
+  102982:	8b 35 88 31 10 00    	mov    0x103188,%esi
+  102988:	89 34 24             	mov    %esi,(%esp)
+  10298b:	89 54 24 04          	mov    %edx,0x4(%esp)
+  10298f:	c7 44 24 08 38 00 00 	movl   $0x38,0x8(%esp)
+  102996:	00 
+  102997:	89 45 8c             	mov    %eax,-0x74(%ebp)
+  10299a:	89 4d 88             	mov    %ecx,-0x78(%ebp)
+  10299d:	e8 2e fe ff ff       	call   1027d0 <memcpy>
   
   vmm_activate_pagedir(old_pagedir);
-  1029a7:	8b 45 e4             	mov    -0x1c(%ebp),%eax
-  1029aa:	89 04 24             	mov    %eax,(%esp)
-  1029ad:	e8 6e ec ff ff       	call   101620 <vmm_activate_pagedir>
+  1029a2:	8b 45 e4             	mov    -0x1c(%ebp),%eax
+  1029a5:	89 04 24             	mov    %eax,(%esp)
+  1029a8:	e8 73 ec ff ff       	call   101620 <vmm_activate_pagedir>
   
   if(old_fpd == 0) {
-  1029b2:	81 7d e8 00 00 00 00 	cmpl   $0x0,-0x18(%ebp)
-  1029b9:	0f 85 5c 00 00 00    	jne    102a1b <init_task+0x1bb>
-  1029bf:	b8 00 00 00 00       	mov    $0x0,%eax
+  1029ad:	81 7d e8 00 00 00 00 	cmpl   $0x0,-0x18(%ebp)
+  1029b4:	0f 85 5d 00 00 00    	jne    102a17 <init_task+0x1b7>
+  1029ba:	b8 00 00 00 00       	mov    $0x0,%eax
     vmm_alloc_static(0x0000);
-  1029c4:	c7 04 24 00 00 00 00 	movl   $0x0,(%esp)
-  1029cb:	89 45 84             	mov    %eax,-0x7c(%ebp)
-  1029ce:	e8 bd eb ff ff       	call   101590 <vmm_alloc_static>
-  1029d3:	b9 00 10 00 00       	mov    $0x1000,%ecx
+  1029bf:	c7 04 24 00 00 00 00 	movl   $0x0,(%esp)
+  1029c6:	89 45 84             	mov    %eax,-0x7c(%ebp)
+  1029c9:	e8 c2 eb ff ff       	call   101590 <vmm_alloc_static>
+  1029ce:	b9 00 10 00 00       	mov    $0x1000,%ecx
     vmm_alloc_static(0x1000);
-  1029d8:	c7 04 24 00 10 00 00 	movl   $0x1000,(%esp)
-  1029df:	89 45 80             	mov    %eax,-0x80(%ebp)
-  1029e2:	89 8d 7c ff ff ff    	mov    %ecx,-0x84(%ebp)
-  1029e8:	e8 a3 eb ff ff       	call   101590 <vmm_alloc_static>
-  1029ed:	b9 00 20 00 00       	mov    $0x2000,%ecx
+  1029d3:	c7 04 24 00 10 00 00 	movl   $0x1000,(%esp)
+  1029da:	89 45 80             	mov    %eax,-0x80(%ebp)
+  1029dd:	89 8d 7c ff ff ff    	mov    %ecx,-0x84(%ebp)
+  1029e3:	e8 a8 eb ff ff       	call   101590 <vmm_alloc_static>
+  1029e8:	b9 00 20 00 00       	mov    $0x2000,%ecx
     vmm_alloc_static(0x2000);
-  1029f2:	c7 04 24 00 20 00 00 	movl   $0x2000,(%esp)
-  1029f9:	89 85 78 ff ff ff    	mov    %eax,-0x88(%ebp)
-  1029ff:	89 8d 74 ff ff ff    	mov    %ecx,-0x8c(%ebp)
-  102a05:	e8 86 eb ff ff       	call   101590 <vmm_alloc_static>
-    *next_pagedir = task_pagedir;
-  102a0a:	8b 4d f0             	mov    -0x10(%ebp),%ecx
-  102a0d:	8b 15 8c 31 10 00    	mov    0x10318c,%edx
-  102a13:	89 0a                	mov    %ecx,(%edx)
-  102a15:	89 85 70 ff ff ff    	mov    %eax,-0x90(%ebp)
-  102a1b:	8d 05 d2 41 10 00    	lea    0x1041d2,%eax
+  1029ed:	c7 04 24 00 20 00 00 	movl   $0x2000,(%esp)
+  1029f4:	89 85 78 ff ff ff    	mov    %eax,-0x88(%ebp)
+  1029fa:	89 8d 74 ff ff ff    	mov    %ecx,-0x8c(%ebp)
+  102a00:	e8 8b eb ff ff       	call   101590 <vmm_alloc_static>
+    *next_pagedir = 0;
+  102a05:	8b 0d 8c 31 10 00    	mov    0x10318c,%ecx
+  102a0b:	c7 01 00 00 00 00    	movl   $0x0,(%ecx)
+  102a11:	89 85 70 ff ff ff    	mov    %eax,-0x90(%ebp)
+  102a17:	8d 05 c0 41 10 00    	lea    0x1041c0,%eax
   }
   
   kprintf("Init Task PD:%x FPD:%x CPD:%x TNPD:%x CNPD:%x \n", task_pagedir, old_fpd, old_pagedir, task_next_pagedir, *next_pagedir);
-  102a21:	8b 4d f0             	mov    -0x10(%ebp),%ecx
-  102a24:	8b 55 e8             	mov    -0x18(%ebp),%edx
-  102a27:	8b 75 e4             	mov    -0x1c(%ebp),%esi
-  102a2a:	8b 7d e0             	mov    -0x20(%ebp),%edi
-  102a2d:	8b 1d 8c 31 10 00    	mov    0x10318c,%ebx
-  102a33:	8b 1b                	mov    (%ebx),%ebx
-  102a35:	89 04 24             	mov    %eax,(%esp)
-  102a38:	89 4c 24 04          	mov    %ecx,0x4(%esp)
-  102a3c:	89 54 24 08          	mov    %edx,0x8(%esp)
-  102a40:	89 74 24 0c          	mov    %esi,0xc(%esp)
-  102a44:	89 7c 24 10          	mov    %edi,0x10(%esp)
-  102a48:	89 5c 24 14          	mov    %ebx,0x14(%esp)
-  102a4c:	e8 7f df ff ff       	call   1009d0 <kprintf>
+  102a1d:	8b 4d f0             	mov    -0x10(%ebp),%ecx
+  102a20:	8b 55 e8             	mov    -0x18(%ebp),%edx
+  102a23:	8b 75 e4             	mov    -0x1c(%ebp),%esi
+  102a26:	8b 7d e0             	mov    -0x20(%ebp),%edi
+  102a29:	8b 1d 8c 31 10 00    	mov    0x10318c,%ebx
+  102a2f:	8b 1b                	mov    (%ebx),%ebx
+  102a31:	89 04 24             	mov    %eax,(%esp)
+  102a34:	89 4c 24 04          	mov    %ecx,0x4(%esp)
+  102a38:	89 54 24 08          	mov    %edx,0x8(%esp)
+  102a3c:	89 74 24 0c          	mov    %esi,0xc(%esp)
+  102a40:	89 7c 24 10          	mov    %edi,0x10(%esp)
+  102a44:	89 5c 24 14          	mov    %ebx,0x14(%esp)
+  102a48:	e8 83 df ff ff       	call   1009d0 <kprintf>
   
   return task_pagedir;
-  102a51:	8b 4d f0             	mov    -0x10(%ebp),%ecx
-  102a54:	89 85 6c ff ff ff    	mov    %eax,-0x94(%ebp)
-  102a5a:	89 c8                	mov    %ecx,%eax
-  102a5c:	81 c4 ac 00 00 00    	add    $0xac,%esp
-  102a62:	5e                   	pop    %esi
-  102a63:	5f                   	pop    %edi
-  102a64:	5b                   	pop    %ebx
-  102a65:	5d                   	pop    %ebp
-  102a66:	c3                   	ret    
-  102a67:	66 0f 1f 84 00 00 00 	nopw   0x0(%eax,%eax,1)
-  102a6e:	00 00 
+  102a4d:	8b 4d f0             	mov    -0x10(%ebp),%ecx
+  102a50:	89 85 6c ff ff ff    	mov    %eax,-0x94(%ebp)
+  102a56:	89 c8                	mov    %ecx,%eax
+  102a58:	81 c4 ac 00 00 00    	add    $0xac,%esp
+  102a5e:	5e                   	pop    %esi
+  102a5f:	5f                   	pop    %edi
+  102a60:	5b                   	pop    %ebx
+  102a61:	5d                   	pop    %ebp
+  102a62:	c3                   	ret    
+  102a63:	66 66 66 66 2e 0f 1f 	data32 data32 data32 nopw %cs:0x0(%eax,%eax,1)
+  102a6a:	84 00 00 00 00 00 
 
 00102a70 <schedule>:
 }
@@ -3818,7 +3817,7 @@ struct cpu_state* schedule(struct cpu_state* cpu)
   102aca:	8b 45 f4             	mov    -0xc(%ebp),%eax
   102acd:	89 45 e8             	mov    %eax,-0x18(%ebp)
   102ad0:	e8 eb e7 ff ff       	call   1012c0 <vmm_get_current_pagedir>
-  102ad5:	8d 0d 02 42 10 00    	lea    0x104202,%ecx
+  102ad5:	8d 0d f0 41 10 00    	lea    0x1041f0,%ecx
   102adb:	8b 55 ec             	mov    -0x14(%ebp),%edx
   102ade:	8b 35 88 31 10 00    	mov    0x103188,%esi
   102ae4:	89 0c 24             	mov    %ecx,(%esp)
@@ -3828,6 +3827,8 @@ struct cpu_state* schedule(struct cpu_state* cpu)
   102af2:	89 54 24 0c          	mov    %edx,0xc(%esp)
   102af6:	89 74 24 10          	mov    %esi,0x10(%esp)
   102afa:	e8 d1 de ff ff       	call   1009d0 <kprintf>
+    
+    //while(1) { }
         
     vmm_activate_pagedir(next);
   102aff:	8b 4d ec             	mov    -0x14(%ebp),%ecx
@@ -3875,19 +3876,19 @@ void init(struct multiboot_info* mb_info)
   102b51:	8b 45 fc             	mov    -0x4(%ebp),%eax
   102b54:	89 04 24             	mov    %eax,(%esp)
   102b57:	e8 64 d6 ff ff       	call   1001c0 <pmm_init>
-  102b5c:	8d 05 2c 42 10 00    	lea    0x10422c,%eax
-  102b62:	8d 0d 4f 42 10 00    	lea    0x10424f,%ecx
+  102b5c:	8d 05 1a 42 10 00    	lea    0x10421a,%eax
+  102b62:	8d 0d 3d 42 10 00    	lea    0x10423d,%ecx
 
 	kprintf("Welcome to mikrOS (version '%s')!\n", _VERSION);
   102b68:	89 04 24             	mov    %eax,(%esp)
   102b6b:	89 4c 24 04          	mov    %ecx,0x4(%esp)
   102b6f:	e8 5c de ff ff       	call   1009d0 <kprintf>
-  102b74:	8d 0d 59 42 10 00    	lea    0x104259,%ecx
+  102b74:	8d 0d 47 42 10 00    	lea    0x104247,%ecx
 	kprintf("(C) Copyright 2012-2014 Fabian Sachara.  All Rights Reserved.\n");
   102b7a:	89 0c 24             	mov    %ecx,(%esp)
   102b7d:	89 45 f8             	mov    %eax,-0x8(%ebp)
   102b80:	e8 4b de ff ff       	call   1009d0 <kprintf>
-  102b85:	8d 0d 98 42 10 00    	lea    0x104298,%ecx
+  102b85:	8d 0d 86 42 10 00    	lea    0x104286,%ecx
 
 	kprintf("Initializing GDT...\n");
   102b8b:	89 0c 24             	mov    %ecx,(%esp)
@@ -3897,12 +3898,12 @@ void init(struct multiboot_info* mb_info)
 	init_gdt();
   102b96:	89 45 f0             	mov    %eax,-0x10(%ebp)
   102b99:	e8 d2 e5 ff ff       	call   101170 <init_gdt>
-  102b9e:	8d 05 ad 42 10 00    	lea    0x1042ad,%eax
+  102b9e:	8d 05 9b 42 10 00    	lea    0x10429b,%eax
 
 	kprintf("Initializing IDT...\n");
   102ba4:	89 04 24             	mov    %eax,(%esp)
   102ba7:	e8 24 de ff ff       	call   1009d0 <kprintf>
-  102bac:	8d 0d c2 42 10 00    	lea    0x1042c2,%ecx
+  102bac:	8d 0d b0 42 10 00    	lea    0x1042b0,%ecx
 
 	init_idt();
   102bb2:	89 45 ec             	mov    %eax,-0x14(%ebp)
@@ -3917,7 +3918,7 @@ void init(struct multiboot_info* mb_info)
 	init_drivers();
   102bc8:	89 45 e4             	mov    %eax,-0x1c(%ebp)
   102bcb:	e8 30 00 00 00       	call   102c00 <init_drivers>
-  102bd0:	8d 05 d2 42 10 00    	lea    0x1042d2,%eax
+  102bd0:	8d 05 c0 42 10 00    	lea    0x1042c0,%eax
 	
 	kprintf("switching to kernel_main()\n");
   102bd6:	89 04 24             	mov    %eax,(%esp)
@@ -3955,7 +3956,7 @@ static inline void init_drivers() {
   102c0f:	c3                   	ret    
 
 00102c10 <_start>:
-  102c10:	bc 30 94 10 00       	mov    $0x109430,%esp
+  102c10:	bc 30 74 10 00       	mov    $0x107430,%esp
   102c15:	53                   	push   %ebx
   102c16:	e8 25 ff ff ff       	call   102b40 <init>
 
