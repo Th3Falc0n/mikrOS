@@ -4,7 +4,7 @@
 #include "console.h"
 #include "multiboot.h"
 #include "pmm.h"
-#include "string.h"
+#include "stdlib.h"
 #include "elf.h"
 #include "vmm.h"
 
@@ -53,16 +53,26 @@ void init_elf(void* image)
     //init_task((void*) header->entry);
 }
 
-void task() {
-  kprintf("task");
-  
-  while(1) { }
+void task2() {
+  kprintf("TASK2: \n");
+    
+  while(1) { 
+  }
+}
+
+void task1() {
+  kprintf("TASK1: \n");
+    
+  while(1) { 
+  }
 }
 
 void kernel_main(struct multiboot_info* mb_info) {	
-	vmm_init(mb_info);
-
-	kprintf("abc");
+	vmm_init();
+	
+	init_task(vmm_create_pagedir(), task1);
+	init_task(vmm_create_pagedir(), task2);
+	enable_scheduling();
 
 	while(1) {  }
 }

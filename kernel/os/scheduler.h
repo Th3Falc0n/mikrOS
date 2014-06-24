@@ -9,7 +9,8 @@ struct task {
     struct task*        next;
 };
 
-struct task* init_task(void* entry);
+uint32_t init_task(uint32_t task_pagedir, void* entry);
 struct cpu_state* schedule(struct cpu_state* cpu);
+void enable_scheduling(void);
 
 #endif

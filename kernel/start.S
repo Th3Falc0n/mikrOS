@@ -26,5 +26,5 @@ _stop:
     jmp _stop
 
 .section .bss
-.space 8192
+.space 16384
 kernel_stack:

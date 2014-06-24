@@ -1,5 +1,4 @@
 #!/bin/bash
-cd ../../kernel
 make -B || exit 1
 
 mount -oloop boot.img /mnt

@@ -2,63 +2,91 @@
 #include "kernel.h"
 #include "console.h"
 #include "pmm.h"
+#include "vmm.h"
 
-static struct task* first_task = NULL;
-static struct task* current_task = NULL;
+uint32_t first_pagedir = 0;
+uint32_t scheduling_enabled = 0;
 
-struct task* init_task(void* entry)
+struct cpu_state* current_pdir_cpu = (void*) STATIC_ALLOC_VADDR + 4096 - sizeof(struct cpu_state);
+uint32_t* next_pagedir = (void*) STATIC_ALLOC_VADDR + 0x2000;
+
+void enable_scheduling(void) {
+  scheduling_enabled = 1;
+}
+
+uint32_t init_task(uint32_t task_pagedir, void* entry)
 {
-    uint8_t* stack = pmm_alloc(1);
-    uint8_t* user_stack = pmm_alloc(1);
+  uint32_t old_fpd = first_pagedir;
+  uint32_t old_pagedir = vmm_get_current_pagedir();
+  uint32_t task_next_pagedir = 0;    
+  
+  if(first_pagedir == 0) {
+    first_pagedir = task_pagedir;
+  }
+  else
+  {
+    task_next_pagedir = *next_pagedir;
+    *next_pagedir = task_pagedir;
+  }
+  
+  vmm_activate_pagedir(task_pagedir);
+  
+                        vmm_alloc_static(0x0000);
+  uint8_t* user_stack = vmm_alloc_static(0x1000);
+                        vmm_alloc_static(0x2000);
+  
+  *next_pagedir = task_next_pagedir;
 
-		kprintf("entry: %x", (uint32_t) entry);
-
-    struct cpu_state new_state = {
-        .eax = 0,
-        .ebx = 0,
-        .ecx = 0,
-        .edx = 0,
-        .esi = 0,
-        .edi = 0,
-        .ebp = 0,
-        .esp = (uint32_t) user_stack + 4096,
-        .eip = (uint32_t) entry,
-
-        .cs  = 0x18 | 0x03,
-        .ss  = 0x20 | 0x03,
-
-        .eflags = 0x200,
-    };
-
-    struct cpu_state* state = (void*) (stack + 4096 - sizeof(new_state));
-    *state = new_state;
-
-    struct task* task = pmm_alloc(1);
-    task->cpu_state = state;
-    task->next = first_task;
-    first_task = task;
-    return task;
+  struct cpu_state new_state = {
+      .eax = 0,
+      .ebx = 0,
+      .ecx = 0,
+      .edx = 0,
+      .esi = 0,
+      .edi = 0,
+      .ebp = 0,
+      .esp = (uint32_t) user_stack + 4096,
+      .eip = (uint32_t) entry,
+      
+      /* Ring-3-Segmentregister */
+      .cs  = 0x18 | 0x03,
+      .ss  = 0x20 | 0x03,
+      
+      .eflags = 0x202,
+  };
+      
+  *current_pdir_cpu = new_state;
+  
+  vmm_activate_pagedir(old_pagedir);
+  
+  if(old_fpd == 0) {
+    vmm_alloc_static(0x0000);
+    vmm_alloc_static(0x1000);
+    vmm_alloc_static(0x2000);
+    *next_pagedir = task_pagedir;
+  }
+  
+  kprintf("Init Task PD:%x FPD:%x CPD:%x TNPD:%x CNPD:%x \n", task_pagedir, old_fpd, old_pagedir, task_next_pagedir, *next_pagedir);
+  
+  return task_pagedir;
 }
 
 struct cpu_state* schedule(struct cpu_state* cpu)
 {
-    if(first_task == NULL) return cpu;
+  uint32_t newCPU = 0;
+  
+  if(first_pagedir != 0 && scheduling_enabled) {  
+    uint32_t next = *next_pagedir;
+    if(next == 0) next = first_pagedir;
     
-    if (current_task != NULL) {
-        current_task->cpu_state = cpu;
-    }
-
-    if (current_task == NULL) {
-        current_task = first_task;
-    } else {
-        current_task = current_task->next;
-        if (current_task == NULL) {
-            current_task = first_task;
-        }
-    }  
-
-    cpu = current_task->cpu_state;
-
-    return cpu;
+    newCPU = 1;
+    
+    kprintf("Schedule CPU:%x CPD:%x NPD:%x CPDCPU:%x \n", cpu, vmm_get_current_pagedir(), next, current_pdir_cpu);
+        
+    vmm_activate_pagedir(next);
+  }
+  
+  if(newCPU != 0) return current_pdir_cpu;
+  return cpu;
 }
 

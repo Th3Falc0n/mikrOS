@@ -21,8 +21,8 @@ void load_gdt() {
 	asm ("mov %ax, %fs");
 	asm ("mov %ax, %gs");
 	asm ("mov %ax, %ss");
-	asm ("ljmp $0x8, $.1");
-	asm (".1:");
+	//asm ("ljmp $0x8, $.1");
+	//asm (".1:");
 }
 
 void set_gdt_entry(int i, unsigned int base, unsigned int limit, int flags)

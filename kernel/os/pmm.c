@@ -1,5 +1,5 @@
 #include "pmm.h"
-#include "string.h"
+#include "stdlib.h"
 #include "console.h"
 
 #define BITMAP_SIZE 32768
@@ -76,7 +76,7 @@ void pmm_init(struct multiboot_info* mb_info) {
   pmm_mark_used(mb_info);
   pmm_mark_used(modules);
 
-  int i;
+  uint32_t i;
   for (i = 0; i < mb_info->mi_mods_count; i++) {
       addr = (uintptr_t)modules[i].start;
       while (addr < (uintptr_t)modules[i].end) {

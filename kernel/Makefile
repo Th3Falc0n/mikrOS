@@ -1,11 +1,11 @@
 SRCS = $(shell find -name '*.[cS]')
 OBJS = $(addsuffix .o,$(basename $(SRCS)))
 
-CC = gcc
+CC = clang
 LD = ld
 
 ASFLAGS = -m32
-CFLAGS = -m32 -Wall -g -fno-stack-protector -nostdinc
+CFLAGS = -m32 -Wall -Wextra -Wno-unused-parameter -Werror -g -fno-stack-protector -nostdinc
 LDFLAGS = -melf_i386 -T kernel.ld
 
 kernel: $(OBJS)
