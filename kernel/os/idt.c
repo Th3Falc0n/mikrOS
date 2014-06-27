@@ -4,6 +4,7 @@
 #include "kernel.h"
 #include "scheduler.h"
 #include "gdt.h"
+#include "catofdeath.h"
 
 #define IDT_ENTRIES 64
 
@@ -146,21 +147,7 @@ struct cpu_state* handle_interrupt(struct cpu_state* cpu)
   struct cpu_state* new_cpu = cpu;
 
   if (cpu->intr <= 0x1f) {
-    kprintf("\nException I:%d E:%x, Kernel halt!\n", cpu->intr, cpu->error);
-
-		kprintf("EAX: %x EBX: %x ECX: %x EDX: %x\n", cpu->eax, cpu->ebx, cpu->ecx, cpu->edx);
-		kprintf("ESI: %x EDI: %x EBP: %x EIP: %x\n", cpu->esi, cpu->edi, cpu->ebp, cpu->eip);
-		kprintf("CS: %x EFLAGS: %x ESP: %x SS: %x\n", cpu->cs, cpu->eflags, cpu->esp, cpu->ss);
-
-		uint32_t cr2 = 0;
-
-		asm volatile("mov %%cr2, %0" : "=r" (cr2));
-
-		kprintf("CR2: %x", cr2);
-	
-    while(1) {
-      asm volatile("cli; hlt");
-    }
+    show_cod(cpu);
   } else if (cpu->intr >= 0x20 && cpu->intr <= 0x2f) {
     if (cpu->intr >= 0x28) {
       outb(0xa0, 0x20);
@@ -175,6 +162,7 @@ struct cpu_state* handle_interrupt(struct cpu_state* cpu)
 		}
   } else if (cpu->intr == 0x30) {
 		new_cpu = syscall(new_cpu);
+    tss[1] = (uint32_t) (new_cpu + 1);
   } else {
     kprintf("Unbekannter Interrupt\n");
     while(1) {

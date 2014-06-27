@@ -31,9 +31,9 @@ uint32_t init_task(uint32_t task_pagedir, void* entry)
   
   vmm_activate_pagedir(task_pagedir);
   
-                        vmm_alloc_static(0x0000);
-  uint8_t* user_stack = vmm_alloc_static(0x1000);
-                        vmm_alloc_static(0x2000);
+                        vmm_alloc_static(0x0000, 0);
+  uint8_t* user_stack = vmm_alloc_static(0x1000, PT_PUBLIC);
+                        vmm_alloc_static(0x2000, 0);
   
   *next_pagedir = task_next_pagedir;
 
@@ -60,13 +60,11 @@ uint32_t init_task(uint32_t task_pagedir, void* entry)
   vmm_activate_pagedir(old_pagedir);
   
   if(old_fpd == 0) {
-    vmm_alloc_static(0x0000);
-    vmm_alloc_static(0x1000);
-    vmm_alloc_static(0x2000);
+    vmm_alloc_static(0x0000, 0);
+    vmm_alloc_static(0x1000, PT_PUBLIC);
+    vmm_alloc_static(0x2000, 0);
     *next_pagedir = 0;
   }
-  
-  kprintf("Init Task PD:%x FPD:%x CPD:%x TNPD:%x CNPD:%x \n", task_pagedir, old_fpd, old_pagedir, task_next_pagedir, *next_pagedir);
   
   return task_pagedir;
 }
@@ -79,10 +77,7 @@ struct cpu_state* schedule(struct cpu_state* cpu)
     uint32_t next = *next_pagedir;
     if(next == 0) next = first_pagedir;
     
-    newCPU = 1;
-    
-    kprintf("Schedule CPU:%x CPD:%x NPD:%x CPDCPU:%x \n", cpu, vmm_get_current_pagedir(), next, current_pdir_cpu);
-            
+    newCPU = 1;            
     vmm_activate_pagedir(next);
   }
   
