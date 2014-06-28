@@ -1,5 +1,6 @@
 #!/bin/bash
 make -B || exit 1
+make clean
 
 mount -oloop boot.img /mnt
 

@@ -1,10 +1,10 @@
-#include "os/console.h"
-#include "os/gdt.h"
-#include "os/idt.h"
+#include "console.h"
+#include "gdt.h"
+#include "idt.h"
 #include "os/drivers/drvinit.h"
-#include "os/kernel.h"
-#include "os/multiboot.h"
-#include "os/pmm.h"
+#include "kernel.h"
+#include "multiboot.h"
+#include "pmm.h"
 
 
 #define _VERSION "alpha 0.1"

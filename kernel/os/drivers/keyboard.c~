@@ -1,8 +1,8 @@
 #include "keyboard.h"
-#include "idt.h"
-#include "ports.h"
-#include "console.h"
-#include "pmm.h"
+#include "../idt.h"
+#include "../ports.h"
+#include "../console.h"
+#include "../pmm.h"
 
 static uint8_t sc_to_kc[][128] = {
     {
