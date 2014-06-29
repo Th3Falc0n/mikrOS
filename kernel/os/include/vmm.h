@@ -33,17 +33,18 @@
 #define ACTIVE_CONTEXT_VADDR (ACTIVE_PAGETBL_VADDR + 0x100000)
 
 #define STATIC_ALLOC_VADDR 0x1900000
-#define USERSPACE_BOTTOM  0x10000000
+#define USERSPACE_BOTTOM   0x2000000
 
 struct vmm_context {
     uint32_t* pagedir;
 };
 
-uint32_t vmm_init(struct multiboot_info* mb_info);
-uint32_t vmm_create_pagedir(struct multiboot_info* mb_info);
+uint32_t vmm_init(void);
+uint32_t vmm_create_pagedir(void);
 void     vmm_activate_pagedir(uint32_t context);
 void     vmm_free(void* vaddr);
 void     vmm_unmap(void* vaddr);
+void     vmm_map_range(void* vaddr, void* paddr, uint32_t length, uint32_t flags);
 void*    vmm_alloc(uint32_t* retpaddr);
 void*    vmm_alloc_addr(void* vaddr, uint32_t* paddr);
 void*    vmm_alloc_static(uint32_t vaddr, uint32_t flags);

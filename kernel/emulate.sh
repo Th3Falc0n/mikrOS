@@ -1,4 +1,9 @@
 #!/bin/bash
+
+#modules:
+make -C ../modules/csh -B || exit 1
+
+#kernel
 make -B || exit 1
 make clean
 

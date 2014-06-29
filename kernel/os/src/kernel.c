@@ -15,6 +15,10 @@ struct cpu_state* syscall(struct cpu_state* cpu)
     case 0: /* free_cpu */
       cpu = schedule(cpu);
       break;
+
+    case 1: /* putc */
+        kprintf("%c", cpu->ebx);
+        break;
   }
 
   return cpu;
@@ -27,29 +31,9 @@ void init_elf(void* image)
      * korrupten ELF-Dateien nicht ueber das Dateiende hinauslesen.
      */
  
-    struct elf_header* header = image;
-    struct elf_program_header* ph;
-    int i;
+
  
-    /* Ist es ueberhaupt eine ELF-Datei? */
-    if (header->magic != ELF_MAGIC) {
-        kprintf("Keine gueltige ELF-Magic!\n");
-        return;
-    }
- 
-    ph = (struct elf_program_header*) (((char*) image) + header->ph_offset);
-    for (i = 0; i < header->ph_entry_count; i++, ph++) {
-        void* dest = (void*) ph->virt_addr;
-        void* src = ((char*) image) + ph->offset;
- 
-        /* Nur Program Header vom Typ LOAD laden */
-        if (ph->type != 1) {
-            continue;
-        }
- 
-        memset(dest, 0, ph->mem_size);
-        memcpy(dest, src, ph->file_size);
-    }
+
  
     //init_task((void*) header->entry);
 }
@@ -74,30 +58,55 @@ void task1() {
 }
 
 void kernel_main(struct multiboot_info* mb_info) {	
-	vmm_init(mb_info);
+	uint32_t kernel_init_pdir = vmm_init();
 	
-	void* alloc = vmm_alloc(0);
-	kprintf("alloc 1: %x \n", alloc);
+  map_address_active((uint32_t) mb_info, (uint32_t) mb_info, 0);
+  map_address_active((uint32_t) mb_info->mi_mods_addr, (uint32_t) mb_info->mi_mods_addr, 0);
 	
-	alloc = vmm_alloc(0);
-	kprintf("alloc 2: %x \n", alloc);
-	
-	vmm_free(alloc);
-	alloc = vmm_alloc(0);
-	kprintf("alloc 3: %x \n", alloc);
-	
-	init_task(vmm_create_pagedir(mb_info), task2);
-	init_task(vmm_create_pagedir(mb_info), task1);
-	  
-	enable_scheduling();
-	
-	//uint32_t i;
-  /*if(mb_info->mi_flags & MULTIBOOT_INFO_HAS_MODS) {
-	  for(i = 0; i < mb_info->mi_mods_count; i++) {
-	    init_elf((void*) mb_info->mi_mods_addr[i].start);
-	    kprintf("MODINIT: ");
-	    //kprintf(mb_info->mi_mods_addr[i].cmdline);
-	    kprintf("\n");
+  if(mb_info->mi_flags & MULTIBOOT_INFO_HAS_MODS) {
+	  for(uint32_t i = 0; i < mb_info->mi_mods_count; i++) {
+	    kprintf("Loading mod at %x", mb_info->mi_mods_addr[i].start);
+	    
+	    uint32_t elf_mod_pdir = vmm_create_pagedir();
+	    void* elf_mod_entry = 0;
+	    
+	    vmm_activate_pagedir(elf_mod_pdir);
+	    
+	    vmm_map_range(mb_info->mi_mods_addr[i].start, mb_info->mi_mods_addr[i].start, mb_info->mi_mods_addr[i].end - mb_info->mi_mods_addr[i].start, 0);
+      
+      struct elf_header* header = mb_info->mi_mods_addr[i].start;
+      struct elf_program_header* ph;
+
+      /* Ist es ueberhaupt eine ELF-Datei? */
+      if (header->magic != ELF_MAGIC) {
+        kprintf("Invalid ELF-Magic!\n");
+        continue;
+      }
+      
+      elf_mod_entry = (void*)( header->entry );
+      
+      ph = (struct elf_program_header*) (((char*) header) + header->ph_offset);
+      for (uint32_t n = 0; n < header->ph_entry_count; n++, ph++) {
+        void* dest = (void*) ph->virt_addr;
+        void* src = ((char*) header) + ph->offset;
+ 
+        /* Nur Program Header vom Typ LOAD laden */
+        if (ph->type != 1) {
+            continue;
+        }
+ 
+        for(uint32_t offset = 0; offset < ph->mem_size; offset += 0x1000) {
+          vmm_alloc_addr(dest + offset, 0);
+        }
+        
+        kprintf("Copied binary from %x to %x \n", src, dest);
+        
+        memcpy(dest, src, ph->file_size);
+      }
+      
+      vmm_activate_pagedir(kernel_init_pdir);
+      
+      init_task(elf_mod_pdir, elf_mod_entry);
 	  }
 	
 	  enable_scheduling();
@@ -105,7 +114,7 @@ void kernel_main(struct multiboot_info* mb_info) {
 	else
 	{
 	  kprintf("No Modules loadable. Microkernel shutting down.\nThank you for using this pointless version of mikrOS\n");
-	}*/
+	}
 
 	while(1) {  }
 }

@@ -12,7 +12,7 @@ uint32_t vmm_get_current_pagedir(void) {
   return active_pagedir;
 }
 
-uint32_t vmm_create_pagedir(struct multiboot_info* mb_info)
+uint32_t vmm_create_pagedir()
 {
   uint32_t phys_context = 0;
   struct vmm_context* context = vmm_alloc(&phys_context);
@@ -41,13 +41,10 @@ uint32_t vmm_create_pagedir(struct multiboot_info* mb_info)
   map_address_context(pagedir_ptr, (uint32_t) active_context, phys_context, 0);
   
   for(i = 0x1000; i < (uint32_t) &kernel_end; i += 0x1000) {
-    map_address_context(pagedir_ptr, i, i, PT_PUBLIC); //TODO: no PT_PUBLIC flag here!... only for task testing
+    map_address_context(pagedir_ptr, i, i, 0); //TODO: no PT_PUBLIC flag here!... only for task testing
   }
   
-  struct multiboot_module* modules = mb_info->mi_mods_addr;
-
-  map_address_context(pagedir_ptr, (uint32_t) mb_info, (uint32_t) mb_info, 0);
-  map_address_context(pagedir_ptr, (uint32_t) modules, (uint32_t) modules, 0);
+  /*struct multiboot_module* modules = mb_info->mi_mods_addr;
 
   uint32_t addr;
   for (i = 0; i < mb_info->mi_mods_count; i++) {
@@ -57,7 +54,7 @@ uint32_t vmm_create_pagedir(struct multiboot_info* mb_info)
       map_address_context(pagedir_ptr, (uint32_t) addr, (uint32_t) addr, 0);
       addr += 0x1000;
     }
-  }
+  }*/
   
   //Following code has a memory leak. A context must free its own resources on destruction.
   
@@ -74,6 +71,15 @@ uint32_t vmm_create_pagedir(struct multiboot_info* mb_info)
   vmm_unmap(context);
   
   return phys_pagedir;
+}
+
+void vmm_map_range(void* vaddr, void* paddr, uint32_t length, uint32_t flags) {
+  if((uint32_t)vaddr & 0xFFF) return;
+  if((uint32_t)paddr & 0xFFF) return;
+  
+  for(uint32_t i = 0; i < length; i+= 0x1000) {
+    map_address_active((uint32_t)vaddr + i, (uint32_t)paddr + i, flags);
+  }
 }
 
 void map_address_context(uint32_t* pagedir, uint32_t vaddr, uint32_t paddr, uint32_t flags) {
@@ -158,7 +164,7 @@ void vmm_activate_pagedir(uint32_t pdpaddr) {
   asm volatile("mov %0, %%cr3" : : "r" (pdpaddr));
 }
 
-uint32_t vmm_init(struct multiboot_info* mb_info)
+uint32_t vmm_init(void)
 {
   //CREATE CONTEXT ************************************************************
   
@@ -186,23 +192,6 @@ uint32_t vmm_init(struct multiboot_info* mb_info)
   
   for(i = 0x1000; i < (uint32_t) &kernel_end; i += 0x1000) {
     map_address_context(context->pagedir, i, i, PT_PUBLIC); //TODO: no PT_PUBLIC flag here!... only for task testing
-  }
-  
-  struct multiboot_module* modules = mb_info->mi_mods_addr;
-
-  map_address_context(context->pagedir, (uint32_t) mb_info, (uint32_t) mb_info, 0);
-  map_address_context(context->pagedir, (uint32_t) modules, (uint32_t) modules, 0);
-
-  uint32_t addr;
-  for (i = 0; i < mb_info->mi_mods_count; i++) {
-    addr = (uintptr_t)modules[i].start;
-    
-    kprintf("Mapped module from %x to %x \n", modules[i].start, modules[i].end);   
-    
-    while (addr < (uintptr_t)modules[i].end) {
-      map_address_context(context->pagedir, (uint32_t) addr, (uint32_t) addr, 0);
-      addr += 0x1000;
-    }
   }
   
   //END CREATE CONTEXT ********************************************************

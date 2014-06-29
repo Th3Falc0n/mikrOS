@@ -4,7 +4,7 @@ void _start(void)
 {
     int i;
 		for (i = 0; i < 5; i++) {
-				asm("int $0x30" : : "a" (0), "b" ('0' + i));
+				asm("int $0x30" : : "a" (1), "b" ('0' + i));
 		}
  
     while(1);
