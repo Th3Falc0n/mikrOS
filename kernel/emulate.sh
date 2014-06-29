@@ -15,5 +15,5 @@ umount /mnt
 rm kernel.objdump
 objdump -dS kernel > kernel.objdump
 
-qemu -fda boot.img -d int --monitor stdio --no-reboot --no-shutdown
+qemu-system-i386 -fda boot.img -d int --monitor stdio --no-reboot --no-shutdown
 # 2>&1 | grep "check_exception" -A 20
