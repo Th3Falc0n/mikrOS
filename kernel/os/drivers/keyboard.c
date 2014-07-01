@@ -39,7 +39,7 @@ static uint8_t sc_to_kc[][128] = {
 
 static int init_done = 0;
 
-static uint8_t* buffer;
+static uint8_t buffer[4096];
 static int bfindex = 0;
 
 uint8_t translate_scancode(int set, uint16_t scancode)
@@ -73,6 +73,7 @@ uint8_t translate_scancode(int set, uint16_t scancode)
 }
 
 void keyboard_handler() {    
+  return;
   uint8_t scancode;
   uint8_t keycode = 0;
   int break_code = 0;

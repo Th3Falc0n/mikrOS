@@ -12,6 +12,70 @@ uint32_t vmm_get_current_pagedir(void) {
   return active_pagedir;
 }
 
+//TODO: join fork_current and create_pagedir together
+
+uint32_t vmm_fork_current(void)
+{
+  uint32_t phys_context = 0;
+  struct vmm_context* context = vmm_alloc(&phys_context);
+  
+  uint32_t phys_pagedir = 0;
+  context->pagedir = vmm_alloc(&phys_pagedir);
+  
+  uint32_t paddr, i, i2, pagedir_ptr[1024];
+    
+  for(i = 0; i < 1024; i++) {
+    pagedir_ptr[i] = (uint32_t) vmm_alloc(&paddr);
+    context->pagedir[i] = paddr | PD_PRESENT | PD_WRITE | PD_PUBLIC;
+    
+    for(i2 = 0; i2 < 1024; i2++) {
+      uint32_t vaddr = (i << 24) + (i2 << 12);
+    
+      ((uint32_t*)(pagedir_ptr[i]))[i2] = (vaddr > USERSPACE_BOTTOM) ? PT_ALLOCATABLE : 0;
+    }
+  }
+  
+  for(i = 0; i < 1024; i++) {        
+    paddr = context->pagedir[i] & 0xFFFFF000;
+    map_address_context(pagedir_ptr, (uint32_t)active_pagetables + i * 0x1000, paddr, 0);
+  }
+  
+  map_address_context(pagedir_ptr, (uint32_t) active_context, phys_context, 0);
+  
+  for(i = 0x1000; i < (uint32_t) &kernel_end; i += 0x1000) {
+    map_address_context(pagedir_ptr, i, i, 0);
+  }
+  
+  for(i = USERSPACE_BOTTOM; i < 0xFFFFF000; i += 0x1000) {
+    if((active_pagetables[i >> 12] & (PT_ALLOCATABLE | PT_PRESENT)) == (PT_ALLOCATABLE | PT_PRESENT)) {
+      void* newp = vmm_alloc(&paddr);
+      
+      kprintf("copying program %x \n", i);
+      
+      memcpy(newp, (void*)i, 0x1000);
+      map_address_context(pagedir_ptr, i, paddr, PT_PUBLIC | PT_ALLOCATABLE);
+      
+      vmm_unmap(newp);
+    }
+  }
+  
+  //Following code has a memory leak. A context must free its own resources on destruction.
+  
+  for(i = 0; i < 1024; i++) {       
+    vmm_unmap((void*)pagedir_ptr[i]); 
+  }
+  
+  vmm_unmap(pagedir_ptr);
+  
+  uint32_t* pd_ptr = context->pagedir;
+  context->pagedir = (uint32_t*) phys_pagedir;
+  
+  vmm_unmap(pd_ptr);
+  vmm_unmap(context);
+  
+  return phys_pagedir;
+}
+
 uint32_t vmm_create_pagedir()
 {
   uint32_t phys_context = 0;
@@ -41,20 +105,8 @@ uint32_t vmm_create_pagedir()
   map_address_context(pagedir_ptr, (uint32_t) active_context, phys_context, 0);
   
   for(i = 0x1000; i < (uint32_t) &kernel_end; i += 0x1000) {
-    map_address_context(pagedir_ptr, i, i, 0); //TODO: no PT_PUBLIC flag here!... only for task testing
+    map_address_context(pagedir_ptr, i, i, 0);
   }
-  
-  /*struct multiboot_module* modules = mb_info->mi_mods_addr;
-
-  uint32_t addr;
-  for (i = 0; i < mb_info->mi_mods_count; i++) {
-    addr = (uintptr_t)modules[i].start; 
-    
-    while (addr < (uintptr_t)modules[i].end) {
-      map_address_context(pagedir_ptr, (uint32_t) addr, (uint32_t) addr, 0);
-      addr += 0x1000;
-    }
-  }*/
   
   //Following code has a memory leak. A context must free its own resources on destruction.
   
@@ -71,6 +123,10 @@ uint32_t vmm_create_pagedir()
   vmm_unmap(context);
   
   return phys_pagedir;
+}
+
+uint32_t vmm_resolve(void* vaddr) {
+  return active_pagetables[(uint32_t)vaddr >> 12] & 0xFFFFF000;
 }
 
 void vmm_map_range(void* vaddr, void* paddr, uint32_t length, uint32_t flags) {
@@ -91,7 +147,7 @@ void map_address_context(uint32_t* pagedir, uint32_t vaddr, uint32_t paddr, uint
 
 void map_address_active(uint32_t vaddr, uint32_t paddr, uint32_t flags) {  
   active_pagetables[vaddr >> 12] = (paddr & 0xFFFFF000) | PT_PRESENT | PT_WRITE | (flags & 0xFFF);
-    asm volatile("invlpg %0" : : "m" (vaddr));
+  asm volatile("invlpg %0" : : "m" (vaddr));
 }
 
 void vmm_free(void* p_vaddr) {

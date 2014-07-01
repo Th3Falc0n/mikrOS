@@ -3,10 +3,10 @@
 
 static int x = 0;
 static int y = 0;
+static int kprintf_res = 0;
+static char color = 0x07;
 
 static char* video = (char*) 0xb8000;
-
-static int kprintf_res = 0;
 
 static void kputc(char c)
 {
@@ -32,7 +32,7 @@ static void kputc(char c)
     }
 
     video[2 * (y * 80 + x)] = c;
-    video[2 * (y * 80 + x) + 1] = 0x07;
+    video[2 * (y * 80 + x) + 1] = color;
 
     x++;
     kprintf_res++;
@@ -70,8 +70,14 @@ void clrscr(void)
     for (i = 0; i < 2 * 25 * 80; i++) {
         video[i] = 0;
     }
+    
+    color = 0x07;
 
     x = y = 0;
+}
+
+void setclr(char clr) {
+  color = clr;
 }
 
 int kprintf(const char* fmt, ...)

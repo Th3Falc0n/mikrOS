@@ -1,5 +1,4 @@
-#include "vmm.h"
-#include "stdlib.h"
+#include "string.h"
 
 void* memset(void* buf, int c, size_t n)
 {
@@ -18,7 +17,7 @@ void* memcpy(void* dest, const void* src, size_t n)
     const unsigned char* s = src;
 
     while (n--) {
-      *(d++) = *(s++);
+        *d++ = *s++;
     }
 
     return dest;

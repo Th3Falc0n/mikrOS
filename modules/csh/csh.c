@@ -1,11 +1,21 @@
 #include "stdint.h"
+#include "stdio.h"
+#include "process.h"
  
 void _start(void)
 {
-    int i;
-		for (i = 0; i < 5; i++) {
-				asm("int $0x30" : : "a" (1), "b" ('0' + i));
-		}
- 
-    while(1);
+  int pid = fork();
+
+  int i;
+	for (i = 0; 1; i = (i+1) % 5) {
+	  if(pid) {
+	    //putc('a' + i);
+	  }
+	  else
+	  {
+	    putc('0' + i);
+	  }
+	}
+
+  while(1);
 }

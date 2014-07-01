@@ -11,31 +11,25 @@
 
 struct cpu_state* syscall(struct cpu_state* cpu)
 {
+  uint32_t forkpdir;
+
   switch (cpu->eax) {
-    case 0: /* free_cpu */
-      cpu = schedule(cpu);
+    case 1: /* exit */
+      cpu = terminate_current(cpu);
       break;
 
-    case 1: /* putc */
-        kprintf("%c", cpu->ebx);
-        break;
+    case 2: /* fork */
+      forkpdir = vmm_fork_current();
+      cpu->eax = init_task(forkpdir, 0);
+      clone_task_state(forkpdir);
+      break;
+      
+    case 201: /* putc */
+      kprintf("%c", cpu->ebx);
+      break;
   }
 
   return cpu;
-}
-
-void init_elf(void* image)
-{
-    /*
-     * FIXME Wir muessen eigentlich die Laenge vom Image pruefen, damit wir bei
-     * korrupten ELF-Dateien nicht ueber das Dateiende hinauslesen.
-     */
- 
-
- 
-
- 
-    //init_task((void*) header->entry);
 }
 
 void task2() {
@@ -65,7 +59,7 @@ void kernel_main(struct multiboot_info* mb_info) {
 	
   if(mb_info->mi_flags & MULTIBOOT_INFO_HAS_MODS) {
 	  for(uint32_t i = 0; i < mb_info->mi_mods_count; i++) {
-	    kprintf("Loading mod at %x", mb_info->mi_mods_addr[i].start);
+	    kprintf("Loading mod at %x \n", mb_info->mi_mods_addr[i].start);
 	    
 	    uint32_t elf_mod_pdir = vmm_create_pagedir();
 	    void* elf_mod_entry = 0;
@@ -98,8 +92,6 @@ void kernel_main(struct multiboot_info* mb_info) {
         for(uint32_t offset = 0; offset < ph->mem_size; offset += 0x1000) {
           vmm_alloc_addr(dest + offset, 0);
         }
-        
-        kprintf("Copied binary from %x to %x \n", src, dest);
         
         memcpy(dest, src, ph->file_size);
       }
