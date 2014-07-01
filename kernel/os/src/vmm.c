@@ -50,8 +50,6 @@ uint32_t vmm_fork_current(void)
     if((active_pagetables[i >> 12] & (PT_ALLOCATABLE | PT_PRESENT)) == (PT_ALLOCATABLE | PT_PRESENT)) {
       void* newp = vmm_alloc(&paddr);
       
-      kprintf("copying program %x \n", i);
-      
       memcpy(newp, (void*)i, 0x1000);
       map_address_context(pagedir_ptr, i, paddr, PT_PUBLIC | PT_ALLOCATABLE);
       
@@ -147,7 +145,7 @@ void map_address_context(uint32_t* pagedir, uint32_t vaddr, uint32_t paddr, uint
 
 void map_address_active(uint32_t vaddr, uint32_t paddr, uint32_t flags) {  
   active_pagetables[vaddr >> 12] = (paddr & 0xFFFFF000) | PT_PRESENT | PT_WRITE | (flags & 0xFFF);
-  asm volatile("invlpg %0" : : "m" (vaddr));
+  asm volatile("invlpg %0" : : "m" (*(char*)vaddr));
 }
 
 void vmm_free(void* p_vaddr) {
@@ -157,7 +155,7 @@ void vmm_free(void* p_vaddr) {
     pmm_free((void*)(active_pagetables[vaddr >> 12] & 0xFFFFF000));
    
     active_pagetables[vaddr >> 12] = PT_ALLOCATABLE;
-    asm volatile("invlpg %0" : : "m" (vaddr));
+    asm volatile("invlpg %0" : : "m" (*(char*)vaddr));
   }
 }
 
@@ -166,7 +164,7 @@ void vmm_unmap(void* p_vaddr) { //USE ONLY IF YOU KNOW WHAT YOU DO. POTENTIAL ME
 
   if((active_pagetables[vaddr >> 12] & (PT_ALLOCATABLE | PT_PRESENT)) == (PT_ALLOCATABLE | PT_PRESENT)) {
     active_pagetables[vaddr >> 12] = PT_ALLOCATABLE;
-    asm volatile("invlpg %0" : : "m" (vaddr));
+    asm volatile("invlpg %0" : : "m" (*(char*)vaddr));
   }
 }
 

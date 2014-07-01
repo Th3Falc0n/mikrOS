@@ -13,7 +13,7 @@ uint32_t init_task(uint32_t task_pagedir, void* entry);
 struct cpu_state* terminate_current(struct cpu_state* cpu);
 struct cpu_state* schedule_exception(struct cpu_state* cpu);
 struct cpu_state* schedule(struct cpu_state* cpu);
-void clone_task_state(uint32_t task_pagedir);
+void fork_task_state(uint32_t task_pagedir);
 void enable_scheduling(void);
 uint32_t scheduling_enabled(void);
 

@@ -1,4 +1,3 @@
-#include "stdarg.h"
 #include "console.h"
 
 static int x = 0;

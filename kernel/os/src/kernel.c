@@ -11,21 +11,26 @@
 
 struct cpu_state* syscall(struct cpu_state* cpu)
 {
-  uint32_t forkpdir;
-
   switch (cpu->eax) {
     case 1: /* exit */
       cpu = terminate_current(cpu);
       break;
 
     case 2: /* fork */
-      forkpdir = vmm_fork_current();
-      cpu->eax = init_task(forkpdir, 0);
-      clone_task_state(forkpdir);
+      {
+      uint32_t forkpdir = vmm_fork_current();
+      uint32_t ret = init_task(forkpdir, 0);
+      fork_task_state(forkpdir);
+      
+      cpu->eax = ret;
+      }            
       break;
       
     case 201: /* putc */
-      kprintf("%c", cpu->ebx);
+      cpu->eax = kprintf("%c", cpu->ebx);
+      break;
+    case 202: /* puts */
+      cpu->eax = kprintf("%s", cpu->ebx);
       break;
   }
 

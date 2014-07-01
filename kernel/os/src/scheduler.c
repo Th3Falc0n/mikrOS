@@ -8,7 +8,7 @@
 uint32_t first_pagedir = 0;
 uint32_t sched_enabled = 0;
 
-struct cpu_state* current_pdir_cpu = (void*) STATIC_ALLOC_VADDR + 0x1000 - sizeof(struct cpu_state);
+struct cpu_state* current_cpu = (void*) STATIC_ALLOC_VADDR + 0x1000 - sizeof(struct cpu_state);
 uint8_t* user_stack                = (void*) STATIC_ALLOC_VADDR + 0x1000;
 uint32_t* next_pagedir             = (void*) STATIC_ALLOC_VADDR + 0x2000;
 uint32_t* prev_pagedir             = (void*) STATIC_ALLOC_VADDR + 0x2004;
@@ -34,7 +34,6 @@ struct cpu_state* schedule_exception(struct cpu_state* cpu) {
     kprintf("\n");
     show_dump(cpu);
     setclr(0x07);
-    show_cod(cpu, "Task crashed. Terminating kernel...");
     
     return terminate_current(cpu);
   }
@@ -65,39 +64,35 @@ struct cpu_state* terminate_current(struct cpu_state* cpu) {
   return schedule(cpu);
 }
 
-void clone_task_state(uint32_t task_pagedir) {
+void fork_task_state(uint32_t task_pagedir) {
   uint32_t old_pagedir = vmm_get_current_pagedir();
   
-  uint32_t pdir_seg_paddr = 0;
-  uint32_t stack_seg_paddr = 0;
+  uint32_t cpu_paddr = 0;
+  uint32_t stack_paddr = 0;
   
   vmm_activate_pagedir(task_pagedir);
   
-  pdir_seg_paddr = vmm_resolve((void*)((uint32_t)current_pdir_cpu & 0xFFFFF000));
-  stack_seg_paddr = vmm_resolve((void*)((uint32_t)user_stack & 0xFFFFF000));
+  cpu_paddr = vmm_resolve((void*)((uint32_t)current_cpu & 0xFFFFF000));
+  stack_paddr = vmm_resolve((void*)((uint32_t)user_stack & 0xFFFFF000));
   
   vmm_activate_pagedir(old_pagedir);
   
   void* fvaddr = vmm_alloc(0);
   vmm_free(fvaddr); //trick to find a empty vaddr
   
-  map_address_active((uint32_t)fvaddr, pdir_seg_paddr, PT_ALLOCATABLE);
-  memcpy(fvaddr, (void*)((uint32_t)current_pdir_cpu & 0xFFFFF000), 4096);
+  map_address_active((uint32_t)fvaddr, cpu_paddr, PT_ALLOCATABLE);
+  memcpy(fvaddr, (void*)((uint32_t)current_cpu & 0xFFFFF000), 4096);
   
-  //vmm_resolve(fvaddr);  //uncomment this and it works
-  
-  map_address_active((uint32_t)fvaddr, stack_seg_paddr, PT_ALLOCATABLE);
+  map_address_active((uint32_t)fvaddr, stack_paddr, PT_ALLOCATABLE);
   memcpy(fvaddr, (void*)((uint32_t)user_stack & 0xFFFFF000), 4096);
-  
-  //vmm_resolve(fvaddr);
   
   vmm_unmap(fvaddr);
   
-  //kprintf("fvaddr=%x \n", fvaddr);
-  //kprintf("cpdcpu=%x \n", (void*)((uint32_t)current_pdir_cpu & 0xFFFFF000));
-  kprintf("\npdir_seg_paddr=%x \n stack_seg_paddr=%x halt.", pdir_seg_paddr, stack_seg_paddr);
+  vmm_activate_pagedir(task_pagedir);
   
-  while(1);
+  current_cpu->eax = 0;
+  
+  vmm_activate_pagedir(old_pagedir);
 }
 
 uint32_t init_task(uint32_t task_pagedir, void* entry)
@@ -145,7 +140,7 @@ uint32_t init_task(uint32_t task_pagedir, void* entry)
       .eflags = 0x202,
   };
       
-  *current_pdir_cpu = new_state;
+  *current_cpu = new_state;
   
   vmm_activate_pagedir(old_pagedir);
   
@@ -167,13 +162,13 @@ struct cpu_state* schedule(struct cpu_state* cpu)
     uint32_t next = *next_pagedir;
     if(next == 0) next = first_pagedir;
     
-    //*current_pdir_cpu = *cpu;
+    memcpy(current_cpu, cpu, sizeof(struct cpu_state));
     
     newCPU = 1;            
     vmm_activate_pagedir(next);
   }
   
-  if(newCPU) return current_pdir_cpu;
+  if(newCPU) return current_cpu;
   return cpu;
 }
 

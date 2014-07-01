@@ -9,11 +9,11 @@ void _start(void)
   int i;
 	for (i = 0; 1; i = (i+1) % 5) {
 	  if(pid) {
-	    //putc('a' + i);
+	    printf("PARENT: %d\n", pid);
 	  }
 	  else
 	  {
-	    putc('0' + i);
+	    printf("CHILD:  %d\n", pid);
 	  }
 	}
 
