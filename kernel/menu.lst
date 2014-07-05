@@ -1,4 +1,5 @@
 title mikrOS
 kernel /kernel
 module /csh.elf
+module /csh2.elf
 boot

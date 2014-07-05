@@ -8,7 +8,9 @@
 
 #define IDT_ENTRIES 64
 
-static uint32_t tss[32] = { 0, 0, 0x10 };
+extern void interrupt_stack;
+
+static uint32_t tss[32] = { 0, (uint32_t)&interrupt_stack, 0x10 };
 
 static uint64_t idt[IDT_ENTRIES];
 static void (*handlers[IDT_ENTRIES])();
@@ -160,7 +162,6 @@ struct cpu_state* handle_interrupt(struct cpu_state* cpu)
     }
     if (cpu->intr == 0x20) {
       new_cpu = schedule(cpu);
-      tss[1] = (uint32_t) (new_cpu + 1);
     }
     outb(0x20, 0x20);
 		if(handler_set[cpu->intr]) {
@@ -168,7 +169,6 @@ struct cpu_state* handle_interrupt(struct cpu_state* cpu)
 		}
   } else if (cpu->intr == 0x30) {
 		new_cpu = syscall(new_cpu);
-    tss[1] = (uint32_t) (new_cpu + 1);
   } else {
     kprintf("Unbekannter Interrupt\n");
     while(1) {

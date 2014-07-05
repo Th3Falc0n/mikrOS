@@ -5,13 +5,12 @@
 #include "vmm.h"
 #include "catofdeath.h"
 
-uint32_t first_pagedir = 0;
 uint32_t sched_enabled = 0;
 
-struct cpu_state* current_cpu = (void*) STATIC_ALLOC_VADDR + 0x1000 - sizeof(struct cpu_state);
-uint8_t* user_stack                = (void*) STATIC_ALLOC_VADDR + 0x1000;
-uint32_t* next_pagedir             = (void*) STATIC_ALLOC_VADDR + 0x2000;
-uint32_t* prev_pagedir             = (void*) STATIC_ALLOC_VADDR + 0x2004;
+struct task* first_task   = 0;
+struct task* current_task = 0;
+
+int nextPID = 1;
 
 void enable_scheduling(void) {
   sched_enabled = 1;
@@ -22,15 +21,17 @@ uint32_t scheduling_enabled(void) {
 }
 
 struct cpu_state* schedule_exception(struct cpu_state* cpu) {
-  if(vmm_get_current_pagedir() == first_pagedir && *next_pagedir == 0) {
+  if(current_task == first_task && current_task->next == 0) {
     //Only one process is running, which just crashed. Stop system.
+    setclr(0x04);
+    kprintf("\n Terminated task (PID=%d) due to exception %x:%x \n", current_task->PID, cpu->intr, cpu->error);
     show_cod(cpu, "Last task crashed. Terminating kernel...");
   }
   else
   {
     //Potential security leaks available in following code.
     setclr(0x04);
-    kprintf("\n Terminated task due to exception %x:%x \n", cpu->intr, cpu->error);
+    kprintf("\n Terminated task (PID=%d) due to exception %x:%x \n", current_task->PID, cpu->intr, cpu->error);
     kprintf("\n");
     show_dump(cpu);
     setclr(0x07);
@@ -41,88 +42,70 @@ struct cpu_state* schedule_exception(struct cpu_state* cpu) {
 }
 
 struct cpu_state* terminate_current(struct cpu_state* cpu) {
-  uint32_t next = *next_pagedir;
-  uint32_t prev = *prev_pagedir;
+  struct task* next = current_task->next;
+  struct task* prev = current_task->prev;
   
   //TODO: free resources here
   
-  if(vmm_get_current_pagedir() == first_pagedir) {
-    first_pagedir = next;
+  if(current_task == first_task) {
+    first_task = current_task->next;
   }
   
   if(next != 0) {
-    vmm_activate_pagedir(next);
-    *prev_pagedir = prev;
+    next->prev = prev;
   }
 
   if(prev != 0) {
-    vmm_activate_pagedir(prev);
-    *next_pagedir = next;
+    prev->next = next;
   }
   
+  //TODO: handle if all tasks are closed
 
-  return schedule(cpu);
+  if(next == 0) next = first_task;
+    
+  current_task = next;       
+  vmm_activate_pagedir(current_task->phys_pdir);     
+  return current_task->cpu_state;
 }
 
-void fork_task_state(uint32_t task_pagedir) {
-  uint32_t old_pagedir = vmm_get_current_pagedir();
+void fork_task_state(struct task* new_task) {      
+  new_task->user_stack_bottom = current_task->user_stack_bottom;
   
-  uint32_t cpu_paddr = 0;
-  uint32_t stack_paddr = 0;
+  memcpy(new_task->cpu_state, current_task->cpu_state, sizeof(struct cpu_state));
   
-  vmm_activate_pagedir(task_pagedir);
-  
-  cpu_paddr = vmm_resolve((void*)((uint32_t)current_cpu & 0xFFFFF000));
-  stack_paddr = vmm_resolve((void*)((uint32_t)user_stack & 0xFFFFF000));
-  
-  vmm_activate_pagedir(old_pagedir);
-  
-  void* fvaddr = vmm_alloc(0);
-  vmm_free(fvaddr); //trick to find a empty vaddr
-  
-  map_address_active((uint32_t)fvaddr, cpu_paddr, PT_ALLOCATABLE);
-  memcpy(fvaddr, (void*)((uint32_t)current_cpu & 0xFFFFF000), 4096);
-  
-  map_address_active((uint32_t)fvaddr, stack_paddr, PT_ALLOCATABLE);
-  memcpy(fvaddr, (void*)((uint32_t)user_stack & 0xFFFFF000), 4096);
-  
-  vmm_unmap(fvaddr);
-  
-  vmm_activate_pagedir(task_pagedir);
-  
-  current_cpu->eax = 0;
-  
-  vmm_activate_pagedir(old_pagedir);
+  new_task->cpu_state->eax = 0;
 }
 
-uint32_t init_task(uint32_t task_pagedir, void* entry)
+struct task* init_task(uint32_t task_pagedir, void* entry)
 {
-  kprintf("Starting task at %x", entry);
+  kprintf("init task at %x \n", entry);
 
-  uint32_t old_fpd = first_pagedir;
-  uint32_t old_pagedir = vmm_get_current_pagedir();
-  uint32_t task_next_pagedir = 0;    
+  struct task* ntask = vmm_alloc(0);
+  ntask->cpu_state   = vmm_alloc(0);
   
-  if(first_pagedir == 0) {
-    first_pagedir = task_pagedir;
+  ntask->phys_pdir = task_pagedir;
+  ntask->user_stack_bottom = (void*)0xFFFFE000;
+  ntask->PID = nextPID++;
+  
+  ntask->next = (void*)0;
+  ntask->prev = (void*)0;
+  
+  if(first_task == 0) {
+    first_task = ntask;
   }
   else
   {
-    task_next_pagedir = first_pagedir;
-    first_pagedir = task_pagedir;
-    vmm_activate_pagedir(task_next_pagedir);
-    *prev_pagedir = task_pagedir;
+    ntask->next = first_task;
+    first_task->prev = ntask;
+    first_task = ntask;
   }
   
+  uint32_t rest_pdir = vmm_get_current_pagedir();
   vmm_activate_pagedir(task_pagedir);
   
-  vmm_alloc_static(0x0000, PT_PUBLIC);
-  vmm_alloc_static(0x1000, PT_PUBLIC);
-  vmm_alloc_static(0x2000, 0);
-  
-  *next_pagedir = task_next_pagedir;
+  vmm_alloc_addr(ntask->user_stack_bottom, 0);
 
-  struct cpu_state new_state = {
+  struct cpu_state nstate = {
       .eax = 0,
       .ebx = 0,
       .ecx = 0,
@@ -130,45 +113,53 @@ uint32_t init_task(uint32_t task_pagedir, void* entry)
       .esi = 0,
       .edi = 0,
       .ebp = 0,
-      .esp = (uint32_t) user_stack + 4096,
-      .eip = (uint32_t) entry,
+      .esp = (uint32_t)ntask->user_stack_bottom + 4096,
+      .eip = (uint32_t)entry,
       
       /* Ring-3-Segmentregister */
       .cs  = 0x18 | 0x03,
       .ss  = 0x20 | 0x03,
       
-      .eflags = 0x202,
+      .eflags = 0x200,
   };
-      
-  *current_cpu = new_state;
   
-  vmm_activate_pagedir(old_pagedir);
+  kprintf("NSTATEADDR:%x NTCPUADDR:%x \n", &nstate, ntask->cpu_state);
   
-  if(old_fpd == 0) {
-    vmm_alloc_static(0x0000, PT_PUBLIC);
-    vmm_alloc_static(0x1000, PT_PUBLIC);
-    vmm_alloc_static(0x2000, 0);
-    *next_pagedir = 0;
-  }
+  //memcpy(ntask->cpu_state, &nstate, sizeof(struct cpu_state));
   
-  return task_pagedir;
+  ntask->cpu_state->esp = (uint32_t)ntask->user_stack_bottom + 4096;
+  ntask->cpu_state->eip = (uint32_t)entry;
+  ntask->cpu_state->cs  = 0x18 | 0x03;
+  ntask->cpu_state->ss  = 0x20 | 0x03;
+  ntask->cpu_state->eflags = 0x200;
+    
+  vmm_activate_pagedir(rest_pdir);
+  
+  return ntask;
+}
+
+void save_cpu_state(struct cpu_state* cpu) {
+  memcpy(current_task->cpu_state, cpu, sizeof(struct cpu_state));
 }
 
 struct cpu_state* schedule(struct cpu_state* cpu)
 {
-  uint32_t newCPU = 0;
+  if(first_task != 0 && sched_enabled) {  
+    if(current_task == 0) {
+      current_task = first_task;
+      vmm_activate_pagedir(current_task->phys_pdir);      
+      return current_task->cpu_state;
+    }
+    
+    struct task* next = current_task->next;
+    if(next == 0) next = first_task;
   
-  if(first_pagedir != 0 && sched_enabled) {  
-    uint32_t next = *next_pagedir;
-    if(next == 0) next = first_pagedir;
-    
-    memcpy(current_cpu, cpu, sizeof(struct cpu_state));
-    
-    newCPU = 1;            
-    vmm_activate_pagedir(next);
+    save_cpu_state(cpu);
+        
+    current_task = next;       
+    vmm_activate_pagedir(current_task->phys_pdir);     
+    return current_task->cpu_state;
   }
-  
-  if(newCPU) return current_cpu;
   return cpu;
 }
 

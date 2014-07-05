@@ -6,8 +6,7 @@
 #include "multiboot.h"
 #include "pmm.h"
 
-
-#define _VERSION "alpha 0.1"
+#define _VERSION "alphaKernelDev 1.01"
 
 #define true 1
 #define false 2
@@ -16,7 +15,7 @@ void init(struct multiboot_info* mb_info)
 {
 	clrscr();
   pmm_init(mb_info);
-
+  
 	kprintf("Welcome to mikrOS (version '%s')!\n", _VERSION);
 	kprintf("(C) Copyright 2012-2014 Fabian Sachara.  All Rights Reserved.\n");
 
@@ -28,11 +27,11 @@ void init(struct multiboot_info* mb_info)
 
 	init_idt();
 
-	kprintf("init_drivers()\n");
+	kprintf("Initializing Drivers...\n");
 
 	init_drivers();
 	
-	kprintf("switching to kernel_main()\n");
+	kprintf("Initializing Kernel...\n");
 
 	kernel_main(mb_info);
 

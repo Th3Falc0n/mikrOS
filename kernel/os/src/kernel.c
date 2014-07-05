@@ -9,6 +9,8 @@
 #include "vmm.h"
 #include "idt.h"
 
+extern struct task* current_task;
+
 struct cpu_state* syscall(struct cpu_state* cpu)
 {
   switch (cpu->eax) {
@@ -18,12 +20,15 @@ struct cpu_state* syscall(struct cpu_state* cpu)
 
     case 2: /* fork */
       {
-      uint32_t forkpdir = vmm_fork_current();
-      uint32_t ret = init_task(forkpdir, 0);
-      fork_task_state(forkpdir);
-      
-      cpu->eax = ret;
-      }            
+        save_cpu_state(cpu);
+  
+        uint32_t forkpdir = vmm_fork_current();
+        
+        struct task* ntask = init_task(forkpdir, 0);
+        fork_task_state(ntask);
+                
+        cpu->eax = ntask->PID;
+      }           
       break;
       
     case 201: /* putc */
@@ -35,25 +40,6 @@ struct cpu_state* syscall(struct cpu_state* cpu)
   }
 
   return cpu;
-}
-
-void task2() {
-  uint32_t n = 0;
-  
-  kprintf("2222: %x \n", n);
-
-  while(1) { 
-    n++;
-  }
-}
-
-void task1() {
-  uint32_t n = 0;
-  
-  kprintf("1111: %x \n", n);
-  while(1) { 
-    n++;
-  }
 }
 
 void kernel_main(struct multiboot_info* mb_info) {	

@@ -1,7 +1,7 @@
 #include "syscall.h"
 
 void syscall(struct regstate* state) {
-    asm volatile("int $0x30"
+    asm("int $0x30"
     
         : "=a" (state->eax),
           "=b" (state->ebx),

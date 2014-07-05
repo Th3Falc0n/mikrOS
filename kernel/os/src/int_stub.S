@@ -65,14 +65,11 @@ intr_common_handler:
     push %ecx
     push %ebx
     push %eax
+    push %esp
 
 		mov $0x10, %ax
     mov %ax, %ds
     mov %ax, %es
-
-    mov %esp, %eax
-    mov $interrupt_stack, %esp
-    push %eax
         
     call handle_interrupt
     mov %eax, %esp
