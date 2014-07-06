@@ -36,7 +36,7 @@ static uint32_t* vmm_create_vpdraw(uint32_t* pagedir) {
       for(i2 = 0; i2 < 1024; i2++) {
         uint32_t vaddr = (i << 22) + (i2 << 12);
       
-        ((uint32_t*)(pagedir_ptr[i]))[i2] = ((vaddr > ALLOCATABLE_BOTTOM) ? PT_ALLOCATABLE : 0) | ((vaddr > USERSPACE_BOTTOM) ? PT_PUBLIC : 0);
+        ((uint32_t*)(pagedir_ptr[i]))[i2] = ((vaddr > ALLOCATABLE_BOTTOM) ? PT_ALLOCATABLE : 0) | ((vaddr > PROGRAM_BOTTOM) ? PT_PUBLIC : 0);
       }
     }
   }
@@ -167,26 +167,48 @@ void vmm_unmap(void* p_vaddr) { //USE ONLY IF YOU KNOW WHAT YOU DO. POTENTIAL ME
   }
 }
 
-static void* vmm_alloc_in_range(uint32_t low, uint32_t high, uint32_t* retpaddr) {
+static void* vmm_alloc_in_range(uint32_t low, uint32_t high, uint32_t* retpaddr, uint32_t cont) {
   void* vaddr = 0;
   uint32_t i = 0;
+  uint32_t c = 0;
 
   for(i = (low & 0xFFFFF000); i < high; i += 0x1000) {
     if((active_pagetables[i >> 12] & (PT_ALLOCATABLE | PT_PRESENT)) == PT_ALLOCATABLE) {
-      vaddr = (void*) i;
-      break;
+      if(c == 0) vaddr = (void*) i;
+      c++;
+      if(c >= cont)
+        break;
+    }
+    else
+    {
+      c = 0;
     }
   }
+  
+  uint32_t off = 0;
  
-  return vmm_alloc_addr(vaddr, retpaddr);  
+  while(c--) {
+    vmm_alloc_addr(vaddr + off * 0x1000, off == 0 ? retpaddr : 0);  
+    off++;
+  }
+  
+  return vaddr;
+}
+
+void* vmm_alloc_ucont(uint32_t cont) {
+  return vmm_alloc_in_range(PROGRAM_BOTTOM, 0xFFFFF000, 0, cont);
 }
 
 void* vmm_alloc_user(uint32_t* retpaddr) {
-  return vmm_alloc_in_range(USERSPACE_BOTTOM, 0xFFFFF000, retpaddr);
+  return vmm_alloc_in_range(PROGRAM_BOTTOM, 0xFFFFF000, retpaddr, 1);
+}
+
+void* vmm_alloc_cont(uint32_t cont) {
+  return vmm_alloc_in_range(ALLOCATABLE_BOTTOM, USERSPACE_BOTTOM, 0, cont);
 }
 
 void* vmm_alloc(uint32_t* retpaddr) {
-  return vmm_alloc_in_range(ALLOCATABLE_BOTTOM, USERSPACE_BOTTOM, retpaddr);
+  return vmm_alloc_in_range(ALLOCATABLE_BOTTOM, USERSPACE_BOTTOM, retpaddr, 1);
 }
 
 void* vmm_alloc_addr(void* reqvaddr, uint32_t* retpaddr) {
@@ -233,7 +255,7 @@ uint32_t vmm_init(void)
     for(i2 = 0; i2 < 1024; i2++) {
       uint32_t vaddr = (i << 22) + (i2 << 12);
       
-      ((uint32_t*)(context->pagedir[i] & 0xFFFFF000))[i2] = ((vaddr > ALLOCATABLE_BOTTOM) ? PT_ALLOCATABLE : 0) | ((vaddr > USERSPACE_BOTTOM) ? PT_PUBLIC : 0);
+      ((uint32_t*)(context->pagedir[i] & 0xFFFFF000))[i2] = ((vaddr > ALLOCATABLE_BOTTOM) ? PT_ALLOCATABLE : 0) | ((vaddr > PROGRAM_BOTTOM) ? PT_PUBLIC : 0);
     }
   }
     

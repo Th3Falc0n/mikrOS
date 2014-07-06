@@ -5,6 +5,8 @@
 #include "multiboot.h"
 #include "types.h"
 #include "stddef.h"
+#include "string.h"
+#include "console.h"
 
 void* pmm_alloc();
 void pmm_free(void* addr);

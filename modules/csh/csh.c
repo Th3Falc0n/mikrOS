@@ -8,12 +8,12 @@ void _start(void)
   int pid = fork();
   
   if(pid) {
-    printf("PARENT: %x \n\n", pid);
+    printf("PARENT: %x \n", pid);
     while(1);
   }
   else
   {
-    printf("CHILD: %x \n\n", pid);
+    printf("CHILD: %x \n", pid);
     while(1);
   }
 }

@@ -3,6 +3,7 @@
 
 #include "stdint.h"
 #include "vmm.h"
+#include "kmalloc.h"
 
 struct task {
     int                 PID;

@@ -5,7 +5,7 @@
 #include "multiboot.h"
 #include "pmm.h"
 #include "console.h"
-#include "stdlib.h"
+#include "string.h"
 
 #define PD_PRESENT (1 << 0)
 #define PD_WRITE   (1 << 1)
@@ -52,7 +52,9 @@ void     vmm_free                   (void* vaddr);
 void     vmm_unmap                  (void* vaddr);
 void     vmm_map_range              (void* vaddr, void* paddr, uint32_t length, uint32_t flags);
 void*    vmm_alloc                  (uint32_t* retpaddr);
+void*    vmm_alloc_cont             (uint32_t cont);
 void*    vmm_alloc_user             (uint32_t* retpaddr);
+void*    vmm_alloc_ucont            (uint32_t cont);
 void*    vmm_alloc_addr             (void* vaddr, uint32_t* paddr);
 uint32_t vmm_resolve                (void* vaddr);
 uint32_t vmm_resolve_ppd            (uint32_t pdir, void* vaddr);

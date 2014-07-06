@@ -78,10 +78,10 @@ void fork_task_state(struct task* new_task) {
 
 struct task* init_task(uint32_t task_pagedir, void* entry)
 {
-  kprintf("init task at %x \n", entry);
-
-  struct task* ntask = vmm_alloc(0);
-  ntask->cpu_state   = vmm_alloc(0);
+  struct task* ntask = malloc(sizeof(struct task));
+  ntask->cpu_state   = malloc(sizeof(struct cpu_state));
+  
+  kprintf("Does malloc work?: 1:%x 2:%x \n", ntask, ntask->cpu_state);
   
   ntask->phys_pdir = task_pagedir;
   ntask->user_stack_bottom = (void*)0xFFFFE000;
@@ -103,7 +103,9 @@ struct task* init_task(uint32_t task_pagedir, void* entry)
   uint32_t rest_pdir = vmm_get_current_pagedir();
   vmm_activate_pagedir(task_pagedir);
   
-  vmm_alloc_addr(ntask->user_stack_bottom, 0);
+  if(entry != 0) { //entry == 0 means that this will be forked
+    vmm_alloc_addr(ntask->user_stack_bottom, 0);
+  }
 
   struct cpu_state nstate = {
       .eax = 0,
@@ -123,15 +125,7 @@ struct task* init_task(uint32_t task_pagedir, void* entry)
       .eflags = 0x200,
   };
   
-  kprintf("NSTATEADDR:%x NTCPUADDR:%x \n", &nstate, ntask->cpu_state);
-  
-  //memcpy(ntask->cpu_state, &nstate, sizeof(struct cpu_state));
-  
-  ntask->cpu_state->esp = (uint32_t)ntask->user_stack_bottom + 4096;
-  ntask->cpu_state->eip = (uint32_t)entry;
-  ntask->cpu_state->cs  = 0x18 | 0x03;
-  ntask->cpu_state->ss  = 0x20 | 0x03;
-  ntask->cpu_state->eflags = 0x200;
+  memcpy(ntask->cpu_state, &nstate, sizeof(struct cpu_state));
     
   vmm_activate_pagedir(rest_pdir);
   

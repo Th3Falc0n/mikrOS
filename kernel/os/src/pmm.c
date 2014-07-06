@@ -1,6 +1,4 @@
 #include "pmm.h"
-#include "stdlib.h"
-#include "console.h"
 
 #define BITMAP_SIZE 32768
 

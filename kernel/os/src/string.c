@@ -1,5 +1,5 @@
 #include "vmm.h"
-#include "stdlib.h"
+#include "string.h"
 
 void* memset(void* buf, int c, size_t n)
 {

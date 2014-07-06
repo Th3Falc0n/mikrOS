@@ -1,13 +1,4 @@
-#include "scheduler.h"
 #include "kernel.h"
-#include "ports.h"
-#include "console.h"
-#include "multiboot.h"
-#include "pmm.h"
-#include "stdlib.h"
-#include "elf.h"
-#include "vmm.h"
-#include "idt.h"
 
 extern struct task* current_task;
 

@@ -2,6 +2,15 @@
 #define KERNEL_H
 
 #include "stdint.h"
+#include "ports.h"
+#include "console.h"
+#include "multiboot.h"
+#include "pmm.h"
+#include "string.h"
+#include "elf.h"
+#include "vmm.h"
+#include "scheduler.h"
+#include "idt.h"
 
 struct cpu_state {
     uint32_t   eax;
