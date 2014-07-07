@@ -8,9 +8,6 @@
 
 #define _VERSION "alphaKernelDev 1.01"
 
-#define true 1
-#define false 2
-
 void init(struct multiboot_info* mb_info)
 {
 	clrscr();

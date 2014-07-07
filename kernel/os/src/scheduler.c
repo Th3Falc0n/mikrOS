@@ -81,8 +81,6 @@ struct task* init_task(uint32_t task_pagedir, void* entry)
   struct task* ntask = malloc(sizeof(struct task));
   ntask->cpu_state   = malloc(sizeof(struct cpu_state));
   
-  kprintf("Does malloc work?: 1:%x 2:%x \n", ntask, ntask->cpu_state);
-  
   ntask->phys_pdir = task_pagedir;
   ntask->user_stack_bottom = (void*)0xFFFFE000;
   ntask->PID = nextPID++;
@@ -108,21 +106,21 @@ struct task* init_task(uint32_t task_pagedir, void* entry)
   }
 
   struct cpu_state nstate = {
-      .eax = 0,
-      .ebx = 0,
-      .ecx = 0,
-      .edx = 0,
-      .esi = 0,
-      .edi = 0,
-      .ebp = 0,
-      .esp = (uint32_t)ntask->user_stack_bottom + 4096,
-      .eip = (uint32_t)entry,
-      
-      /* Ring-3-Segmentregister */
-      .cs  = 0x18 | 0x03,
-      .ss  = 0x20 | 0x03,
-      
-      .eflags = 0x200,
+    .eax = 0,
+    .ebx = 0,
+    .ecx = 0,
+    .edx = 0,
+    .esi = 0,
+    .edi = 0,
+    .ebp = 0,
+    .esp = (uint32_t)ntask->user_stack_bottom + 4096,
+    .eip = (uint32_t)entry,
+    
+    /* Ring-3-Segmentregister */
+    .cs  = 0x18 | 0x03,
+    .ss  = 0x20 | 0x03,
+    
+    .eflags = 0x200,
   };
   
   memcpy(ntask->cpu_state, &nstate, sizeof(struct cpu_state));

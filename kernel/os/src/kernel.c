@@ -28,6 +28,18 @@ struct cpu_state* syscall(struct cpu_state* cpu)
     case 202: /* puts */
       cpu->eax = kprintf("%s", cpu->ebx);
       break;
+    case 203: /* vmm_alloc_ucont */
+      cpu->eax = (uint32_t) vmm_alloc_ucont(cpu->ebx);
+      break;
+    case 204: /* vmm_free */
+      cpu->eax = 0;
+      if(cpu->ebx >= PROGRAM_BOTTOM) { //Only in PROGRAM AREA ;)
+        vmm_free((void*)cpu->ebx);
+      }
+      break;
+    default:
+      kprintf("Invalid Syscall %d...", cpu->eax);
+      break;
   }
 
   return cpu;

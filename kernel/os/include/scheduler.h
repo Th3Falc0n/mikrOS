@@ -2,8 +2,8 @@
 #define SCHEDULER_H
 
 #include "stdint.h"
+#include "stdlib.h"
 #include "vmm.h"
-#include "kmalloc.h"
 
 struct task {
     int                 PID;

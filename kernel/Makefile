@@ -17,7 +17,7 @@ kernel: $(OBJS)
 %.o: %.S
 	$(CC) $(ASFLAGS) -c -o $@ $^
 
+.PHONY: clean
 clean:
 	rm $(OBJS)
 
-.PHONY: clean
