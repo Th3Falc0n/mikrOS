@@ -1,10 +1,15 @@
-MFILES = $(dir $(shell find -mindepth 2 -name 'Makefile'))
+MODS = $(dir $(shell find ./modules/ -name 'Makefile'))
+ALL  = $(dir $(shell find -mindepth 2 -name 'Makefile'))
 
-.PHONY: os
-os: $(MFILES)
+.PHONY: kernel
+kernel:
+	make -C ./kernel/ -B
+	make -C ./lib-mikros/ -B
+	
+.PHONY: modules
+modules: $(MODS)
 	$(foreach m,$^,make -C $(m) -B;)
-  
+
 .PHONY: clean
-clean: $(MFILES)
+clean: $(ALL)
 	$(foreach m,$^,make -C $(m) clean;)
-  

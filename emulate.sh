@@ -1,6 +1,7 @@
 #!/bin/bash
 
-make -B || exit 1
+make kernel || exit 1
+make modules || exit 1
 make clean
 
 mount -oloop bin/boot.img /mnt
