@@ -4,7 +4,8 @@
 #include "syscall.h"
 #include "stdint.h"
 
-void exit(int returncode);
-uint32_t fork(void);
+void    _start ();
+void     exit  (int returncode);
+uint32_t fork  (void);
 
 #endif

@@ -27,3 +27,16 @@ void vmm_free (void* vaddr) {
   
   syscall(&state);  
 }
+
+void print_memstat() {
+  struct regstate state = {
+    .eax = 205,
+    .ebx = 0,
+    .ecx = 0,
+    .edx = 0,
+    .esi = 0,
+    .edi = 0
+  };
+  
+  syscall(&state);  
+}

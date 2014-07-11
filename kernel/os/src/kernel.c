@@ -37,6 +37,9 @@ struct cpu_state* syscall(struct cpu_state* cpu)
         vmm_free((void*)cpu->ebx);
       }
       break;
+    case 205: /* pmm_print_stats */
+      pmm_print_stats();
+      break;
     default:
       kprintf("Invalid Syscall %d...", cpu->eax);
       break;
@@ -71,7 +74,7 @@ void kernel_main(struct multiboot_info* mb_info) {
         continue;
       }
       
-      elf_mod_entry = (void*)( header->entry );
+      elf_mod_entry = (void*)(header->entry);
       
       ph = (struct elf_program_header*) (((char*) header) + header->ph_offset);
       for (uint32_t n = 0; n < header->ph_entry_count; n++, ph++) {

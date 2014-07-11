@@ -6,5 +6,6 @@
 
 void*    vmm_alloc_cont (uint32_t cont);
 void     vmm_free       (void* vaddr);
+void     print_memstat  ();
 
 #endif

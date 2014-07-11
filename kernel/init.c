@@ -15,7 +15,7 @@ void init(struct multiboot_info* mb_info)
   
 	kprintf("Welcome to mikrOS (version '%s')!\n", _VERSION);
 	kprintf("(C) Copyright 2012-2014 Fabian Sachara.  All Rights Reserved.\n");
-
+	
 	kprintf("Initializing GDT...\n");
 	
 	init_gdt();
@@ -29,6 +29,8 @@ void init(struct multiboot_info* mb_info)
 	init_drivers();
 	
 	kprintf("Initializing Kernel...\n");
+	
+	pmm_print_stats();
 
 	kernel_main(mb_info);
 

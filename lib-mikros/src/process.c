@@ -1,5 +1,11 @@
 #include "process.h"
 
+extern int main();
+
+void _start() {
+  exit(main());
+}
+
 void exit(int returncode) {
   struct regstate state = {
     .eax = 1,

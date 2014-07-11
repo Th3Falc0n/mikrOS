@@ -3,6 +3,7 @@
 #define BITMAP_SIZE 32768
 
 uint32_t allocatable[BITMAP_SIZE];
+uint32_t upper_limit = 0;
 
 void* pmm_alloc() {
 	int i;
@@ -18,6 +19,22 @@ void* pmm_alloc() {
 		}	
 	}
 	return NULL;
+}
+
+void pmm_print_stats() {
+	kprintf("Running mikrOS with %dMB/%dMB (%dkB/%dkB) available memory!\n", pmm_get_free_space(1024 * 1024), upper_limit / (1024 * 1024), pmm_get_free_space(1024), upper_limit / 1024);
+}
+
+uint32_t pmm_get_free_space(uint32_t div) {
+  uint32_t free = 0;
+  
+  for(uint32_t i = 0; i < BITMAP_SIZE; i++) {
+    for(uint32_t s = 0; s < 32; s++) {
+      if(allocatable[i] & (1 << s)) free += 0x1000;
+    }  
+  }
+  
+  return free / div;
 }
 
 void pmm_free(void* addr) {
@@ -54,6 +71,7 @@ void pmm_init(struct multiboot_info* mb_info) {
 	 
 		      while (addr < end_addr) {
 		          pmm_free((void*) addr);
+		          if(addr > upper_limit) upper_limit = addr;
 		          addr += 0x1000;
 		      }
 		  }
