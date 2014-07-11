@@ -8,20 +8,20 @@
 #define RES_BLOCK 4
 
 struct rs_dir {
-  uint32_t res_type;
-  void* res_ptr; /*
-                  * RES_DIR   -> rs_dir
-                  * RES_MOUNT -> rs_drv
-                  * RES_FIFO  -> rs_buf
-                  * RES_BLOCK -> rs_blk #unsure
-                  */
-  char* name;
-  struct directory* next;
+	uint32_t res_type;
+	void* res_ptr; /*
+	 * RES_DIR   -> rs_dir
+	 * RES_MOUNT -> rs_drv
+	 * RES_FIFO  -> rs_buf
+	 * RES_BLOCK -> rs_blk #unsure
+	 */
+	char* name;
+	struct directory* next;
 }
 
 struct rs_buf {
-  uint32_t size;
-  void* data; 
+	uint32_t size;
+	void* data;
 }
 
 struct rs_drv {

@@ -41,26 +41,26 @@
 #define PROGRAM_BOTTOM (ACTIVE_CONTEXT_VADDR + 0x1000)
 
 struct vmm_context {
-    uint32_t* pagedir;
+	uint32_t* pagedir;
 };
 
-uint32_t vmm_init                   (void);
-uint32_t vmm_create_pagedir         (void);
-uint32_t vmm_fork_current           (void);
-void     vmm_activate_pagedir       (uint32_t context);
-void     vmm_free                   (void* vaddr);
-void     vmm_unmap                  (void* vaddr);
-void     vmm_map_range              (void* vaddr, void* paddr, uint32_t length, uint32_t flags);
-void*    vmm_alloc                  (uint32_t* retpaddr);
-void*    vmm_alloc_cont             (uint32_t cont);
-void*    vmm_alloc_user             (uint32_t* retpaddr);
-void*    vmm_alloc_ucont            (uint32_t cont);
-void*    vmm_alloc_addr             (void* vaddr, uint32_t* paddr);
-uint32_t vmm_resolve                (void* vaddr);
-uint32_t vmm_resolve_ppd            (uint32_t pdir, void* vaddr);
-uint32_t vmm_get_current_pagedir    (void);
-void     map_address_context        (uint32_t* pagedir, uint32_t vaddr, uint32_t paddr, uint32_t flags);
-void     map_address_active         (uint32_t vaddr, uint32_t paddr, uint32_t flags);  
-
+uint32_t vmm_init(void);
+uint32_t vmm_create_pagedir(void);
+uint32_t vmm_fork_current(void);
+void vmm_activate_pagedir(uint32_t context);
+void vmm_free(void* vaddr);
+void vmm_unmap(void* vaddr);
+void vmm_map_range(void* vaddr, void* paddr, uint32_t length, uint32_t flags);
+void* vmm_alloc(uint32_t* retpaddr);
+void* vmm_alloc_cont(uint32_t cont);
+void* vmm_alloc_user(uint32_t* retpaddr);
+void* vmm_alloc_ucont(uint32_t cont);
+void* vmm_alloc_addr(void* vaddr, uint32_t* paddr);
+uint32_t vmm_resolve(void* vaddr);
+uint32_t vmm_resolve_ppd(uint32_t pdir, void* vaddr);
+uint32_t vmm_get_current_pagedir(void);
+void map_address_context(uint32_t* pagedir, uint32_t vaddr, uint32_t paddr,
+		uint32_t flags);
+void map_address_active(uint32_t vaddr, uint32_t paddr, uint32_t flags);
 
 #endif

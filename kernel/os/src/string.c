@@ -1,25 +1,23 @@
 #include "vmm.h"
 #include "string.h"
 
-void* memset(void* buf, int c, size_t n)
-{
-    unsigned char* p = buf;
+void* memset(void* buf, int c, size_t n) {
+	unsigned char* p = buf;
 
-    while (n--) {
-        *p++ = c;
-    }
+	while (n--) {
+		*p++ = c;
+	}
 
-    return buf;
+	return buf;
 }
 
-void* memcpy(void* dest, const void* src, size_t n)
-{
-    unsigned char* d = dest;
-    const unsigned char* s = src;
+void* memcpy(void* dest, const void* src, size_t n) {
+	unsigned char* d = dest;
+	const unsigned char* s = src;
 
-    while (n--) {
-      *(d++) = *(s++);
-    }
+	while (n--) {
+		*(d++) = *(s++);
+	}
 
-    return dest;
+	return dest;
 }

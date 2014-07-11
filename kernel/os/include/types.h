@@ -49,12 +49,9 @@ typedef unsigned int gid_t;
 #ifndef _LOST_TYPES_
 #define _LOST_TYPES_
 
-
-
 typedef uint64_t timestamp_t;
 
 typedef uint32_t syscall_id_t;
 #endif // ndef _LOST_TYPES_
 #endif // ndef _NO_LOST_TYPES
-
 

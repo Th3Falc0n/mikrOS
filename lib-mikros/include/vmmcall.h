@@ -4,8 +4,8 @@
 #include "stdint.h"
 #include "syscall.h"
 
-void*    vmm_alloc_cont (uint32_t cont);
-void     vmm_free       (void* vaddr);
-void     print_memstat  ();
+void* vmm_alloc_cont(uint32_t cont);
+void vmm_free(void* vaddr);
+void print_memstat();
 
 #endif

@@ -24,7 +24,7 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR 
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */  
+ */
 
 #ifndef _STDINT_H_
 #define _STDINT_H_
@@ -55,7 +55,6 @@ typedef unsigned short uint16_t;
 typedef unsigned int uint32_t;
 typedef unsigned long long uint64_t;
 
-
 #define INT_LEAST8_MIN INT8_MIN
 #define INT_LEAST8_MAX INT8_MAX
 #define UINT_LEAST8_MAX UINT8_MAX
@@ -82,7 +81,6 @@ typedef uint32_t uint_least16_t;
 typedef uint32_t uint_least32_t;
 typedef uint64_t uint_least64_t;
 
-
 #define INT_FAST8_MIN INT8_MIN
 #define INT_FAST8_MAX INT8_MAX
 #define UINT_FAST8_MAX UINT8_MAX
@@ -108,7 +106,6 @@ typedef uint8_t uint_fast8_t;
 typedef uint32_t uint_fast16_t;
 typedef uint32_t uint_fast32_t;
 typedef uint64_t uint_fast64_t;
-
 
 #define INTPTR_MIN INT32_MIN
 #define INTPTR_MAX INT32_MAX
@@ -139,7 +136,6 @@ typedef uint64_t uintmax_t;
 #define SIG_ATOMIC_MAX UINT32_MAX
 
 #define SIZE_MAX ((__SIZE_TYPE__) -1)
-
 
 /* Makros fuer Integerkonstanten */
 
