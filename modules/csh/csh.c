@@ -5,7 +5,7 @@
  
 int main(void)
 {
-  printf("Forking the shit out of this task... \n\n");
+  printf("Forking the shit out of this task... \n");
   int pid = fork();
   
   if(pid) {

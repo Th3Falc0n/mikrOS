@@ -1,6 +1,8 @@
 #ifndef VFS_H
 #define VFS_H
 
+#include "stdint.h"
+
 #define RES_EMPTY 0
 #define RES_DIR   1
 #define RES_MOUNT 2
@@ -17,14 +19,14 @@ struct rs_dir {
 	 */
 	char* name;
 	struct directory* next;
-}
+};
 
 struct rs_buf {
 	uint32_t size;
 	void* data;
-}
+};
 
 struct rs_drv {
-}
+};
 
 #endif
