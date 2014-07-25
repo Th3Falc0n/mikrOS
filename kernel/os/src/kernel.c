@@ -1,6 +1,5 @@
 #include "kernel.h"
-
-extern struct task* current_task;
+#include "vfs.h"
 
 struct cpu_state* syscall(struct cpu_state* cpu) {
 	switch (cpu->eax) {
@@ -49,6 +48,21 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 
 void kernel_main(struct multiboot_info* mb_info) {
 	uint32_t kernel_init_pdir = vmm_init();
+
+    kprintf("Initializing vfs...\n");
+
+    vfs_init_root();
+
+	vfs_create_path("/process/0", 0);
+    vfs_create_path("/process/1", 0);
+    vfs_create_path("/process/2", 0);
+    vfs_create_path("/process/3", 0);
+    vfs_create_path("/process/4", 0);
+    vfs_create_path("/process/5", 0);
+
+    vfs_debug_ls("/process");
+
+	while(1);
 
 	map_address_active((uint32_t) mb_info, (uint32_t) mb_info, 0);
 	map_address_active((uint32_t) mb_info->mi_mods_addr,
@@ -105,8 +119,7 @@ void kernel_main(struct multiboot_info* mb_info) {
 
 		enable_scheduling();
 	} else {
-		kprintf(
-				"No Modules loadable. Microkernel shutting down.\nThank you for using this pointless version of mikrOS\n");
+		kprintf("No Modules loadable. Microkernel shutting down.\nThank you for using this pointless version of mikrOS\n");
 	}
 
 	while (1) {

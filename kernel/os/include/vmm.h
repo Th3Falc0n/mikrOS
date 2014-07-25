@@ -41,7 +41,7 @@
 #define PROGRAM_BOTTOM (ACTIVE_CONTEXT_VADDR + 0x1000)
 
 struct vmm_context {
-	uint32_t* pagedir;
+    uint32_t* pagedir;
 };
 
 uint32_t vmm_init(void);
@@ -60,7 +60,7 @@ uint32_t vmm_resolve(void* vaddr);
 uint32_t vmm_resolve_ppd(uint32_t pdir, void* vaddr);
 uint32_t vmm_get_current_pagedir(void);
 void map_address_context(uint32_t* pagedir, uint32_t vaddr, uint32_t paddr,
-		uint32_t flags);
+        uint32_t flags);
 void map_address_active(uint32_t vaddr, uint32_t paddr, uint32_t flags);
 
 #endif

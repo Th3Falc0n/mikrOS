@@ -1,9 +1,8 @@
 #include "vmm.h"
 
-extern const void kernel_start;
 extern const void kernel_end;
 
-uint32_t kernel_pagetables[PMEM_TABLES]; //TODO: kernel pagetables. u know this shit.
+uint32_t kernel_pagetables[PMEM_TABLES];
 
 uint32_t* active_pagetables = (uint32_t*) (ACTIVE_PAGETBL_VADDR);
 struct vmm_context* active_context = (void*) (ACTIVE_CONTEXT_VADDR);

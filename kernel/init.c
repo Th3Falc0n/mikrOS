@@ -5,6 +5,7 @@
 #include "kernel.h"
 #include "multiboot.h"
 #include "pmm.h"
+#include "vfs.h"
 
 #define _VERSION "alphaKernelDev 1.01"
 
@@ -23,7 +24,7 @@ void init(struct multiboot_info* mb_info) {
 
 	init_idt();
 
-	kprintf("Initializing Drivers...\n");
+	kprintf("Initializing in-kernel-Drivers...\n");
 
 	init_drivers();
 

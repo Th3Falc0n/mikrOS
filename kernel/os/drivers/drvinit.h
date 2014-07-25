@@ -4,7 +4,7 @@
 #include "keyboard.h"
 
 static inline void init_drivers() {
-	init_keyboard_drv();
+    init_keyboard_drv();
 }
 
 #endif

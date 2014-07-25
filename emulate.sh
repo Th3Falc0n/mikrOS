@@ -15,7 +15,7 @@ cp menu.lst /mnt/grub
 umount /mnt
 
 rm bin/kernel.objdump
-objdump -dS kernel > bin/kernel.objdump
+objdump -dS kernel/kernel > bin/kernel.objdump
 
 qemu-system-i386 -fda bin/boot.img -m 128 -d int --monitor stdio --no-reboot --no-shutdown
 # 2>&1 | grep "check_exception" -A 20
