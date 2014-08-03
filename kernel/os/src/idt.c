@@ -182,7 +182,7 @@ struct cpu_state* handle_interrupt(struct cpu_state* cpu) {
 	struct cpu_state* new_cpu = cpu;
 
 	if (cpu->intr <= 0x1f) {
-		if (!scheduling_enabled()) {
+		if (!isSchedulingEnabled()) {
 			show_cod(cpu, "Kernel PANIC!");
 		} else {
 			schedule_exception(cpu);

@@ -1,5 +1,6 @@
 #include "kernel.h"
 #include "vfs.h"
+#include "ramfs/fifo.h"
 
 struct cpu_state* syscall(struct cpu_state* cpu) {
 	switch (cpu->eax) {
@@ -52,15 +53,18 @@ void kernel_main(struct multiboot_info* mb_info) {
     kprintf("Initializing vfs...\n");
 
     vfs_init_root();
+    ramfs_fifo_init();
 
-	vfs_create_path("/process/0", 0);
-    vfs_create_path("/process/1", 0);
-    vfs_create_path("/process/2", 0);
-    vfs_create_path("/process/3", 0);
-    vfs_create_path("/process/4", 0);
-    vfs_create_path("/process/5", 0);
+    uint32_t size = 4096;
 
-    vfs_debug_ls("/process");
+    vfs_create_kfile("/dev/ktty", ramfs_fifo_driver_struct(), &size);
+    vfs_create_dir("/dev/drives");
+    vfs_create_dir("/dev/ports");
+    vfs_create_dir("/dev/cpu");
+    vfs_create_dir("/dev/memory");
+    vfs_create_dir("/dev/audio");
+
+    vfs_debug_ls("/dev");
 
 	while(1);
 
@@ -104,8 +108,7 @@ void kernel_main(struct multiboot_info* mb_info) {
 					continue;
 				}
 
-				for (uint32_t offset = 0; offset < ph->mem_size; offset +=
-						0x1000) {
+				for (uint32_t offset = 0; offset < ph->mem_size; offset += 0x1000) {
 					vmm_alloc_addr(dest + offset, 0);
 				}
 
@@ -117,7 +120,7 @@ void kernel_main(struct multiboot_info* mb_info) {
 			init_task(elf_mod_pdir, elf_mod_entry);
 		}
 
-		enable_scheduling();
+		enableScheduling();
 	} else {
 		kprintf("No Modules loadable. Microkernel shutting down.\nThank you for using this pointless version of mikrOS\n");
 	}

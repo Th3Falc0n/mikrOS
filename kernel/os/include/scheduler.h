@@ -7,23 +7,23 @@
 
 struct task {
     int PID;
-    struct cpu_state* cpu_state;
+    struct cpu_state* cpuState;
     struct task* next;
     struct task* prev;
     uint8_t* user_stack_bottom;
     uint32_t phys_pdir;
 
-    struct file_handle*[1024];
+    struct res_handle* handles[1024];
 };
 
 struct task* init_task(uint32_t task_pagedir, void* entry);
+struct task* get_current_task(void);
 struct cpu_state* terminate_current(struct cpu_state* cpu);
 struct cpu_state* schedule_exception(struct cpu_state* cpu);
 struct cpu_state* schedule(struct cpu_state* cpu);
-struct task get_current_task(void);
 void save_cpu_state(struct cpu_state* cpu);
 void fork_task_state(struct task* new_task);
-void enable_scheduling(void);
-uint32_t scheduling_enabled(void);
+void enableScheduling(void);
+uint32_t isSchedulingEnabled(void);
 
 #endif

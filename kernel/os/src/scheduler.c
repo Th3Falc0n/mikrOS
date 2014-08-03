@@ -5,19 +5,19 @@
 #include "vmm.h"
 #include "catofdeath.h"
 
-uint32_t sched_enabled = 0;
+uint32_t schedulingEnabled = 0;
 
 struct task* first_task = 0;
 struct task* current_task = 0;
 
 int nextPID = 1;
 
-void enable_scheduling(void) {
-    sched_enabled = 1;
+void enableScheduling(void) {
+    schedulingEnabled = 1;
 }
 
-uint32_t scheduling_enabled(void) {
-    return sched_enabled;
+uint32_t isSchedulingEnabled(void) {
+    return schedulingEnabled;
 }
 
 struct task* get_current_task(void) {
@@ -70,21 +70,21 @@ struct cpu_state* terminate_current(struct cpu_state* cpu) {
 
     current_task = next;
     vmm_activate_pagedir(current_task->phys_pdir);
-    return current_task->cpu_state;
+    return current_task->cpuState;
 }
 
 void fork_task_state(struct task* new_task) {
     new_task->user_stack_bottom = current_task->user_stack_bottom;
 
-    memcpy(new_task->cpu_state, current_task->cpu_state,
+    memcpy(new_task->cpuState, current_task->cpuState,
             sizeof(struct cpu_state));
 
-    new_task->cpu_state->eax = 0;
+    new_task->cpuState->eax = 0;
 }
 
 struct task* init_task(uint32_t task_pagedir, void* entry) {
     struct task* ntask = malloc(sizeof(struct task));
-    ntask->cpu_state = malloc(sizeof(struct cpu_state));
+    ntask->cpuState = malloc(sizeof(struct cpu_state));
 
     ntask->phys_pdir = task_pagedir;
     ntask->user_stack_bottom = (void*) 0xFFFFE000;
@@ -118,7 +118,7 @@ struct task* init_task(uint32_t task_pagedir, void* entry) {
 
             .eflags = 0x200, };
 
-    memcpy(ntask->cpu_state, &nstate, sizeof(struct cpu_state));
+    memcpy(ntask->cpuState, &nstate, sizeof(struct cpu_state));
 
     vmm_activate_pagedir(rest_pdir);
 
@@ -126,15 +126,15 @@ struct task* init_task(uint32_t task_pagedir, void* entry) {
 }
 
 void save_cpu_state(struct cpu_state* cpu) {
-    memcpy(current_task->cpu_state, cpu, sizeof(struct cpu_state));
+    memcpy(current_task->cpuState, cpu, sizeof(struct cpu_state));
 }
 
 struct cpu_state* schedule(struct cpu_state* cpu) {
-    if (first_task != 0 && sched_enabled) {
+    if (first_task != 0 && schedulingEnabled) {
         if (current_task == 0) {
             current_task = first_task;
             vmm_activate_pagedir(current_task->phys_pdir);
-            return current_task->cpu_state;
+            return current_task->cpuState;
         }
 
         struct task* next = current_task->next;
@@ -145,7 +145,7 @@ struct cpu_state* schedule(struct cpu_state* cpu) {
 
         current_task = next;
         vmm_activate_pagedir(current_task->phys_pdir);
-        return current_task->cpu_state;
+        return current_task->cpuState;
     }
     return cpu;
 }
