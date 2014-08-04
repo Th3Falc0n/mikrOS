@@ -140,6 +140,7 @@ void kernel_main(struct multiboot_info* mb_info) {
                       0);
 
         kprintf("Assuming mbmod[0] is a tarball (%d bytes) and unpacking it... \n", mb_info->mi_mods_addr[0].end - mb_info->mi_mods_addr[0].start);
+        kprintf("Mapped mod from %x to %x\n", mb_info->mi_mods_addr[0].start, mb_info->mi_mods_addr[0].end);
 
         tar_load_ramfs(mb_info->mi_mods_addr[0].start);
     } else {
