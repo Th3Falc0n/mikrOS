@@ -1,6 +1,8 @@
 #include "kernel.h"
 #include "vfs.h"
 #include "ramfs/fifo.h"
+#include "ramfs/block.h"
+#include "ramfs/tar.h"
 
 struct cpu_state* syscall(struct cpu_state* cpu) {
 	switch (cpu->eax) {
@@ -21,10 +23,68 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 	}
 		break;
 
-	case 201: /* putc */
+	case 3: /* fopen */
+	{
+	    char* name = (char*) cpu->ebx;
+	    uint32_t fmode = (uint32_t) cpu->ecx;
+
+	    struct res_handle* handle = vfs_open(name, fmode);
+	    if(handle) {
+	        register_handle(handle);
+	        cpu->eax = (uint32_t) handle;
+	    }
+	    else
+	    {
+	        cpu->eax = 0;
+	    }
+	}
+	    break;
+
+	case 4: /* fclose */
+	{
+	    struct res_handle* handle = (void*) cpu->ebx;
+	    if(!unregister_handle(handle)) {
+	        vfs_close(handle);
+
+	        cpu->eax = 0;
+	    }
+	    else
+	    {
+	        cpu->eax = (uint32_t) -1;
+	    }
+	}
+	    break;
+
+	case 5: /* fwrite */
+	{
+	    struct res_handle* handle = (void*) cpu->ebx;
+	    if(handle != 0) {
+	        cpu->eax = vfs_write(handle, (char*) cpu->ecx, cpu->edx, 1);
+	    }
+	    else
+	    {
+            cpu->eax = RW_ERR_VFS;
+	    }
+	}
+	    break;
+
+	case 6: /* fread */
+	{
+        struct res_handle* handle = (void*) cpu->ebx;
+        if(handle != 0) {
+            cpu->eax = vfs_read(handle, (char*) cpu->ecx, cpu->edx, 1);
+        }
+        else
+        {
+            cpu->eax = RW_ERR_VFS;
+        }
+	}
+	    break;
+
+	case 201: /* kputc */
 		cpu->eax = kprintf("%c", cpu->ebx);
 		break;
-	case 202: /* puts */
+	case 202: /* kputs */
 		cpu->eax = kprintf("%s", cpu->ebx);
 		break;
 	case 203: /* vmm_alloc_ucont */
@@ -54,23 +114,33 @@ void kernel_main(struct multiboot_info* mb_info) {
 
     vfs_init_root();
     ramfs_fifo_init();
+    ramfs_block_init();
 
-    uint32_t size = 4096;
+    map_address_active((uint32_t) mb_info,
+                       (uint32_t) mb_info, 0);
+    map_address_active((uint32_t) mb_info->mi_mods_addr,
+                       (uint32_t) mb_info->mi_mods_addr, 0);
 
-    vfs_create_kfile("/dev/ktty", ramfs_fifo_driver_struct(), &size);
-    vfs_create_dir("/dev/drives");
-    vfs_create_dir("/dev/ports");
-    vfs_create_dir("/dev/cpu");
-    vfs_create_dir("/dev/memory");
-    vfs_create_dir("/dev/audio");
+    if (mb_info->mi_flags & MULTIBOOT_INFO_HAS_MODS) {
+        vmm_map_range(mb_info->mi_mods_addr[0].start,
+                      mb_info->mi_mods_addr[0].start,
+                      mb_info->mi_mods_addr[0].end - mb_info->mi_mods_addr[0].start,
+                      0);
 
-    vfs_debug_ls("/dev");
+        kprintf("Assuming mbmod[0] is a tarball (%d bytes) and unpacking it...", mb_info->mi_mods_addr[0].end - mb_info->mi_mods_addr[0].start);
+
+        tar_load_ramfs(mb_info->mi_mods_addr[0].start);
+    } else {
+        kprintf("[PANIC] No multiboot module (initrfs) available.\n");
+    }
+
+    if(vfs_exists("/ibin/init")) {
+        kprintf("[init] /ibin/init found. Executing...");
+    }
+
 
 	while(1);
-
-	map_address_active((uint32_t) mb_info, (uint32_t) mb_info, 0);
-	map_address_active((uint32_t) mb_info->mi_mods_addr,
-			(uint32_t) mb_info->mi_mods_addr, 0);
+    //*********************************************************************** KERNEL END
 
 	if (mb_info->mi_flags & MULTIBOOT_INFO_HAS_MODS) {
 		for (uint32_t i = 0; i < mb_info->mi_mods_count; i++) {
@@ -82,9 +152,9 @@ void kernel_main(struct multiboot_info* mb_info) {
 			vmm_activate_pagedir(elf_mod_pdir);
 
 			vmm_map_range(mb_info->mi_mods_addr[i].start,
-					mb_info->mi_mods_addr[i].start,
-					mb_info->mi_mods_addr[i].end
-							- mb_info->mi_mods_addr[i].start, 0);
+					      mb_info->mi_mods_addr[i].start,
+					      mb_info->mi_mods_addr[i].end - mb_info->mi_mods_addr[i].start,
+					      0);
 
 			struct elf_header* header = mb_info->mi_mods_addr[i].start;
 			struct elf_program_header* ph;

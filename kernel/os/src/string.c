@@ -1,5 +1,6 @@
 #include "vmm.h"
 #include "string.h"
+#include "stdlib.h"
 
 void* memset(void* buf, int c, size_t n) {
     unsigned char* p = buf;
@@ -59,13 +60,27 @@ unsigned int strlen(const char* str) {
 }
 
 char* strcpy(char* dest, const char* src) {
-    memcpy(dest, src, strlen(src) * sizeof(char));
+    memcpy(dest, src, strlen(src) * sizeof(char) + 1);
     return dest;
+}
+
+char* strclone(char* str) {
+    char* ret = malloc(sizeof(char) * strlen(str) + 1);
+    strcpy(ret, str);
+
+    return ret;
 }
 
 char* sp = NULL; /* the start position of the string */
 
 char* strtok(char* str, const char* delimiters) {
+    if(str != 0) {
+        return strtoknc(strclone(str), delimiters);
+    }
+    return strtoknc(0, delimiters);
+}
+
+char* strtoknc(char* str, const char* delimiters) {
     int i = 0;
     int len = strlen(delimiters);
 

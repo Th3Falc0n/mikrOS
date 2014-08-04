@@ -24,6 +24,43 @@ struct task* get_current_task(void) {
     return current_task;
 }
 
+uint32_t register_handle(struct res_handle* h) {
+    struct hl_node* old = current_task->handle_list;
+
+    current_task->handle_list = malloc(sizeof(struct hl_node));
+    current_task->handle_list->next = old;
+    current_task->handle_list->handle = h;
+
+    return 0;
+}
+
+uint32_t unregister_handle(struct res_handle* h) {
+    struct hl_node* cur = current_task->handle_list;
+
+    if(h == 0) return 2;
+    if(cur == 0) return 1;
+
+    if(cur->handle == h) {
+        current_task->handle_list = cur->next;
+        free(cur);
+    }
+
+    while(cur != 0) {
+        if(cur->next->handle == h) {
+            void* next = cur->next;
+            cur->next =  cur->next->next;
+
+            free(next);
+
+            return 0;
+        }
+
+        cur = cur->next;
+    }
+
+    return 3;
+}
+
 struct cpu_state* schedule_exception(struct cpu_state* cpu) {
     if (current_task == first_task && current_task->next == 0) {
         //Only one process is running, which just crashed. Stop system.

@@ -9,7 +9,14 @@ mount -oloop bin/boot.img /mnt
 rm /mnt/* > /dev/null
 
 cp kernel/kernel /mnt
-cp modules/*.elf /mnt
+
+rm initrfs.tar > /dev/null
+cd initrfs
+tar -cWf ../initrfs.tar * > /dev/null
+cd ..
+
+cp initrfs.tar /mnt
+
 cp menu.lst /mnt/grub
 
 umount /mnt

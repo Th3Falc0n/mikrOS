@@ -8,7 +8,7 @@ ASFLAGS = -m32
 CFLAGS = -m32 -Wall -g -fno-stack-protector -nostdinc -Iinclude -I../../lib-mikros/include
 LDFLAGS = -melf_i386 -Tlink.ld
 
-../../initrfs/ibin/csh: $(OBJS)
+../../initrfs/ibin/init: $(OBJS)
 	$(LD) $(LDFLAGS) -o $@ $^ ../../lib-mikros/lib-mikrOS.a
 
 %.o: %.c

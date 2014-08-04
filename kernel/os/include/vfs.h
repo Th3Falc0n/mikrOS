@@ -14,6 +14,14 @@
 #define FM_WRITE (1 << 1)
 #define FM_EXEC  (1 << 2)
 
+#define RW_OK         0
+#define RW_BLOCK      1
+#define RW_ERR_VFS    2
+#define RW_ERR_DRIVER 3
+
+#define SEEK_SET  0
+#define SEEK_CUR  1
+
 struct res_handle {
     uint32_t res_type;
     void* res_ptr;
@@ -39,12 +47,13 @@ struct res_kfile {
 
 
 struct kfs_driver {
-    uint32_t           (*rread)   (struct res_handle*, void*, uint32_t, uint32_t); //(handle, dest, pos, length)
-    uint32_t           (*rwrite)  (struct res_handle*, void*, uint32_t, uint32_t); //(handle, src , pos, length)
-    struct res_handle* (*open)   (struct res_kfile*, uint32_t); //(file, filemode)
-    uint32_t           (*close)  (struct res_handle*); //(handle)
+    uint32_t           (*rread)     (struct res_handle*, void*, uint32_t); //(handle, dest, length)
+    uint32_t           (*rwrite)    (struct res_handle*, void*, uint32_t); //(handle, src , length)
+    struct res_handle* (*open)      (struct res_kfile*, uint32_t); //(file, filemode)
+    uint32_t           (*close)     (struct res_handle*); //(handle)
+    uint32_t           (*available) (struct res_handle*); //(handle)
 
-    struct res_kfile*  (*create) (uint32_t*); //(size)
+    struct res_kfile*  (*create)    (uint32_t*); //(size)
     char*              drvname;
 };
 
@@ -58,6 +67,8 @@ struct res_handle* vfs_open        (char* path, uint32_t filemode);
 uint32_t           vfs_close       (struct res_handle* handle);
 uint32_t           vfs_read        (struct res_handle* handle, void* dest, uint32_t size, uint32_t count);
 uint32_t           vfs_write       (struct res_handle* handle, void* src,  uint32_t size, uint32_t count);
-uint32_t           vfs_seek        (struct res_handle* handle, uint32_t pos);
+uint32_t           vfs_available   (struct res_handle* handle);
+uint32_t           vfs_exists      (char* path);
+void               vfs_seek        (struct res_handle* handle, uint32_t offset, uint32_t origin);
 
 #endif

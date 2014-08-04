@@ -10,7 +10,9 @@ int          memcmp(const void* ptr1, const void* ptr2, size_t num);
 unsigned int strlen(const char* str);
 int          strcmp(const char* str1, const char* str2);
 char*        strtok(char* str, const char* delimiters);
+char*        strtoknc(char* str, const char* delimiters);
 char*        strcpy(char* dest, const char* src);
+char*        strclone(char* src);
 
 #endif
 

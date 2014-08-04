@@ -88,6 +88,8 @@ static void merge_into_frees(struct memory_node* tf) {
 }
 
 void* malloc(size_t size) {
+    if(size == 0) return 0;
+
     struct memory_node* last = 0;
     struct memory_node* cur = first_free;
 
@@ -116,7 +118,7 @@ void* malloc(size_t size) {
             struct memory_node* free = pop_unused_node();
 
             free->address = fill->address + fill->size;
-            free->size = size - pgs * PAGESIZE;
+            free->size = pgs * PAGESIZE - size;
 
             append_to_list(&first_free, free);
         }
@@ -125,14 +127,14 @@ void* malloc(size_t size) {
 
         return (void*) fill->address;
     } else {
-        uint32_t freesize = size - cur->size;
+        uint32_t freesize = cur->size - size;
 
         cur->size = size;
 
         remove_from_list(&first_free, cur);
         append_to_list(&first_used, cur);
 
-        if (free > 0) {
+        if (freesize > 0) {
             struct memory_node* free = pop_unused_node();
 
             free->address = cur->address + cur->size;
