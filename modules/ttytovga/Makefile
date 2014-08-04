@@ -5,7 +5,7 @@ CC = clang
 LD = ld
 
 ASFLAGS = -m32
-CFLAGS = -m32 -Wall -Wno-unused-parameter -Wno-unused-variable -Werror -g -fno-stack-protector -nostdinc -Iinclude -I../../lib-mikros/include
+CFLAGS = -m32 -Wall -Wno-builtin-requires-header  -Wno-unused-parameter -Wno-unused-variable -Werror -g -fno-stack-protector -nostdinc -Iinclude -I../../lib-mikros/include
 LDFLAGS = -melf_i386 -Tlink.ld
 
 ../../initrfs/ibin/ttytovga: $(OBJS)

@@ -24,7 +24,7 @@ typedef uint32_t HANDLE;
 HANDLE   fopen  (char* path, uint32_t filemode);
 HANDLE   fmkfifo(char* path);
 int      fclose (HANDLE handle);
-uint32_t fwrite (HANDLE handle, void* src , uint32_t length);
+uint32_t fwrite (HANDLE handle, const void* src , uint32_t length);
 uint32_t fread  (HANDLE handle, void* dest, uint32_t length);
 
 int    fopenpmhandle (uint32_t pmid, char* path);
@@ -36,5 +36,8 @@ int setstderr(char* path);
 int putc(char c);
 int puts(const char* cp);
 int printf(const char* fmt, ...);
+
+int fputc(char c, HANDLE hdl);
+int fputs(const char* cp, HANDLE hdl);
 
 #endif

@@ -1,5 +1,4 @@
 #include "process.h"
-#include "stdio.h"
 
 extern int main(int argc, char* args[]);
 
@@ -20,7 +19,6 @@ static uint32_t getargs() {
 
 void _start() {
   char** args = (char**) getargs();
-  kprintf("Executing main with args = %x\n", (uint32_t)args);
 
   int argc = 0;
 

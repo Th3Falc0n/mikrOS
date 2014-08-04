@@ -26,5 +26,10 @@ int main(int argc, char* args[])
 
     fexec("/ibin/ttytovga");
 
+    setstdout("/dev/tty0");
+    setstderr("/dev/tty0");
+
+    printf("[init] now working on tty0");
+
     return 0;
 }

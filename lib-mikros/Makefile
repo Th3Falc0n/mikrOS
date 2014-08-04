@@ -5,7 +5,7 @@ CC = clang
 AR = ar
 
 ASFLAGS = -m32
-CFLAGS = -m32 -Wall -Werror -g -fno-stack-protector -nostdinc -I include
+CFLAGS = -m32 -Wall -Wno-builtin-requires-header -Wno-unused -Werror -g -fno-stack-protector -nostdinc -I include
 ARFLAGS = rcs
 
 lib-mikrOS.a: $(OBJS)

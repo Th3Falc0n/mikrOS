@@ -1,8 +1,9 @@
 #include "stdio.h"
+#include "string.h"
 
 static HANDLE getpmhandle   (uint32_t pmid) {
     struct regstate state = {
-      .eax = 10,
+      .eax = 20,
       .ebx = pmid,
       .ecx = 0,
       .edx = 0,
@@ -21,7 +22,7 @@ static HANDLE getstderr() { return getpmhandle(PMID_STDERR); };
 
 int fopenpmhandle (uint32_t pmid, char* path) {
     struct regstate state = {
-      .eax = 10,
+      .eax = 21,
       .ebx = pmid,
       .ecx = (uint32_t)path,
       .edx = 0,
@@ -37,8 +38,6 @@ int fopenpmhandle (uint32_t pmid, char* path) {
 int setstdout(char* path) { return fopenpmhandle(PMID_STDOUT, path); };
 int setstdin (char* path) { return fopenpmhandle(PMID_STDIN , path); };
 int setstderr(char* path) { return fopenpmhandle(PMID_STDERR, path); };
-
-
 
 HANDLE fopen(char* path, uint32_t mode) {
     struct regstate state = {
@@ -71,7 +70,7 @@ int fclose(uint32_t handle) {
 }
 
 
-static uint32_t frwrite(uint32_t handle, void* src, uint32_t length) {
+static uint32_t frwrite(uint32_t handle, const void* src, uint32_t length) {
     struct regstate state = {
       .eax = 12,
       .ebx = (uint32_t)handle,
@@ -86,7 +85,7 @@ static uint32_t frwrite(uint32_t handle, void* src, uint32_t length) {
     return (int)state.eax;
 }
 
-uint32_t fwrite(uint32_t handle, void* src, uint32_t length) {
+uint32_t fwrite(uint32_t handle, const void* src, uint32_t length) {
     uint32_t res = frwrite(handle, src, length);
 
     while(res == RW_BLOCK) {
@@ -136,8 +135,14 @@ HANDLE fmkfifo(char* path) {
     return (HANDLE)state.eax;
 }
 
+static HANDLE resolveHandle(HANDLE hdl) {
+    if(hdl < 0xFFF) {
+        hdl = getpmhandle(hdl);
+    }
+    return hdl;
+}
 
-int putc(char c) {
+static int kputc(char c) {
   struct regstate state = {
     .eax = 201,
     .ebx = (uint32_t)c,
@@ -152,7 +157,19 @@ int putc(char c) {
   return state.eax;
 }
 
-int puts(const char* cp) {
+int putc(char c) {
+    return fputc(c, PMID_STDOUT);
+}
+
+int fputc(char c, HANDLE hdl) {
+    hdl = resolveHandle(hdl);
+    if(hdl != 0) {
+        fwrite(hdl, &c, sizeof(char));
+    }
+    return kputc(c);
+}
+
+static int kputs(const char* cp) {
   struct regstate state = {
     .eax = 202,
     .ebx = (uint32_t)cp,
@@ -165,6 +182,18 @@ int puts(const char* cp) {
   syscall(&state);
   
   return state.eax;
+}
+
+int puts(const char* c) {
+    return fputs(c, PMID_STDOUT);
+}
+
+int fputs(const char* c, HANDLE hdl) {
+    hdl = resolveHandle(hdl);
+    if(hdl != 0) {
+        fwrite(hdl, c, strlen(c));
+    }
+    return kputs(c);
 }
 
 static int putn(unsigned long x, int base)
@@ -190,7 +219,7 @@ static int putn(unsigned long x, int base)
   return wrt;
 }
 
-int fprintf(const char* fmt, ...)
+int printf(const char* fmt, ...)
 {
   va_list ap;
   const char* s;
