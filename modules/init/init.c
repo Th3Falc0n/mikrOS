@@ -5,8 +5,13 @@
  
 int main(void)
 {
-    printf("[INIT] Init process started... :) Thats so good!\n");
+    printf("[ibin/init] Init process started... :) Thats so good!\n");
 
+    uint32_t pid = fork();
+
+    if(pid == 0) {
+        exec("/ibin/csh", 0);
+    }
 
     return 0;
 }

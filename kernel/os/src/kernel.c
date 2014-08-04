@@ -21,9 +21,21 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 
 		cpu->eax = ntask->PID;
 	}
-		break;
+        break;
+    case 3: /* exec */
+    {
+        save_cpu_state(cpu);
+        vfs_exec((char*) cpu->ebx, (char**) cpu->ecx, get_current_task());
+        cpu = get_current_task()->cpuState;
+    }
+        break;
+    case 4: /* getargs */
+    {
+        cpu->eax = (uint32_t) get_current_task()->args;
+    }
+        break;
 
-	case 3: /* fopen */
+	case 10: /* fopen */
 	{
 	    char* name = (char*) cpu->ebx;
 	    uint32_t fmode = (uint32_t) cpu->ecx;
@@ -40,7 +52,7 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 	}
 	    break;
 
-	case 4: /* fclose */
+	case 11: /* fclose */
 	{
 	    struct res_handle* handle = (void*) cpu->ebx;
 	    if(!unregister_handle(handle)) {
@@ -55,7 +67,7 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 	}
 	    break;
 
-	case 5: /* fwrite */
+	case 12: /* fwrite */
 	{
 	    struct res_handle* handle = (void*) cpu->ebx;
 	    if(handle != 0) {
@@ -68,7 +80,7 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 	}
 	    break;
 
-	case 6: /* fread */
+	case 13: /* fread */
 	{
         struct res_handle* handle = (void*) cpu->ebx;
         if(handle != 0) {
@@ -127,7 +139,7 @@ void kernel_main(struct multiboot_info* mb_info) {
                       mb_info->mi_mods_addr[0].end - mb_info->mi_mods_addr[0].start,
                       0);
 
-        kprintf("Assuming mbmod[0] is a tarball (%d bytes) and unpacking it...", mb_info->mi_mods_addr[0].end - mb_info->mi_mods_addr[0].start);
+        kprintf("Assuming mbmod[0] is a tarball (%d bytes) and unpacking it... \n", mb_info->mi_mods_addr[0].end - mb_info->mi_mods_addr[0].start);
 
         tar_load_ramfs(mb_info->mi_mods_addr[0].start);
     } else {
@@ -135,8 +147,11 @@ void kernel_main(struct multiboot_info* mb_info) {
     }
 
     if(vfs_exists("/ibin/init")) {
-        kprintf("[init] /ibin/init found. Executing...");
+        kprintf("[init] /ibin/init found. Executing...\n");
     }
+
+    vfs_exec("/ibin/init", 0, 0);
+    enableScheduling();
 
 
 	while(1);

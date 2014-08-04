@@ -15,6 +15,8 @@ struct task {
     uint8_t* user_stack_bottom;
     uint32_t phys_pdir;
 
+    char** args;
+
     struct hl_node* handle_list;
 };
 

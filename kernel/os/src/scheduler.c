@@ -106,6 +106,11 @@ struct cpu_state* terminate_current(struct cpu_state* cpu) {
         next = first_task;
 
     current_task = next;
+
+    if(current_task == 0) {
+        show_cod(cpu, "Last task terminated.");
+    }
+
     vmm_activate_pagedir(current_task->phys_pdir);
     return current_task->cpuState;
 }

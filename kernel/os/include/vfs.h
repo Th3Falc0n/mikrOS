@@ -71,4 +71,6 @@ uint32_t           vfs_available   (struct res_handle* handle);
 uint32_t           vfs_exists      (char* path);
 void               vfs_seek        (struct res_handle* handle, uint32_t offset, uint32_t origin);
 
+void               vfs_exec        (char* path, char* args[], struct task* task);
+
 #endif

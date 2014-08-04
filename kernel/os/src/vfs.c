@@ -209,6 +209,91 @@ void vfs_seek(struct res_handle* handle, uint32_t offset, uint32_t origin) {
     }
 }
 
+void vfs_exec(char* ip, char* args[], struct task* task) {
+    char* path = strclone(ip);
+    if(vfs_exists(path)) {
+        uint32_t elf_mod_pdir;
+
+        if(task == 0) {
+            elf_mod_pdir = vmm_create_pagedir();
+            task = init_task(elf_mod_pdir, (void*)1);
+            kprintf("[exec] Initialized new task...\n");
+        }
+        else
+        {
+            elf_mod_pdir = task->phys_pdir;
+            kprintf("[exec] Replacing old task...\n");
+        }
+
+        struct res_handle* handle = vfs_open(path, FM_EXEC | FM_READ);
+
+        if(handle) {
+            uint32_t size = vfs_available(handle);
+            if(size == 0) {
+                kprintf("[exec] %s is empty\n", path);
+                return;
+            }
+
+            void* modsrc = malloc(size);
+
+            uint32_t res = vfs_read(handle, modsrc, size, 1);
+
+            if(res != RW_OK) {
+                kprintf("[exec] Error while reading %s\n");
+                free(modsrc);
+                return;
+            }
+
+            uint32_t old_pdir = vmm_get_current_pagedir();
+
+            //**********************************************************************************************************
+            if(task != get_current_task())  vmm_activate_pagedir(elf_mod_pdir);
+
+            struct elf_header* header = modsrc;
+            struct elf_program_header* ph;
+
+            /* Ist es ueberhaupt eine ELF-Datei? */
+            if (header->magic != ELF_MAGIC) {
+                kprintf("[exec] Invalid ELF-Magic in %s!\n", path);
+                free(modsrc);
+                return;
+            }
+
+            void* elf_mod_entry = (void*) (header->entry);
+
+            ph = (struct elf_program_header*) (((char*) header) + header->ph_offset);
+
+            for (uint32_t n = 0; n < header->ph_entry_count; n++, ph++) {
+                void* dest = (void*) ph->virt_addr;
+                void* src = ((char*) header) + ph->offset;
+
+                /* Nur Program Header vom Typ LOAD laden */
+                if (ph->type != 1) {
+                    continue;
+                }
+
+                for (uint32_t offset = 0; offset < ph->mem_size; offset += 0x1000) {
+                    vmm_alloc_addr(dest + offset, 0);
+                }
+
+                memcpy(dest, src, ph->file_size);
+            }
+
+            task->args = args;
+            task->cpuState->eip = (uint32_t) elf_mod_entry;
+
+            if(task != get_current_task()) vmm_activate_pagedir(old_pdir);
+
+            kprintf("[exec] Executed %s\n", path);
+            free(modsrc);
+        }
+        else
+        {
+            kprintf("[exec] %s doesn't exist\n", path);
+        }
+    }
+}
+
 void vfs_init_root() {
     if(root == 0) {
         root = malloc(sizeof(struct res_node));
