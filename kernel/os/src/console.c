@@ -1,4 +1,5 @@
 #include "console.h"
+#include "ramfs/vgacntrl.h"
 
 static int x = 0;
 static int y = 0;
@@ -8,6 +9,11 @@ static char color = 0x07;
 static char* video = (char*) 0xb8000;
 
 static void kputc(char c) {
+    if(ramfs_vga_writers()) {
+        //TODO write to stdout;
+        return;
+    }
+
     if ((c == '\n') || (x > 79)) {
         x = 0;
         y++;

@@ -20,9 +20,9 @@ static uint32_t getargs() {
 
 void _start() {
   char** args = (char**) getargs();
-  printf("Executing main with args = %x\n", (uint32_t)args);
+  kprintf("Executing main with args = %x\n", (uint32_t)args);
 
-  uint32_t argc = 0;
+  int argc = 0;
 
   if(args != 0) {
       while(args[argc] != 0) {

@@ -60,7 +60,8 @@ uint32_t ramfs_fifo_read(struct res_handle* handle, void* dest, uint32_t length)
         if(length > buffer[kf->id]->pos)  return RW_BLOCK; //Block until write is possible TODO maybe check if FIFO has writers
 
         memcpy(dest, buffer[kf->id]->buffer, length);
-        memcpy(buffer[kf->id]->buffer, buffer[kf->id]->buffer + length, length - buffer[kf->id]->pos);
+        memcpy(buffer[kf->id]->buffer, buffer[kf->id]->buffer + length, buffer[kf->id]->pos - length);
+        buffer[kf->id]->pos -= length;
 
         return RW_OK;
     }
@@ -86,8 +87,8 @@ uint32_t ramfs_fifo_write(struct res_handle* handle, void* src, uint32_t length)
 
 struct res_handle* ramfs_fifo_open(struct res_kfile* kf, uint32_t filemode) {
     if(buffer[kf->id] != 0) {
-        if(filemode & FM_EXEC) return (void*)3;
-        if((filemode & FM_READ) && buffer[kf->id]->readers > 0) return (void*)2;
+        if(filemode & FM_EXEC) return 0;
+        if((filemode & FM_READ) && buffer[kf->id]->readers > 0) return 0;
 
         if((filemode & FM_READ)) buffer[kf->id]->readers++;
         if((filemode & FM_WRITE)) buffer[kf->id]->writers++;
@@ -102,7 +103,7 @@ struct res_handle* ramfs_fifo_open(struct res_kfile* kf, uint32_t filemode) {
         return rethandle;
     }
 
-    return (void*)1;
+    return 0;
 }
 
 uint32_t ramfs_fifo_close(struct res_handle* handle) {

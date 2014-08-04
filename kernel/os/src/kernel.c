@@ -3,6 +3,7 @@
 #include "ramfs/fifo.h"
 #include "ramfs/block.h"
 #include "ramfs/tar.h"
+#include "ramfs/vgacntrl.h"
 
 struct cpu_state* syscall(struct cpu_state* cpu) {
 	switch (cpu->eax) {
@@ -39,7 +40,7 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 
 	case 10: /* fopen */
 	{
-	    char* name = (char*) cpu->ebx;
+	    char* name = strclone((char*) cpu->ebx);
 	    uint32_t fmode = (uint32_t) cpu->ecx;
 
 	    struct res_handle* handle = vfs_open(name, fmode);
@@ -51,6 +52,8 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 	    {
 	        cpu->eax = 0;
 	    }
+
+	    free(name);
 	}
 	    break;
 
@@ -92,6 +95,97 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
         {
             cpu->eax = RW_ERR_VFS;
         }
+	}
+	    break;
+
+	case 14: /* fmkfifo */
+	{
+        char* name = strclone((char*) cpu->ebx);
+        vfs_create_kfile(name, ramfs_fifo_driver_struct(), &(uint32_t){65536});
+
+        struct res_handle* handle = vfs_open(name, FM_READ | FM_WRITE);
+        if(handle) {
+            register_handle(handle);
+            cpu->eax = (uint32_t) handle;
+        }
+        else
+        {
+            cpu->eax = 0;
+        }
+
+        free(name);
+	}
+	    break;
+
+	case 20: /* getpmhandle */
+	{
+	    struct res_handle* handle = 0;
+
+	    switch(cpu->ebx) {
+	    case PMID_STDOUT:
+	        handle = get_current_task()->stdout;
+	        break;
+        case PMID_STDIN:
+            handle = get_current_task()->stdin;
+            break;
+        case PMID_STDERR:
+            handle = get_current_task()->stderr;
+            break;
+        default:
+            handle = get_current_task()->stdout;
+            break;
+	    }
+
+	    cpu->eax = (uint32_t) handle;
+	}
+	    break;
+
+	case 21: /* fopenpmhandle */
+	{
+	    char* path = strclone((char*)cpu->ecx);
+
+	    struct res_handle* open;
+	    uint32_t fm = FM_WRITE;
+
+	    if(cpu->ebx == PMID_STDIN) {
+	        fm = FM_READ;
+	    }
+
+	    open = vfs_open(path, fm);
+
+	    free(path);
+
+	    if(!open) {
+	        cpu->eax = (uint32_t) -1;
+	        break;
+	    }
+
+	    struct res_handle* oldhandle = 0;
+
+        switch(cpu->ebx) {
+        case PMID_STDOUT:
+            oldhandle = get_current_task()->stdout;
+            get_current_task()->stdout = open;
+            break;
+        case PMID_STDIN:
+            oldhandle = get_current_task()->stdin;
+            get_current_task()->stdin = open;
+            break;
+        case PMID_STDERR:
+            oldhandle = get_current_task()->stderr;
+            get_current_task()->stderr = open;
+            break;
+        default:
+            oldhandle = get_current_task()->stdout;
+            get_current_task()->stdout = open;
+            break;
+        }
+
+        if(oldhandle != 0) {
+            vfs_close(oldhandle);
+        }
+
+        cpu->eax = 0;
 	}
 	    break;
 
@@ -154,12 +248,15 @@ void kernel_main(struct multiboot_info* mb_info) {
         kprintf("[PANIC] No multiboot module (initrfs) available.\n");
     }
 
+    kprintf("[kernel_res] Creating /dev/vga\n");
+    vfs_create_kfile("/dev/vga", ramfs_vga_driver_struct(), 0);
+
     if(vfs_exists("/ibin/init")) {
         kprintf("[init] /ibin/init found. Executing...\n");
-    }
 
-    vfs_exec("/ibin/init", 0, 0);
-    enableScheduling();
+        vfs_exec("/ibin/init", 0, 0);
+        enableScheduling();
+    }
 
 	while(1);
     //*********************************************************************** KERNEL END

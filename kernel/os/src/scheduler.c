@@ -43,6 +43,8 @@ uint32_t unregister_handle(struct res_handle* h) {
     if(cur->handle == h) {
         current_task->handle_list = cur->next;
         free(cur);
+
+        return 0;
     }
 
     while(cur != 0) {
@@ -118,8 +120,11 @@ struct cpu_state* terminate_current(struct cpu_state* cpu) {
 void fork_task_state(struct task* new_task) {
     new_task->user_stack_bottom = current_task->user_stack_bottom;
 
-    memcpy(new_task->cpuState, current_task->cpuState,
-            sizeof(struct cpu_state));
+    new_task->stdout = current_task->stdout;
+    new_task->stdin  = current_task->stdin;
+    new_task->stderr = current_task->stderr;
+
+    memcpy(new_task->cpuState, current_task->cpuState, sizeof(struct cpu_state));
 
     new_task->cpuState->eax = 0;
 }
@@ -131,6 +136,10 @@ struct task* init_task(uint32_t task_pagedir, void* entry) {
     ntask->phys_pdir = task_pagedir;
     ntask->user_stack_bottom = (void*) 0xFFFFE000;
     ntask->PID = nextPID++;
+
+    ntask->stdin  = 0;
+    ntask->stdout = 0;
+    ntask->stderr = 0;
 
     ntask->next = (void*) 0;
     ntask->prev = (void*) 0;

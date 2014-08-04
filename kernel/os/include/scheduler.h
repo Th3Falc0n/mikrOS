@@ -7,6 +7,10 @@
 
 #define HANDLE_COUNT 1024
 
+#define PMID_STDOUT  0
+#define PMID_STDIN   1
+#define PMID_STDERR  2
+
 struct task {
     int PID;
     struct cpu_state* cpuState;
@@ -16,6 +20,10 @@ struct task {
     uint32_t phys_pdir;
 
     char** args;
+
+    struct res_handle* stdout;
+    struct res_handle* stderr;
+    struct res_handle* stdin;
 
     struct hl_node* handle_list;
 };

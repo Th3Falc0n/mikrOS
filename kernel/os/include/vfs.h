@@ -10,9 +10,10 @@
 #define RES_KERNDRV 1
 #define RES_USERDRV 2
 
-#define FM_READ  (1 << 0)
-#define FM_WRITE (1 << 1)
-#define FM_EXEC  (1 << 2)
+#define FM_READ   (1 << 0)
+#define FM_WRITE  (1 << 1)
+#define FM_EXEC   (1 << 2)
+#define FM_CREATE (1 << 3)
 
 #define RW_OK         0
 #define RW_BLOCK      1
