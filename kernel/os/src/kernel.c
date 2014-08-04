@@ -22,6 +22,7 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 		cpu->eax = ntask->PID;
 	}
         break;
+
     case 3: /* exec */
     {
         save_cpu_state(cpu);
@@ -29,6 +30,7 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
         cpu = get_current_task()->cpuState;
     }
         break;
+
     case 4: /* getargs */
     {
         cpu->eax = (uint32_t) get_current_task()->args;
@@ -96,21 +98,26 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 	case 201: /* kputc */
 		cpu->eax = kprintf("%c", cpu->ebx);
 		break;
+
 	case 202: /* kputs */
 		cpu->eax = kprintf("%s", cpu->ebx);
 		break;
+
 	case 203: /* vmm_alloc_ucont */
 		cpu->eax = (uint32_t) vmm_alloc_ucont(cpu->ebx);
 		break;
+
 	case 204: /* vmm_free */
 		cpu->eax = 0;
 		if (cpu->ebx >= PROGRAM_BOTTOM) { //Only in PROGRAM AREA ;)
 			vmm_free((void*) cpu->ebx);
 		}
 		break;
+
 	case 205: /* pmm_print_stats */
 		pmm_print_stats();
 		break;
+
 	default:
 		kprintf("Invalid Syscall %d...", cpu->eax);
 		break;
@@ -153,7 +160,6 @@ void kernel_main(struct multiboot_info* mb_info) {
 
     vfs_exec("/ibin/init", 0, 0);
     enableScheduling();
-
 
 	while(1);
     //*********************************************************************** KERNEL END

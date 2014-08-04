@@ -30,9 +30,9 @@
 
 #define PT_ALLOCATABLE PT_USER0
 
-#define PMEM_TABLES 256 //1024MB virtual kernel_space
+#define PMEM_TABLES 128 //512MB virtual kernel_space
 
-#define ALLOCATABLE_BOTTOM 0x10000000
+#define ALLOCATABLE_BOTTOM 0x1000000 //leave space for multiboot modules
 #define USERSPACE_BOTTOM (PMEM_TABLES << 22)
 
 #define ACTIVE_PAGETBL_VADDR USERSPACE_BOTTOM
