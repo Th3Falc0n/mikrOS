@@ -5,16 +5,16 @@
  
 int main(int argc, char* args[])
 {
-  kprintf("Forking the shit out of this task... \n");
+  printf("Forking the shit out of this task... \n");
   int pid = fork();
   
   if(pid) {
-    kprintf("PARENT: %x \n", pid);
+    printf("PARENT: %x \n", pid);
     while(1);
   }
   else
   {
-    kprintf("CHILD: %x \n", pid);
+    printf("CHILD: %x \n", pid);
     while(1);
   }
   

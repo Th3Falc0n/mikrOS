@@ -33,8 +33,8 @@ int setstdout(char* path);
 int setstdin (char* path);
 int setstderr(char* path);
 
-int kputc(char c);
-int kputs(const char* cp);
-int kprintf(const char* fmt, ...);
+int putc(char c);
+int puts(const char* cp);
+int printf(const char* fmt, ...);
 
 #endif

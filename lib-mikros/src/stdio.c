@@ -137,7 +137,7 @@ HANDLE fmkfifo(char* path) {
 }
 
 
-int kputc(char c) {
+int putc(char c) {
   struct regstate state = {
     .eax = 201,
     .ebx = (uint32_t)c,
@@ -152,7 +152,7 @@ int kputc(char c) {
   return state.eax;
 }
 
-int kputs(const char* cp) {
+int puts(const char* cp) {
   struct regstate state = {
     .eax = 202,
     .ebx = (uint32_t)cp,
@@ -167,7 +167,7 @@ int kputs(const char* cp) {
   return state.eax;
 }
 
-static int kputn(unsigned long x, int base)
+static int putn(unsigned long x, int base)
 {
   char buf[65];
   const char* digits = "0123456789abcdefghijklmnopqrstuvwxyz";
@@ -185,13 +185,12 @@ static int kputn(unsigned long x, int base)
     *--p = digits[x % base];
     x /= base;
   } while (x);
-  kputs(p);
+  puts(p);
   
   return wrt;
 }
 
-
-int kprintf(const char* fmt, ...)
+int fprintf(const char* fmt, ...)
 {
   va_list ap;
   const char* s;
@@ -206,34 +205,34 @@ int kprintf(const char* fmt, ...)
       switch (*fmt) {
         case 's':
           s = va_arg(ap, char*);
-          wrt += kputs(s);
+          wrt += puts(s);
           break;
         case 'd':
         case 'u':
           n = va_arg(ap, unsigned long int);
-          wrt += kputn(n, 10);
+          wrt += putn(n, 10);
           break;
         case 'x':
         case 'p':
           n = va_arg(ap, unsigned long int);
-          wrt += kputn(n, 16);
+          wrt += putn(n, 16);
           break;
         case 'c':
           c = va_arg(ap, int);
-          wrt += kputc(c);
+          wrt += putc(c);
           break;
         case '%':
-          wrt += kputc('%');
+          wrt += putc('%');
           break;
         case '\0':
           goto out;
         default:
-          wrt += kputc('%');
-          wrt += kputc(*fmt);
+          wrt += putc('%');
+          wrt += putc(*fmt);
           break;
       }
     } else {
-      wrt += kputc(*fmt);
+      wrt += putc(*fmt);
     }
 
     fmt++;

@@ -14,7 +14,7 @@ static void fexec(char* path) {
 
 int main(int argc, char* args[])
 {
-    kprintf("[ibin/init] Init process started... :) Thats so good!\n");
+    printf("[ibin/init] Init process started... :) Thats so good!\n");
 
     HANDLE file = fopen("/cfg/test", FM_READ);
 
@@ -22,7 +22,7 @@ int main(int argc, char* args[])
     fread(file, string, 15);
     fclose(file);
 
-    kprintf("[ibin/init] test string: %s\n", string);
+    printf("[ibin/init] test string: %s\n", string);
 
     fexec("/ibin/ttytovga");
 
