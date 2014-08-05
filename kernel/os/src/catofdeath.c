@@ -1,6 +1,13 @@
 #include "catofdeath.h"
 
+static uint32_t icod = 0;
+
+uint32_t in_cod() {
+    return icod;
+}
+
 void show_cod(struct cpu_state* cpu, char* fstr) {
+    icod = 1;
 #ifdef SCREEN_COD
     clrscr();
 

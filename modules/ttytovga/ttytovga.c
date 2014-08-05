@@ -1,6 +1,7 @@
 #include "stdint.h"
 #include "stdio.h"
 #include "stdlib.h"
+#include "string.h"
 #include "vmmcall.h"
 #include "process.h"
 
@@ -16,7 +17,7 @@ struct vga_command {
 
 static int  x     = 0;
 static int  y     = 0;
-static char color = 0x07;
+static char color = 0x09;
 
 struct vga_command vgac = { .command = 0, .offset = 0, .value = 0 };
 
@@ -35,12 +36,19 @@ int main(int argc, char* args[])
     vgaController   = fopen("/dev/vga", FM_WRITE);
     HANDLE fifoInpt = fmkfifo("/dev/tty0");
 
+    printf("vgaController: %x\n", vgaController);
+    printf("fifoInpt: %x\n", fifoInpt);
+
     struct vga_command* vgac = malloc(sizeof(struct vga_command));
 
     char* vString = "[ttytovga] Switched to TTY to VGA (userspace terminal)\n";
     fwrite(fifoInpt, vString, strlen(vString));
 
     sendCommand(CMD_CLEAR, 0, 0);
+
+    HANDLE initCtrl = fopen("/var/cntrl/init", FM_WRITE);
+    fwrite(initCtrl, &(char){'K'}, sizeof(char));
+    fclose(initCtrl);
 
     char nchar = '\0';
 
@@ -54,9 +62,16 @@ int main(int argc, char* args[])
 
         if (y > 24) {
             sendCommand(CMD_SCROLL, 0, 0);
+            y--;
         }
 
         if (nchar == '\n') {
+            continue;
+        }
+
+        if (nchar == 0x11) {
+            fread(fifoInpt, &nchar, sizeof(char));
+            color = nchar;
             continue;
         }
 
@@ -65,6 +80,8 @@ int main(int argc, char* args[])
 
         sndChr[0] = nchar;
         sndChr[1] = color;
+
+        color = 0x09;
 
         sendCommand(CMD_SET, x + y * 80, send);
 

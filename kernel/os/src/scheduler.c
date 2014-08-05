@@ -67,21 +67,21 @@ struct cpu_state* schedule_exception(struct cpu_state* cpu) {
     if (current_task == first_task && current_task->next == 0) {
         //Only one process is running, which just crashed. Stop system.
         setclr(0x04);
-        kprintf("\n Terminated task (PID=%d) due to exception %x:%x \n",
-                current_task->PID, cpu->intr, cpu->error);
+        kprintf("\n~~~ Terminated task (PID=%d) due to exception %x:%x \n", current_task->PID, cpu->intr, cpu->error);
         show_cod(cpu, "Last task crashed. Terminating kernel...");
+
+        //will never occur cause COD terminates execution
+        return 0;
     } else {
         //Potential security leaks available in following code.
         setclr(0x04);
-        kprintf("\n Terminated task (PID=%d) due to exception %x:%x \n",
-                current_task->PID, cpu->intr, cpu->error);
+        kprintf("\n~~~ Terminated task (PID=%d) due to exception %x:%x \n", current_task->PID, cpu->intr, cpu->error);
         kprintf("\n");
         show_dump(cpu);
         setclr(0x07);
 
         return terminate_current(cpu);
     }
-    return cpu;
 }
 
 struct cpu_state* terminate_current(struct cpu_state* cpu) {
@@ -110,7 +110,7 @@ struct cpu_state* terminate_current(struct cpu_state* cpu) {
     current_task = next;
 
     if(current_task == 0) {
-        show_cod(cpu, "Last task terminated.");
+        //show_cod(cpu, "Last task terminated.");
     }
 
     vmm_activate_pagedir(current_task->phys_pdir);

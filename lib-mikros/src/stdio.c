@@ -164,7 +164,7 @@ int putc(char c) {
 int fputc(char c, HANDLE hdl) {
     hdl = resolveHandle(hdl);
     if(hdl != 0) {
-        fwrite(hdl, &c, sizeof(char));
+        return fwrite(hdl, &c, sizeof(char));
     }
     return kputc(c);
 }
@@ -191,7 +191,7 @@ int puts(const char* c) {
 int fputs(const char* c, HANDLE hdl) {
     hdl = resolveHandle(hdl);
     if(hdl != 0) {
-        fwrite(hdl, c, strlen(c));
+        return fwrite(hdl, c, strlen(c));
     }
     return kputs(c);
 }

@@ -185,16 +185,19 @@ struct cpu_state* handle_interrupt(struct cpu_state* cpu) {
 		if (!isSchedulingEnabled()) {
 			show_cod(cpu, "Kernel PANIC!");
 		} else {
-			schedule_exception(cpu);
+			new_cpu = schedule_exception(cpu);
 		}
 	} else if (cpu->intr >= 0x20 && cpu->intr <= 0x2f) {
 		if (cpu->intr >= 0x28) {
 			outb(0xa0, 0x20);
 		}
+
 		if (cpu->intr == 0x20) {
 			new_cpu = schedule(cpu);
+
+	        outb(0x20, 0x20);
 		}
-		outb(0x20, 0x20);
+
 		if (handler_set[cpu->intr]) {
 			handlers[cpu->intr]();
 		}

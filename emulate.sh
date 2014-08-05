@@ -13,5 +13,5 @@ tar -rf initrfs.tar test-ramfs/ > /dev/null
 rm bin/kernel.objdump
 objdump -dS kernel/kernel > bin/kernel.objdump
 
-qemu-system-i386 -kernel kernel/kernel -initrd initrfs.tar -m 1024 -d int --monitor stdio --no-reboot --no-shutdown
+qemu-system-i386 -kernel kernel/kernel -initrd initrfs.tar -m 1024 --monitor stdio --no-reboot --no-shutdown
 # 2>&1 | grep "check_exception" -A 20

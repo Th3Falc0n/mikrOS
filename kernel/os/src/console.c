@@ -1,5 +1,6 @@
 #include "console.h"
 #include "ramfs/vgacntrl.h"
+#include "catofdeath.h"
 
 static int x = 0;
 static int y = 0;
@@ -9,10 +10,25 @@ static char color = 0x07;
 static char* video = (char*) 0xb8000;
 
 static void kputc(char c) {
-    if(ramfs_vga_writers()) {
-        //TODO write to stdout;
-        return;
+    if(in_cod()) {
+        goto doKPutc;
     }
+
+    if(get_current_task() != 0) {
+        if(get_current_task()->stdout != 0) {
+            vfs_write(get_current_task()->stdout, &(char){0x11}, sizeof(char), 1);
+            vfs_write(get_current_task()->stdout, &color, sizeof(char), 1);
+            vfs_write(get_current_task()->stdout, &c, sizeof(char), 1);
+
+            return;
+        }
+    }
+
+    /*if(ramfs_vga_writers()) {
+        return;
+    }*/
+
+    doKPutc:
 
     if ((c == '\n') || (x > 79)) {
         x = 0;

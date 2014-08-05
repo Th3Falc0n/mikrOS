@@ -6,6 +6,10 @@
 #include "ramfs/vgacntrl.h"
 
 struct cpu_state* syscall(struct cpu_state* cpu) {
+    save_cpu_state(cpu);
+
+    cpu = get_current_task()->cpuState;
+
 	switch (cpu->eax) {
 	case 1: /* exit */
 		cpu = terminate_current(cpu);
@@ -13,7 +17,6 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 
 	case 2: /* fork */
 	{
-		save_cpu_state(cpu);
 
 		uint32_t forkpdir = vmm_fork_current();
 
@@ -26,9 +29,7 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 
     case 3: /* exec */
     {
-        save_cpu_state(cpu);
         vfs_exec((char*) cpu->ebx, (char**) cpu->ecx, get_current_task());
-        cpu = get_current_task()->cpuState;
     }
         break;
 
@@ -101,7 +102,7 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 	case 14: /* fmkfifo */
 	{
         char* name = strclone((char*) cpu->ebx);
-        vfs_create_kfile(name, ramfs_fifo_driver_struct(), &(uint32_t){65536});
+        vfs_create_kfile(name, ramfs_fifo_driver_struct(), &(uint32_t){16384}); //default to 16k Buffer-size
 
         struct res_handle* handle = vfs_open(name, FM_READ | FM_WRITE);
         if(handle) {
