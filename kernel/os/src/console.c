@@ -24,9 +24,9 @@ static void kputc(char c) {
         }
     }
 
-    /*if(ramfs_vga_writers()) {
+    if(ramfs_vga_writers()) {
         return;
-    }*/
+    }
 
     doKPutc:
 

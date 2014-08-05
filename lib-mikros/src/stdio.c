@@ -1,5 +1,6 @@
 #include "stdio.h"
 #include "string.h"
+#include "process.h"
 
 static HANDLE getpmhandle   (uint32_t pmid) {
     struct regstate state = {
@@ -89,6 +90,7 @@ uint32_t fwrite(uint32_t handle, const void* src, uint32_t length) {
     uint32_t res = frwrite(handle, src, length);
 
     while(res == RW_BLOCK) {
+        yield();
         res = frwrite(handle, src, length);
     }
 
@@ -114,6 +116,7 @@ uint32_t fread(uint32_t handle, void* dest, uint32_t length) {
     uint32_t res = frread(handle, dest, length);
 
     while(res == RW_BLOCK) {
+        yield();
         res = frread(handle, dest, length);
     }
 

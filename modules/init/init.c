@@ -7,6 +7,8 @@
 static void fexec(char* path, char* args[]) {
     uint32_t pid = fork();
 
+    //TODO: fix args (will be overriden in new vmm_context, cause of rewriting program) :)
+
     if(pid == 0) {
         exec(path, args);
 
@@ -37,16 +39,21 @@ int main(int argc, char* args[])
 
     printf("[init] now working on tty0\n");
 
-    char in = 0;
-
     print_memstat();
 
-    for(uint32_t i = 0; i < 0xFFFF; i++) {
+    fexec("/ibin/urnd_prov", 0);
+    waitResp(cntrl);
 
+    HANDLE test = fopen("/dev/urandom", FM_READ);
+
+    char* c = malloc(513);
+    c[512] = '\0';
+
+    while(1) {
+        fread(test, c, 512);
+
+        puts(c);
     }
-
-    char* test = (void*) 0x0;
-    *test = 5;
 
     return 0;
 }

@@ -6,6 +6,7 @@
 
 void _start();
 void exit(int returncode);
+void yield();
 uint32_t fork(void);
 void exec(char* path, char** args);
 

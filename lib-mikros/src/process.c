@@ -31,6 +31,21 @@ void _start() {
   exit(main(argc, args));
 }
 
+void yield() {
+    struct regstate state = {
+      .eax = 5,
+      .ebx = 0,
+      .ecx = 0,
+      .edx = 0,
+      .esi = 0,
+      .edi = 0
+    };
+
+    syscall(&state);
+
+    return;
+}
+
 void exit(int returncode) {
   struct regstate state = {
     .eax = 1,

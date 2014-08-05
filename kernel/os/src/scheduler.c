@@ -102,15 +102,13 @@ struct cpu_state* terminate_current(struct cpu_state* cpu) {
         prev->next = next;
     }
 
-    //TODO: handle if all tasks are closed
-
     if (next == 0)
         next = first_task;
 
     current_task = next;
 
     if(current_task == 0) {
-        //show_cod(cpu, "Last task terminated.");
+        show_cod(cpu, "Last task terminated.");
     }
 
     vmm_activate_pagedir(current_task->phys_pdir);

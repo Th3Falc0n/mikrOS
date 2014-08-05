@@ -88,7 +88,6 @@ uint32_t ramfs_fifo_write(struct res_handle* handle, void* src, uint32_t length)
 struct res_handle* ramfs_fifo_open(struct res_kfile* kf, uint32_t filemode) {
     if(buffer[kf->id] != 0) {
         if(filemode & FM_EXEC) return 0;
-        if((filemode & FM_READ) && buffer[kf->id]->readers > 0) return 0;
 
         if((filemode & FM_READ)) buffer[kf->id]->readers++;
         if((filemode & FM_WRITE)) buffer[kf->id]->writers++;

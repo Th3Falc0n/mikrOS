@@ -7,7 +7,7 @@
 #include "pmm.h"
 #include "vfs.h"
 
-#define _VERSION "alphaKernelDev 1.01"
+#define _VERSION "alphaUSpaceDev 1.02"
 
 void init(struct multiboot_info* mb_info) {
 	clrscr();

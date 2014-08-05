@@ -17,7 +17,7 @@
 _start:
     mov $kernel_stack, %esp
  	
-		push %ebx
+    push %ebx
     call init
 _stop:
     cli
