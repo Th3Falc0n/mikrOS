@@ -1,7 +1,6 @@
 #include "console.h"
 #include "gdt.h"
 #include "idt.h"
-#include "os/drivers/drvinit.h"
 #include "kernel.h"
 #include "multiboot.h"
 #include "pmm.h"
@@ -23,10 +22,6 @@ void init(struct multiboot_info* mb_info) {
 	kprintf("Initializing IDT...\n");
 
 	init_idt();
-
-	kprintf("Initializing in-kernel-Drivers...\n");
-
-	init_drivers();
 
 	kprintf("Initializing Kernel...\n");
 

@@ -194,21 +194,19 @@ struct cpu_state* handle_interrupt(struct cpu_state* cpu) {
 
 		if (cpu->intr == 0x20) {
 			new_cpu = schedule(cpu);
-
-	        outb(0x20, 0x20);
+		}
+		else
+		{
+            if (handler_set[cpu->intr]) {
+                handlers[cpu->intr]();
+            }
 		}
 
-		if (handler_set[cpu->intr]) {
-			handlers[cpu->intr]();
-		}
+        outb(0x20, 0x20);
 	} else if (cpu->intr == 0x30) {
 		new_cpu = syscall(new_cpu);
 	} else {
-		kprintf("Unbekannter Interrupt\n");
-		while (1) {
-			// Prozessor anhalten
-			asm volatile("cli; hlt");
-		}
+		show_cod(cpu, "Unknown Interrupt!");
 	}
 
 	return new_cpu;

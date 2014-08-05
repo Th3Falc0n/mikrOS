@@ -44,7 +44,7 @@ int main(int argc, char* args[])
     fexec("/ibin/urnd_prov", 0);
     waitResp(cntrl);
 
-    HANDLE test = fopen("/dev/urandom", FM_READ);
+    /*HANDLE test = fopen("/dev/urandom", FM_READ);
 
     char* c = malloc(513);
     c[512] = '\0';
@@ -53,7 +53,11 @@ int main(int argc, char* args[])
         fread(test, c, 512);
 
         puts(c);
-    }
+    }*/
+
+    printf("[ibin/init] Finished. Starting /etc/init/post_ramfs");
+
+    while(1);
 
     return 0;
 }

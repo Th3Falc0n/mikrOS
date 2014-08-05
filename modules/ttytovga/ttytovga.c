@@ -41,8 +41,10 @@ int main(int argc, char* args[])
 
     struct vga_command* vgac = malloc(sizeof(struct vga_command));
 
-    char* vString = "[ttytovga] Switched to TTY to VGA (userspace terminal)\n";
-    fwrite(fifoInpt, vString, strlen(vString));
+    setstdout("/dev/tty0");
+    setstderr("/dev/tty0");
+
+    printf("[ttytovga] Switched to TTY to VGA (userspace terminal)\n");
 
     sendCommand(CMD_CLEAR, 0, 0);
 
@@ -66,6 +68,7 @@ int main(int argc, char* args[])
         }
 
         if (nchar == '\n') {
+            color = 0x09;
             continue;
         }
 

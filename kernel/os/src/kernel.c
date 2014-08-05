@@ -4,6 +4,7 @@
 #include "ramfs/block.h"
 #include "ramfs/tar.h"
 #include "ramfs/vgacntrl.h"
+#include "drivers/keyboard.h"
 
 struct cpu_state* syscall(struct cpu_state* cpu) {
     save_cpu_state(cpu);
@@ -240,6 +241,9 @@ void kernel_main(struct multiboot_info* mb_info) {
     vfs_init_root();
     ramfs_fifo_init();
     ramfs_block_init();
+
+    driver_keyboard_init();
+
 
     map_address_active((uint32_t) mb_info,
                        (uint32_t) mb_info, 0);
