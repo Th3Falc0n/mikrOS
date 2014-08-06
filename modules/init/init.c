@@ -35,27 +35,26 @@ int main(int argc, char* args[])
     waitResp(cntrl);
 
     setstdout("/dev/tty0");
+    setstdin ("/dev/keyboard");
     setstderr("/dev/tty0");
 
     printf("[init] now working on tty0\n");
 
     print_memstat();
 
+    printf("[init] executing virtual file drivers\n");
     fexec("/ibin/urnd_prov", 0);
     waitResp(cntrl);
 
-    /*HANDLE test = fopen("/dev/urandom", FM_READ);
+    printf("[init] switching to shell\n");
 
-    char* c = malloc(513);
-    c[512] = '\0';
+    char* testparams[] = {
+        "test1",
+        "test2",
+        0
+    };
 
-    while(1) {
-        fread(test, c, 512);
-
-        puts(c);
-    }*/
-
-    printf("[ibin/init] Finished. Starting /etc/init/post_ramfs");
+    fexec("/ibin/csh", testparams);
 
     while(1);
 

@@ -70,6 +70,23 @@ int fclose(uint32_t handle) {
     return (int)state.eax;
 }
 
+static void printrwerror(HANDLE handle, uint32_t res) {
+    if(res == RW_ERR_VFS) {
+        printf("HANDLE[0x%x] VFS_ERROR\n", handle);
+    }
+
+    if(res == RW_ERR_DRIVER) {
+        printf("HANDLE[0x%x] DRIVER_ERROR\n", handle);
+    }
+
+    if(res == RW_NOFM_READ) {
+        printf("HANDLE[0x%x] FILEMODE doesn't allow read\n", handle);
+    }
+
+    if(res == RW_NOFM_WRITE) {
+        printf("HANDLE[0x%x] FILEMODE doesn't allow write\n", handle);
+    }
+}
 
 static uint32_t frwrite(uint32_t handle, const void* src, uint32_t length) {
     struct regstate state = {
@@ -93,6 +110,8 @@ uint32_t fwrite(uint32_t handle, const void* src, uint32_t length) {
         yield();
         res = frwrite(handle, src, length);
     }
+
+    printrwerror(handle, res);
 
     return res;
 }
@@ -120,6 +139,8 @@ uint32_t fread(uint32_t handle, void* dest, uint32_t length) {
         res = frread(handle, dest, length);
     }
 
+    printrwerror(handle, res);
+
     return res;
 }
 
@@ -145,6 +166,27 @@ static HANDLE resolveHandle(HANDLE hdl) {
     return hdl;
 }
 
+char fgetc(HANDLE hdl) {
+    hdl = resolveHandle(hdl);
+    char in = 0;
+    if(hdl != 0) {
+        fread(hdl, &in, sizeof(char));
+    }
+    return in;
+}
+
+char* fgets(char* str, int num, HANDLE hdl) {
+    for(int n = 0; n < (num - 1); n++) {
+        str[n] = fgetc(hdl);
+        if(str[n] == 0 || str[n] == '\0') {
+            return str;
+        }
+    }
+
+    str[num] = '\0';
+    return str;
+}
+
 static int kputc(char c) {
   struct regstate state = {
     .eax = 201,
@@ -160,8 +202,12 @@ static int kputc(char c) {
   return state.eax;
 }
 
-int putc(char c) {
+int putchar(char c) {
     return fputc(c, PMID_STDOUT);
+}
+
+int putc(char c, HANDLE hdl) {
+    return fputc(c, hdl);
 }
 
 int fputc(char c, HANDLE hdl) {
@@ -251,20 +297,20 @@ int printf(const char* fmt, ...)
           break;
         case 'c':
           c = va_arg(ap, int);
-          wrt += putc(c);
+          wrt += putchar(c);
           break;
         case '%':
-          wrt += putc('%');
+          wrt += putchar('%');
           break;
         case '\0':
           goto out;
         default:
-          wrt += putc('%');
-          wrt += putc(*fmt);
+          wrt += putchar('%');
+          wrt += putchar(*fmt);
           break;
       }
     } else {
-      wrt += putc(*fmt);
+      wrt += putchar(*fmt);
     }
 
     fmt++;

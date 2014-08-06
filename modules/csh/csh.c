@@ -5,5 +5,13 @@
  
 int main(int argc, char* args[])
 {
-  return 0;
+    if(argc > 0) {
+        printf("CSH started with %d arguments (args[0] = %s)\n", argc, args[0]);
+    }
+    else
+    {
+        printf("CSH started with 0 arguments\n");
+    }
+
+    return 0;
 }

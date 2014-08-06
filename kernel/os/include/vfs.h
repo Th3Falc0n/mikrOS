@@ -19,6 +19,8 @@
 #define RW_BLOCK      1
 #define RW_ERR_VFS    2
 #define RW_ERR_DRIVER 3
+#define RW_NOFM_READ  4
+#define RW_NOFM_WRITE 5
 
 #define SEEK_SET  0
 #define SEEK_CUR  1

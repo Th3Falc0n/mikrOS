@@ -20,6 +20,8 @@ typedef uint32_t HANDLE;
 #define RW_BLOCK      1
 #define RW_ERR_VFS    2
 #define RW_ERR_DRIVER 3
+#define RW_NOFM_READ  4
+#define RW_NOFM_WRITE 5
 
 HANDLE   fopen  (char* path, uint32_t filemode);
 HANDLE   fmkfifo(char* path);
@@ -33,11 +35,14 @@ int setstdout(char* path);
 int setstdin (char* path);
 int setstderr(char* path);
 
-int putc(char c);
+int putchar(char c);
 int puts(const char* cp);
 int printf(const char* fmt, ...);
-
+int putc(char c, HANDLE hdl);
 int fputc(char c, HANDLE hdl);
 int fputs(const char* cp, HANDLE hdl);
+
+char  fgetc(HANDLE hdl);
+char* fgets(char* str, int num, HANDLE hdl);
 
 #endif

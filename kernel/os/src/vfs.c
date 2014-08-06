@@ -139,6 +139,8 @@ uint32_t vfs_close(struct res_handle* handle) {
 uint32_t vfs_read(struct res_handle* handle, void* dest, uint32_t size, uint32_t count) {
     if(handle == 0) return RW_ERR_VFS;
 
+    if(!(handle->filemode & FM_READ)) return RW_NOFM_READ;
+
     if(handle->res_type == RES_KERNDRV) {
        struct res_kfile* kf = (struct res_kfile*)handle->res_ptr;
 
@@ -161,6 +163,8 @@ uint32_t vfs_read(struct res_handle* handle, void* dest, uint32_t size, uint32_t
 
 uint32_t vfs_write(struct res_handle* handle, void* src,  uint32_t size, uint32_t count) {
     if(handle == 0) return RW_ERR_VFS;
+
+    if(!(handle->filemode & FM_WRITE)) return RW_NOFM_WRITE;
 
     if(handle->res_type == RES_KERNDRV) {
        struct res_kfile* kf = (struct res_kfile*)handle->res_ptr;
@@ -225,6 +229,26 @@ void vfs_exec(char* ip, char* args[], struct task* task) {
             kprintf("[exec] Replacing old task...\n");
         }
 
+
+        //Copy args into kernel memory
+        uint32_t argc = 0;
+
+        if(args != 0) {
+            while(args[argc] != 0) {
+                argc++;
+            }
+        }
+
+        char** kargs = malloc((sizeof(char*)) * (argc + 1));
+
+        for(uint32_t i = 0; i < argc; i++) {
+            kargs[i] = malloc(strlen(args[i]) + 1);
+            strcpy(kargs[i], args[i]);
+        }
+
+        kargs[argc] = 0;
+
+        //Execute file
         struct res_handle* handle = vfs_open(path, FM_EXEC | FM_READ);
 
         if(handle) {
@@ -279,9 +303,19 @@ void vfs_exec(char* ip, char* args[], struct task* task) {
 
                 memcpy(dest, src, ph->file_size);
             }
-
-            task->args = args;
             task->cpuState->eip = (uint32_t) elf_mod_entry;
+
+            //Copy args into new task
+            char** usargs = vmm_alloc_ucont(1);
+
+            for(uint32_t i = 0; i < argc; i++) {
+                usargs[i] = vmm_alloc_ucont(1); //FIXME will fail on strings > 4095 chars or more than 1023 arguments
+                strcpy(usargs[i], kargs[i]);
+            }
+
+            usargs[argc] = 0;
+
+            task->args = usargs;
 
             if(task != get_current_task()) vmm_activate_pagedir(old_pdir);
 
