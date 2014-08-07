@@ -2,6 +2,21 @@
 #include "string.h"
 #include "process.h"
 
+uint32_t getLastVFSErr() {
+    struct regstate state = {
+        .eax = 15,
+        .ebx = 0,
+        .ecx = 0,
+        .edx = 0,
+        .esi = 0,
+        .edi = 0
+    };
+
+    syscall(&state);
+
+    return state.eax;
+}
+
 static HANDLE getpmhandle   (uint32_t pmid) {
     struct regstate state = {
       .eax = 20,

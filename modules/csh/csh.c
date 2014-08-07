@@ -2,28 +2,44 @@
 #include "stdio.h"
 #include "process.h"
 #include "string.h"
- 
-char currentPath[512] = "/ibin/";
 
 int main(int argc, char* args[])
 {
+    char epath[512];
     char instr[512];
-    char execstr[512];
+
+    cd("ibin");
 
     while(1) {
-        printf("$%s> ", currentPath);
+        getExecPath(epath);
+        printf("$%s> ", epath);
         getln(instr);
 
-        if(instr[0] == '/') { //absolute path
-            strcpy(execstr, instr);
-        }
-        else //relative path (TODO .. and .)
-        {
-            strcpy(execstr, currentPath); //TODO for every search path, not only current path
-            strcpy((void*)((uint32_t)execstr + strlen(currentPath)), instr);
-        }
+        char* cmd = strtoknc(instr, " ");
 
-        texec(execstr, 0);
+        if(cmd != 0) {
+            char* pargs[64];
+            int n = 0;
+
+            do {
+                pargs[n] = strtoknc(0, " ");
+                n++;
+            } while(pargs[n-1] != 0);
+
+            if(!strcmp(cmd, "cd")) {
+                if(pargs[0] != 0) {
+                    cd((char*)pargs[0]);
+                }
+                else
+                {
+                    printf("cd: usage: \"cd [PATH)\"\n");
+                }
+
+                continue;
+            }
+
+            texec(instr, pargs);
+        }
     }
 
     return 0;

@@ -67,7 +67,7 @@ struct cpu_state* schedule_exception(struct cpu_state* cpu) {
     if (current_task == first_task && current_task->next == 0) {
         //Only one process is running, which just crashed. Stop system.
         setclr(0x04);
-        kprintf("\n~~~ Terminated task (PID=%d PATH=%s) due to exception %x:%x \n", current_task->PID, current_task->path, cpu->intr, cpu->error);
+        kprintf("\n~~~ Terminated task (PID=%d PATH=%s) due to exception %x:%x \n", current_task->PID, current_task->filePath, cpu->intr, cpu->error);
         show_cod(cpu, "Last task crashed. Terminating kernel...");
 
         //will never occur cause COD terminates execution
@@ -75,7 +75,7 @@ struct cpu_state* schedule_exception(struct cpu_state* cpu) {
     } else {
         //Potential security leaks available in following code.
         setclr(0x04);
-        kprintf("\n~~~ Terminated task (PID=%d PATH=%s) due to exception %x:%x \n", current_task->PID, current_task->path, cpu->intr, cpu->error);
+        kprintf("\n~~~ Terminated task (PID=%d PATH=%s) due to exception %x:%x \n", current_task->PID, current_task->filePath, cpu->intr, cpu->error);
         kprintf("\n");
         show_dump(cpu);
         setclr(0x07);
@@ -117,12 +117,6 @@ struct cpu_state* terminate_current(struct cpu_state* cpu) {
 
     vmm_activate_pagedir(current_task->phys_pdir);
     return current_task->cpuState;
-}
-
-void fork_task_state(struct task* new_task) {
-    new_task->stdout = current_task->stdout;
-    new_task->stdin  = current_task->stdin;
-    new_task->stderr = current_task->stderr;
 }
 
 struct task* init_task(uint32_t task_pagedir, void* entry) {

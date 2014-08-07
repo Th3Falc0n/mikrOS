@@ -66,6 +66,38 @@ void exit(int returncode) {
     }
 }
 
+void getExecPath(char* dest) {
+    struct regstate state = {
+        .eax = 6,
+        .ebx = (uint32_t)dest,
+        .ecx = 0,
+        .edx = 0,
+        .esi = 0,
+        .edi = 0
+    };
+
+    syscall(&state);
+}
+
+int changeExecPath(char* path) {
+    struct regstate state = {
+        .eax = 7,
+        .ebx = (uint32_t)path,
+        .ecx = 0,
+        .edx = 0,
+        .esi = 0,
+        .edi = 0
+    };
+
+    syscall(&state);
+
+    return state.eax;
+}
+
+void cd(char* path) {
+    if(!changeExecPath(path)) printexecerror(path, getLastVFSErr());
+}
+
 int exec(char* path, char** args) {
     struct regstate state = {
         .eax = 3,
@@ -81,28 +113,40 @@ int exec(char* path, char** args) {
     return state.eax;
 }
 
-void texec(char* path, char** args) {
+int texec(char* path, char** args) {
     uint32_t res = exec(path, args);
 
-    if(res) {
-        printexecerror(path, res);
+    if(!res) {
+        printexecerror(path, getLastVFSErr());
     }
+
+    return res;
 }
 
 void printexecerror(char* path, uint32_t code) {
     switch(code) {
-    case EXEC_CORRUPT_ELF:
-        printf("%s: Corrupt elf", path);
+    case PE_NO_ERROR:
+        printf("%s: Unknown error", path);
         break;
-    case EXEC_FILESYSTEM:
+    case PE_INVALID:
+        printf("%s: Specified path was invalid", path);
+        break;
+    case PE_CORRUPT_FILE:
+        printf("%s: File is not a valid executable binary", path);
+        break;
+    case PE_FILESYSTEM:
         printf("%s: Filesystem error", path);
         break;
-    case EXEC_PERM_DENIED:
-        printf("%s: Permission denied", path);
+    case PE_PERM_DENIED:
+        printf("%s: Permission to execute path denied (maybe a directory?)", path);
         break;
-    case EXEC_FILE_NOT_FOUND:
+    case PE_FILE_NOT_FOUND:
         printf("%s: File not found", path);
         break;
+    default:
+        printf("%s: WTF", path);
+        break;
+
     }
     printf("\n");
 }

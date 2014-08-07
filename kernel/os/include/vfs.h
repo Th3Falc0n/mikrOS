@@ -25,11 +25,12 @@
 #define SEEK_SET  0
 #define SEEK_CUR  1
 
-#define EXEC_OK             0
-#define EXEC_FILE_NOT_FOUND 1
-#define EXEC_PERM_DENIED    2
-#define EXEC_CORRUPT_ELF    3
-#define EXEC_FILESYSTEM          4
+#define PE_NO_ERROR       0
+#define PE_FILE_NOT_FOUND 1
+#define PE_PERM_DENIED    2
+#define PE_CORRUPT_FILE   3
+#define PE_FILESYSTEM     4
+#define PE_INVALID        5
 
 struct res_handle {
     uint32_t res_type;
@@ -66,11 +67,15 @@ struct kfs_driver {
     char*              drvname;
 };
 
+void               vfs_reset_error();
+
 void               vfs_init_root   (void);
 void               vfs_debug_ls    (char* path);
 uint32_t           vfs_create_dir  (char* path);
 uint32_t           vfs_create_kfile(char* path, struct kfs_driver* driver, uint32_t* params);
 uint32_t           vfs_remove      (char* path);
+
+char*              vfs_resolve_path(char* path);
 
 struct res_handle* vfs_open        (char* path, uint32_t filemode);
 uint32_t           vfs_close       (struct res_handle* handle);
@@ -80,6 +85,6 @@ uint32_t           vfs_available   (struct res_handle* handle);
 uint32_t           vfs_exists      (char* path);
 void               vfs_seek        (struct res_handle* handle, uint32_t offset, uint32_t origin);
 
-uint32_t           vfs_exec        (char* path, char* args[]);
+uint32_t           vfs_exec(char* path, char* args[], char* execPath, char* stdin, char* stdout, char* stderr);
 
 #endif

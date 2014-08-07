@@ -23,6 +23,15 @@ typedef uint32_t HANDLE;
 #define RW_NOFM_READ  4
 #define RW_NOFM_WRITE 5
 
+#define PE_NO_ERROR       0
+#define PE_FILE_NOT_FOUND 1
+#define PE_PERM_DENIED    2
+#define PE_CORRUPT_FILE   3
+#define PE_FILESYSTEM     4
+#define PE_INVALID        5
+
+uint32_t getLastVFSErr();
+
 HANDLE   fopen  (char* path, uint32_t filemode);
 HANDLE   fmkfifo(char* path);
 int      fclose (HANDLE handle);

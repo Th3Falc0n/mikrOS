@@ -20,7 +20,10 @@ struct task {
     uint32_t phys_pdir;
 
     char** args;
-    char*  path;
+    char*  filePath;
+    char*  execPath;
+
+    uint32_t vfserr;
 
     struct res_handle* stdout;
     struct res_handle* stderr;
@@ -43,7 +46,6 @@ struct cpu_state* terminate_current(struct cpu_state* cpu);
 struct cpu_state* schedule_exception(struct cpu_state* cpu);
 struct cpu_state* schedule(struct cpu_state* cpu);
 void save_cpu_state(struct cpu_state* cpu);
-void fork_task_state(struct task* new_task);
 void enableScheduling(void);
 uint32_t isSchedulingEnabled(void);
 

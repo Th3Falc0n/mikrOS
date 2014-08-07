@@ -6,6 +6,13 @@
 #include "ramfs/vgacntrl.h"
 #include "drivers/keyboard.h"
 
+struct exec_info {
+    char* execPath;
+    char* stdin;
+    char* stdout;
+    char* stderr;
+};
+
 struct cpu_state* syscall(struct cpu_state* cpu) {
     save_cpu_state(cpu);
 
@@ -17,7 +24,34 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 
     case 3: /* exec */
     {
-        cpu->eax = vfs_exec((char*) cpu->ebx, (char**) cpu->ecx);
+        char* path = strclone((char*) cpu->ebx);
+
+        struct exec_info* einp = (void*) cpu->edx;
+
+        struct exec_info ein = {
+            .execPath = 0,
+            .stdin = 0,
+            .stdout = 0,
+            .stderr = 0
+        };
+
+        if(einp != 0) {
+            ein.execPath = strclone(einp->execPath);
+            ein.stdin = strclone(einp->stdin);
+            ein.stdout = strclone(einp->stdout);
+            ein.stderr = strclone(einp->stderr);
+        }
+
+        cpu->eax = vfs_exec(path, (char**) cpu->ecx, ein.execPath, ein.stdin, ein.stdout, ein.stderr);
+
+        if(einp != 0) {
+            free(ein.execPath);
+            free(ein.stdin);
+            free(ein.stdout);
+            free(ein.stderr);
+        }
+
+        free(path);
     }
         break;
 
@@ -33,8 +67,35 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
     }
         break;
 
+    case 6: /* getExecPath */
+    {
+        char* dest = (char*)cpu->ebx;
+        if(get_current_task()->execPath != 0) strcpy(dest, get_current_task()->execPath);
+    }
+        break;
+
+    case 7: /* changeExecPath */
+    {
+        vfs_reset_error();
+        char* path = strclone((char*) cpu->ebx);
+
+        if(get_current_task()->execPath != 0) free(get_current_task()->execPath);
+
+        char* new = vfs_resolve_path(path);
+
+        cpu->eax = 0;
+        if(new) {
+            get_current_task()->execPath = new;
+            cpu->eax = 1;
+        }
+
+        free(path);
+    }
+        break;
+
 	case 10: /* fopen */
 	{
+        vfs_reset_error();
 	    char* name = strclone((char*) cpu->ebx);
 	    uint32_t fmode = (uint32_t) cpu->ecx;
 
@@ -54,6 +115,7 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 
 	case 11: /* fclose */
 	{
+        vfs_reset_error();
 	    struct res_handle* handle = (void*) cpu->ebx;
 	    if(!unregister_handle(handle)) {
 	        vfs_close(handle);
@@ -69,6 +131,7 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 
 	case 12: /* fwrite */
 	{
+        vfs_reset_error();
 	    struct res_handle* handle = (void*) cpu->ebx;
 	    if(handle != 0) {
 	        cpu->eax = vfs_write(handle, (char*) cpu->ecx, cpu->edx, 1);
@@ -82,6 +145,7 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 
 	case 13: /* fread */
 	{
+        vfs_reset_error();
         struct res_handle* handle = (void*) cpu->ebx;
         if(handle != 0) {
             cpu->eax = vfs_read(handle, (char*) cpu->ecx, cpu->edx, 1);
@@ -95,6 +159,7 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 
 	case 14: /* fmkfifo */
 	{
+        vfs_reset_error();
         char* name = strclone((char*) cpu->ebx);
         vfs_create_kfile(name, ramfs_fifo_driver_struct(), &(uint32_t){4096}); //default to 4k Buffer-size
 
@@ -109,6 +174,13 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
         }
 
         free(name);
+	}
+	    break;
+
+	case 15: /* getLastVFSErr */
+	{
+	    cpu->eax = get_current_task()->vfserr;
+        vfs_reset_error();
 	}
 	    break;
 
@@ -137,6 +209,7 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 
 	case 21: /* fopenpmhandle */
 	{
+	    vfs_reset_error();
 	    char* path = strclone((char*)cpu->ecx);
 
 	    struct res_handle* open;
@@ -257,7 +330,7 @@ void kernel_main(struct multiboot_info* mb_info) {
     if(vfs_exists("/ibin/init")) {
         kprintf("[init] /ibin/init found. Executing...\n");
 
-        vfs_exec("/ibin/init", 0);
+        vfs_exec("/ibin/init", 0, 0, 0, 0, 0);
         enableScheduling();
     }
 

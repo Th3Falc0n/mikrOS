@@ -5,7 +5,49 @@ struct res_node* root = 0;
 struct res_node* current = 0;
 struct res_node* temp = 0;
 
+static void vfs_set_error(uint32_t code) {
+    if(get_current_task()) {
+        if(get_current_task()->vfserr == PE_NO_ERROR) {
+            get_current_task()->vfserr = code;
+        }
+    }
+}
+
+void vfs_reset_error() {
+    if(get_current_task()) {
+        get_current_task()->vfserr = PE_NO_ERROR;
+    }
+}
+
+char capfn_buf[513];
+
+static char* vfs_construct_absolute_path_for_node(struct res_node* node) {
+    capfn_buf[512] = '\0';
+    char* out =  &(capfn_buf[511]);
+
+    *out = '/';
+
+    while(node != root) {
+        out -= strlen(node->name);
+        strcpy(out, node->name);
+        *--out = '/';
+
+        node = node->parent;
+    }
+
+    return strclone(out);
+}
+
 static struct res_node* vfs_find_node(struct res_node* parent, char* name) {
+    if(name == 0) return parent;
+    if(name[0] == '\0') return parent;
+
+    if(!strcmp(name, ".")) return parent;
+    if(!strcmp(name, "..")) {
+        if(parent == root) return parent;
+        return parent->parent;
+    }
+
     if(parent->res_type == RES_SUBDIR) {
         struct res_node* ptr = parent->res_ptr;
 
@@ -37,9 +79,67 @@ static int vfs_insert_node(struct res_node* parent, struct res_node* child) {
     return 1;
 }
 
+
+static struct res_node* vfs_get_relative_node(struct res_node* parent, char* path) {
+    char* sub;
+    struct res_node* child = 0;
+
+    if(path == 0) {
+        vfs_set_error(PE_INVALID);
+        return 0;
+    }
+
+    if(path[0] == 0) {
+        vfs_set_error(PE_INVALID);
+        return 0;
+    }
+
+    sub = strtok(path, "/");
+
+    if(sub == NULL) {
+        return parent;
+    }
+
+    if(sub[0] == 0) sub = strtok(0, "/");
+
+    if(sub == NULL) {
+        return parent;
+    }
+
+    while (sub != NULL)
+    {
+        if(parent == 0) return 0;
+
+        child = vfs_find_node(parent, sub);
+        parent = child;
+
+        sub = strtok(0, "/");
+    }
+
+    return child;
+}
+
+static struct res_node* vfs_get_current_task_root_node_for_path(char* path) {
+    if(path == 0 || path[0] == '\0') {
+        vfs_set_error(PE_INVALID);
+        return 0;
+    }
+
+    if(path[0] == '/') return root;
+    if(get_current_task() == 0) return root;
+    if(get_current_task()->execPath == 0) return root;
+
+    return vfs_get_relative_node(root, get_current_task()->execPath);
+
+}
+
+static struct res_node* vfs_get_node(char* path) {
+    return vfs_get_relative_node(vfs_get_current_task_root_node_for_path(path), path);
+}
+
 static int vfs_create_path(char* path) {
     char* sub;
-    struct res_node* parent = root;
+    struct res_node* parent = vfs_get_current_task_root_node_for_path(path);
     struct res_node* child = 0;
 
     int created = 0;
@@ -71,25 +171,6 @@ static int vfs_create_path(char* path) {
     }
 
     return created;
-}
-
-static struct res_node* vfs_get_node(char* path) {
-    char* sub;
-    struct res_node* parent = root;
-    struct res_node* child = 0;
-
-    sub = strtok(path, "/");
-    if(sub[0] == 0) sub = strtok(0, "/");
-
-    while (sub != NULL)
-    {
-        if(parent == 0) return 0;
-        child = vfs_find_node(parent, sub);
-        parent = child;
-        sub = strtok(0, "/");
-    }
-
-    return child;
 }
 
 uint32_t vfs_create_dir(char* path) {
@@ -214,10 +295,11 @@ void vfs_seek(struct res_handle* handle, uint32_t offset, uint32_t origin) {
     }
 }
 
-uint32_t vfs_exec(char* ip, char* args[]) {
-    char* path = strclone(ip);
+uint32_t vfs_exec(char* path, char* args[], char* execPath, char* stdin, char* stdout, char* stderr) {
+    path = strclone(path);
     if(!vfs_exists(path)) {
-        return EXEC_FILE_NOT_FOUND;
+        vfs_set_error(PE_FILE_NOT_FOUND);
+        return 0;
     }
 
     uint32_t elf_mod_pdir;
@@ -246,12 +328,14 @@ uint32_t vfs_exec(char* ip, char* args[]) {
     struct res_handle* handle = vfs_open(path, FM_EXEC | FM_READ);
 
     if(!handle) {
-        return EXEC_PERM_DENIED;
+        vfs_set_error(PE_PERM_DENIED);
+        return 0;
     }
 
     uint32_t size = vfs_available(handle);
     if(size == 0) {
-        return EXEC_CORRUPT_ELF;
+        vfs_set_error(PE_CORRUPT_FILE);
+        return 0;
     }
 
     void* modsrc = malloc(size);
@@ -260,7 +344,8 @@ uint32_t vfs_exec(char* ip, char* args[]) {
 
     if(res != RW_OK) {
         free(modsrc);
-        return EXEC_FILESYSTEM;
+        vfs_set_error(PE_FILESYSTEM);
+        return 0;
     }
 
     uint32_t old_pdir = vmm_get_current_pagedir();
@@ -274,7 +359,8 @@ uint32_t vfs_exec(char* ip, char* args[]) {
     /* Ist es ueberhaupt eine ELF-Datei? */
     if (header->magic != ELF_MAGIC) {
         free(modsrc);
-        return EXEC_CORRUPT_ELF;
+        vfs_set_error(PE_CORRUPT_FILE);
+        return 0;
     }
 
     void* elf_mod_entry = (void*) (header->entry);
@@ -310,19 +396,54 @@ uint32_t vfs_exec(char* ip, char* args[]) {
 
     struct task* task = init_task(elf_mod_pdir, elf_mod_entry);
     if(get_current_task() != 0) {
-        fork_task_state(task);
+        task->stdin = get_current_task()->stdin;
+        task->stdout = get_current_task()->stdout;
+        task->stderr = get_current_task()->stderr;
+        task->execPath = get_current_task()->execPath;
     }
+
+    if(execPath != 0) {
+        task->execPath = execPath;
+    }
+
+    if(stdin != 0) {
+        if(vfs_exists(stdin)) {
+            struct res_handle* f = vfs_open(stdin, FM_READ);
+            if(f) task->stdin = f;
+        }
+    }
+
+    if(stdout != 0) {
+        if(vfs_exists(stdout)) {
+            struct res_handle* f = vfs_open(stdout, FM_READ);
+            if(f) task->stdout = f;
+        }
+    }
+
+    if(stderr != 0) {
+        if(vfs_exists(stderr)) {
+            struct res_handle* f = vfs_open(stderr, FM_READ);
+            if(f) task->stderr = f;
+        }
+    }
+
 
     //TODO change stdio if requested and free kargs
 
     task->args = usargs;
-    task->path = path;
+    task->filePath = path;
 
     vmm_activate_pagedir(old_pdir);
 
     free(modsrc);
 
-    return EXEC_OK;
+    return task->PID;
+}
+
+char* vfs_resolve_path(char* path) {
+    struct res_node* node = vfs_get_node(path);
+    if(node == 0) return 0;
+    return vfs_construct_absolute_path_for_node(node);
 }
 
 void vfs_init_root() {

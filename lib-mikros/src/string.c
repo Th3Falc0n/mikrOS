@@ -46,7 +46,7 @@ int strcmp(const char* str1, const char* str2) {
     int l2 = strlen(str2);
     l1 = l1 < l2 ? l1 : l2;
 
-    return memcmp(str1, str2, l1 * sizeof(char));
+    return memcmp(str1, str2, (l1 + 1) * sizeof(char));
 }
 
 unsigned int strlen(const char* str) {
