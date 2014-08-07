@@ -42,7 +42,9 @@ int putc(char c, HANDLE hdl);
 int fputc(char c, HANDLE hdl);
 int fputs(const char* cp, HANDLE hdl);
 
-char  fgetc(HANDLE hdl);
-char* fgets(char* str, int num, HANDLE hdl);
-
+char  fgetc  (HANDLE hdl);
+char* fgets  (char* str, int num, HANDLE hdl);
+char  getc   (HANDLE hdl);
+char  getchar();
+char* getln  (char* str);
 #endif

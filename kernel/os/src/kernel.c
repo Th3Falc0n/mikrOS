@@ -13,24 +13,11 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 
 	switch (cpu->eax) {
 	case 1: /* exit */
-		cpu = terminate_current(cpu);
-		break;
-
-	case 2: /* fork */
-	{
-
-		uint32_t forkpdir = vmm_fork_current();
-
-		struct task* ntask = init_task(forkpdir, 0);
-		fork_task_state(ntask);
-
-		cpu->eax = ntask->PID;
-	}
-        break;
+		return terminate_current(cpu);
 
     case 3: /* exec */
     {
-        vfs_exec((char*) cpu->ebx, (char**) cpu->ecx, get_current_task());
+        cpu->eax = vfs_exec((char*) cpu->ebx, (char**) cpu->ecx);
     }
         break;
 
@@ -270,7 +257,7 @@ void kernel_main(struct multiboot_info* mb_info) {
     if(vfs_exists("/ibin/init")) {
         kprintf("[init] /ibin/init found. Executing...\n");
 
-        vfs_exec("/ibin/init", 0, 0);
+        vfs_exec("/ibin/init", 0);
         enableScheduling();
     }
 

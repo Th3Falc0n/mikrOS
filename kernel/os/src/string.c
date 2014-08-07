@@ -74,7 +74,7 @@ char* strclone(char* str) {
 char* sp = NULL; /* the start position of the string */
 
 char* strtok(char* str, const char* delimiters) {
-    if(str != 0) {
+    if(str != 0) { //TODO no way to free the cloned string :|
         return strtoknc(strclone(str), delimiters);
     }
     return strtoknc(0, delimiters);
@@ -93,7 +93,7 @@ char* strtoknc(char* str, const char* delimiters) {
         return 0;
 
     /* initialize the sp during the first call */
-    if (str && !sp)
+    if (str)
         sp = str;
 
     /* find the start of the substring, skip delimiters */

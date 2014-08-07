@@ -25,6 +25,12 @@
 #define SEEK_SET  0
 #define SEEK_CUR  1
 
+#define EXEC_OK             0
+#define EXEC_FILE_NOT_FOUND 1
+#define EXEC_PERM_DENIED    2
+#define EXEC_CORRUPT_ELF    3
+#define EXEC_FILESYSTEM          4
+
 struct res_handle {
     uint32_t res_type;
     void* res_ptr;
@@ -74,6 +80,6 @@ uint32_t           vfs_available   (struct res_handle* handle);
 uint32_t           vfs_exists      (char* path);
 void               vfs_seek        (struct res_handle* handle, uint32_t offset, uint32_t origin);
 
-void               vfs_exec        (char* path, char* args[], struct task* task);
+uint32_t           vfs_exec        (char* path, char* args[]);
 
 #endif

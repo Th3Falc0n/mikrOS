@@ -1,20 +1,7 @@
 #include "stdint.h"
 #include "stdio.h"
-#include "vmmcall.h"
 #include "process.h"
 #include "stdlib.h"
-
-static void fexec(char* path, char* args[]) {
-    uint32_t pid = fork();
-
-    //TODO: fix args (will be overriden in new vmm_context, cause of rewriting program) :)
-
-    if(pid == 0) {
-        exec(path, args);
-
-        while(1);
-    }
-}
 
 static void waitResp(HANDLE cntrl) {
     char resp = 0;
@@ -31,7 +18,7 @@ int main(int argc, char* args[])
 
     HANDLE cntrl = fmkfifo("/var/cntrl/init");
 
-    fexec("/ibin/ttytovga", 0);
+    texec("/ibin/ttytovga", 0);
     waitResp(cntrl);
 
     setstdout("/dev/tty0");
@@ -43,7 +30,7 @@ int main(int argc, char* args[])
     print_memstat();
 
     printf("[init] executing virtual file drivers\n");
-    fexec("/ibin/urnd_prov", 0);
+    texec("/ibin/urnd_prov", 0);
     waitResp(cntrl);
 
     printf("[init] switching to shell\n");
@@ -54,7 +41,7 @@ int main(int argc, char* args[])
         0
     };
 
-    fexec("/ibin/csh", testparams);
+    texec("/ibin/csh", 0);
 
     while(1);
 

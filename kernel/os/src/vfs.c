@@ -83,6 +83,7 @@ static struct res_node* vfs_get_node(char* path) {
 
     while (sub != NULL)
     {
+        if(parent == 0) return 0;
         child = vfs_find_node(parent, sub);
         parent = child;
         sub = strtok(0, "/");
@@ -213,120 +214,115 @@ void vfs_seek(struct res_handle* handle, uint32_t offset, uint32_t origin) {
     }
 }
 
-void vfs_exec(char* ip, char* args[], struct task* task) {
+uint32_t vfs_exec(char* ip, char* args[]) {
     char* path = strclone(ip);
-    if(vfs_exists(path)) {
-        uint32_t elf_mod_pdir;
+    if(!vfs_exists(path)) {
+        return EXEC_FILE_NOT_FOUND;
+    }
 
-        if(task == 0) {
-            elf_mod_pdir = vmm_create_pagedir();
-            task = init_task(elf_mod_pdir, (void*)1);
-            kprintf("[exec] Initialized new task...\n");
-        }
-        else
-        {
-            elf_mod_pdir = task->phys_pdir;
-            kprintf("[exec] Replacing old task...\n");
-        }
+    uint32_t elf_mod_pdir;
 
+    elf_mod_pdir = vmm_create_pagedir();
 
-        //Copy args into kernel memory
-        uint32_t argc = 0;
+    //Copy args into kernel memory
+    uint32_t argc = 0;
 
-        if(args != 0) {
-            while(args[argc] != 0) {
-                argc++;
-            }
-        }
-
-        char** kargs = malloc((sizeof(char*)) * (argc + 1));
-
-        for(uint32_t i = 0; i < argc; i++) {
-            kargs[i] = malloc(strlen(args[i]) + 1);
-            strcpy(kargs[i], args[i]);
-        }
-
-        kargs[argc] = 0;
-
-        //Execute file
-        struct res_handle* handle = vfs_open(path, FM_EXEC | FM_READ);
-
-        if(handle) {
-            uint32_t size = vfs_available(handle);
-            if(size == 0) {
-                kprintf("[exec] %s is empty\n", path);
-                return;
-            }
-
-            void* modsrc = malloc(size);
-
-            uint32_t res = vfs_read(handle, modsrc, size, 1);
-
-            if(res != RW_OK) {
-                kprintf("[exec] Error while reading %s\n");
-                free(modsrc);
-                return;
-            }
-
-            uint32_t old_pdir = vmm_get_current_pagedir();
-
-            //**********************************************************************************************************
-            if(task != get_current_task())  vmm_activate_pagedir(elf_mod_pdir);
-
-            struct elf_header* header = modsrc;
-            struct elf_program_header* ph;
-
-            /* Ist es ueberhaupt eine ELF-Datei? */
-            if (header->magic != ELF_MAGIC) {
-                kprintf("[exec] Invalid ELF-Magic in %s!\n", path);
-                free(modsrc);
-                return;
-            }
-
-            void* elf_mod_entry = (void*) (header->entry);
-
-            ph = (struct elf_program_header*) (((char*) header) + header->ph_offset);
-
-            for (uint32_t n = 0; n < header->ph_entry_count; n++, ph++) {
-                void* dest = (void*) ph->virt_addr;
-                void* src = ((char*) header) + ph->offset;
-
-                /* Nur Program Header vom Typ LOAD laden */
-                if (ph->type != 1) {
-                    continue;
-                }
-
-                for (uint32_t offset = 0; offset < ph->mem_size; offset += 0x1000) {
-                    vmm_free(dest + offset);
-                    vmm_alloc_addr(dest + offset, 0);
-                }
-
-                memcpy(dest, src, ph->file_size);
-            }
-            task->cpuState->eip = (uint32_t) elf_mod_entry;
-
-            //Copy args into new task
-            char** usargs = vmm_alloc_ucont(1);
-
-            for(uint32_t i = 0; i < argc; i++) {
-                usargs[i] = vmm_alloc_ucont(1); //FIXME will fail on strings > 4095 chars or more than 1023 arguments
-                strcpy(usargs[i], kargs[i]);
-            }
-
-            usargs[argc] = 0;
-
-            task->args = usargs;
-
-            if(task != get_current_task()) vmm_activate_pagedir(old_pdir);
-
-            kprintf("[exec] Executed %s\n", path);
-            free(modsrc);
-        }
-        else
-        {
-            kprintf("[exec] %s doesn't exist\n", path);
+    if(args != 0) {
+        while(args[argc] != 0) {
+            argc++;
         }
     }
+
+    char** kargs = malloc((sizeof(char*)) * (argc + 1));
+
+    for(uint32_t i = 0; i < argc; i++) {
+        kargs[i] = malloc(strlen(args[i]) + 1);
+        strcpy(kargs[i], args[i]);
+    }
+
+    kargs[argc] = 0;
+
+    //Execute file
+    struct res_handle* handle = vfs_open(path, FM_EXEC | FM_READ);
+
+    if(!handle) {
+        return EXEC_PERM_DENIED;
+    }
+
+    uint32_t size = vfs_available(handle);
+    if(size == 0) {
+        return EXEC_CORRUPT_ELF;
+    }
+
+    void* modsrc = malloc(size);
+
+    uint32_t res = vfs_read(handle, modsrc, size, 1);
+
+    if(res != RW_OK) {
+        free(modsrc);
+        return EXEC_FILESYSTEM;
+    }
+
+    uint32_t old_pdir = vmm_get_current_pagedir();
+
+    //**********************************************************************************************************
+    vmm_activate_pagedir(elf_mod_pdir);
+
+    struct elf_header* header = modsrc;
+    struct elf_program_header* ph;
+
+    /* Ist es ueberhaupt eine ELF-Datei? */
+    if (header->magic != ELF_MAGIC) {
+        free(modsrc);
+        return EXEC_CORRUPT_ELF;
+    }
+
+    void* elf_mod_entry = (void*) (header->entry);
+
+    ph = (struct elf_program_header*) (((char*) header) + header->ph_offset);
+
+    for (uint32_t n = 0; n < header->ph_entry_count; n++, ph++) {
+        void* dest = (void*) ph->virt_addr;
+        void* src = ((char*) header) + ph->offset;
+
+        /* Nur Program Header vom Typ LOAD laden */
+        if (ph->type != 1) {
+            continue;
+        }
+
+        for (uint32_t offset = 0; offset < ph->mem_size; offset += 0x1000) {
+            vmm_free(dest + offset);
+            vmm_alloc_addr(dest + offset, 0);
+        }
+
+        memcpy(dest, src, ph->file_size);
+    }
+
+    //Copy args into new task
+    char** usargs = vmm_alloc_ucont(1);
+
+    for(uint32_t i = 0; i < argc; i++) {
+        usargs[i] = vmm_alloc_ucont(1); //FIXME will fail on strings > 4095 chars or more than 1023 arguments
+        strcpy(usargs[i], kargs[i]);
+    }
+
+    usargs[argc] = 0;
+
+    struct task* task = init_task(elf_mod_pdir, elf_mod_entry);
+    if(get_current_task() != 0) {
+        fork_task_state(task);
+    }
+
+    //TODO change stdio if requested and free kargs
+
+    task->args = usargs;
+    task->path = path;
+
+    vmm_activate_pagedir(old_pdir);
+
+    free(modsrc);
+
+    return EXEC_OK;
 }
 
 void vfs_init_root() {

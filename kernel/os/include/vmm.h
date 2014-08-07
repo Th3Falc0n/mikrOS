@@ -32,11 +32,11 @@
 
 #define PMEM_TABLES 128 //512MB virtual kernel_space
 
-#define ALLOCATABLE_BOTTOM 0x1000000 //leave space for multiboot modules
 #define USERSPACE_BOTTOM (PMEM_TABLES << 22)
 
-#define ACTIVE_PAGETBL_VADDR USERSPACE_BOTTOM
+#define ACTIVE_PAGETBL_VADDR 0x1000000 //leave space for multiboot modules
 #define ACTIVE_CONTEXT_VADDR (ACTIVE_PAGETBL_VADDR + 0x400000)
+#define ALLOCATABLE_BOTTOM   (ACTIVE_CONTEXT_VADDR + 0x1000)
 
 #define PROGRAM_BOTTOM (ACTIVE_CONTEXT_VADDR + 0x1000)
 
@@ -49,6 +49,7 @@ uint32_t vmm_create_pagedir(void);
 uint32_t vmm_fork_current(void);
 void vmm_activate_pagedir(uint32_t context);
 void vmm_free(void* vaddr);
+void vmm_free_current_pagetables(void);
 void vmm_unmap(void* vaddr);
 void vmm_map_range(void* vaddr, void* paddr, uint32_t length, uint32_t flags);
 void* vmm_alloc(uint32_t* retpaddr);

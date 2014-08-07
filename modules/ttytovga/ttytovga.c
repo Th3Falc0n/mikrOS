@@ -2,7 +2,6 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "string.h"
-#include "vmmcall.h"
 #include "process.h"
 
 #define CMD_SET    0
@@ -53,9 +52,11 @@ int main(int argc, char* args[])
     fclose(initCtrl);
 
     char nchar = '\0';
+    char ochar = '\0';
 
     while(1) {
         fread(fifoInpt, &nchar, sizeof(char));
+        ochar = nchar;
 
         if ((nchar == '\n') || (x > 79)) {
             x = 0;
@@ -72,23 +73,39 @@ int main(int argc, char* args[])
             continue;
         }
 
-        if (nchar == 0x11) {
+        if(nchar == 0x11) { //0x11 = SETCLR
             fread(fifoInpt, &nchar, sizeof(char));
             color = nchar;
             continue;
         }
 
+        if(nchar == 8) { //8 = BACKSPACE
+            if(x == 0) {
+                y--;
+                x = 79;
+            }
+            else
+            {
+                x--;
+            }
+            ochar = ' ';
+            nchar = 0;
+            color = 0x09;
+        }
+
         uint16_t send = 0;
         char* sndChr = (char*) &send;
 
-        sndChr[0] = nchar;
+        sndChr[0] = ochar;
         sndChr[1] = color;
 
         color = 0x09;
 
         sendCommand(CMD_SET, x + y * 80, send);
 
-        x++;
+        if(nchar != 0) {
+            x++;
+        }
     }
 
     return 0;

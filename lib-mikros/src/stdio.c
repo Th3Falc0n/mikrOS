@@ -187,6 +187,44 @@ char* fgets(char* str, int num, HANDLE hdl) {
     return str;
 }
 
+char getc(HANDLE hdl) {
+    return fgetc(hdl);
+}
+
+char getchar() {
+    return fgetc(PMID_STDIN);
+}
+
+char* getln(char* str) {
+    uint32_t index = 0;
+    char lastChar = 0;
+
+    while((lastChar = fgetc(PMID_STDIN))) {
+        if(lastChar == '\n') {
+            putchar('\n');
+            break;
+        }
+
+        if(lastChar == 8) {
+            if(index != 0) {
+                index--;
+                putchar(8);
+            }
+            str[index] = 0;
+            continue;
+        }
+
+        str[index] = lastChar;
+        putchar(lastChar);
+
+        index++;
+    }
+
+    str[index] = 0;
+
+    return str;
+}
+
 static int kputc(char c) {
   struct regstate state = {
     .eax = 201,

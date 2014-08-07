@@ -20,6 +20,7 @@ struct task {
     uint32_t phys_pdir;
 
     char** args;
+    char*  path;
 
     struct res_handle* stdout;
     struct res_handle* stderr;

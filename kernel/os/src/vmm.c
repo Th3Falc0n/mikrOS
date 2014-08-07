@@ -1,4 +1,5 @@
 #include "vmm.h"
+#include "scheduler.h"
 
 extern const void kernel_end;
 
@@ -77,33 +78,39 @@ uint32_t vmm_get_current_pagedir(void) {
 	return active_pagedir;
 }
 
-uint32_t vmm_fork_current(void) {
-	uint32_t phys_pagedir, paddr, i;
-	uint32_t* pdptr = vmm_create_vpdraw(&phys_pagedir);
-
-	for (i = PROGRAM_BOTTOM; i < 0xFFFFF000; i += 0x1000) {
-		if (active_pagetables[i >> 12] & PT_PRESENT) {
-			void* newp = vmm_alloc_user(&paddr);
-
-			memcpy(newp, (void*) i, 0x1000);
-			map_address_context(pdptr, i, paddr, 0);
-
-			vmm_unmap(newp);
-		}
-
-	}
-
-	vmm_free_pdptr(pdptr);
-
-	return phys_pagedir;
-}
-
 uint32_t vmm_create_pagedir() {
 	uint32_t phys_pagedir;
 	uint32_t* pdptr = vmm_create_vpdraw(&phys_pagedir);
 	vmm_free_pdptr(pdptr);
 
 	return phys_pagedir;
+}
+
+void vmm_free_current_pagetables() {
+    uint32_t* ppd = vmm_alloc(0);
+    uint32_t* ppt = vmm_alloc(0);
+    vmm_free(ppd);
+    vmm_free(ppt);
+
+    map_address_active((uint32_t)ppd, get_current_task()->phys_pdir, 0);
+
+    for(uint32_t i = PMEM_TABLES; i < 1024; i++) {
+        map_address_active((uint32_t)ppt, ppd[i] & 0xFFFFF000, 0);
+
+        for(uint32_t n = 0; n < 1024; n++) {
+            if(ppt[n] & PT_PRESENT) {
+
+                //kprintf("[exit] should free %x:%d->%x:%d->%x\n", vmm_resolve(ppd), i, ppd[i], n, ppt[n]);
+
+                pmm_free((void*)(ppt[n] & 0xFFFF000));
+            }
+        }
+
+        if(ppd[i] & PD_PRESENT) {
+            pmm_free((void*)(ppd[i] & (~0xFFF)));
+        }
+    }
+    pmm_free((void*)(get_current_task()->phys_pdir));
 }
 
 uint32_t vmm_resolve(void* vaddr) {
@@ -149,9 +156,9 @@ void map_address_context(uint32_t* pagedir, uint32_t vaddr, uint32_t paddr,
 }
 
 void map_address_active(uint32_t vaddr, uint32_t paddr, uint32_t flags) {
-	active_pagetables[vaddr >> 12] = (paddr & 0xFFFFF000) | PT_PRESENT
-			| PT_WRITE | (flags & 0xFFF)
-			| (active_pagetables[vaddr >> 12] & (PT_PUBLIC | PT_ALLOCATABLE));
+	active_pagetables[vaddr >> 12] = (paddr & 0xFFFFF000) | PT_PRESENT | PT_WRITE |
+	                                 (flags & 0xFFF) |
+	                                 (active_pagetables[vaddr >> 12] & (PT_PUBLIC | PT_ALLOCATABLE));
 	asm volatile("invlpg %0" : : "m" (*(char*)vaddr));
 }
 

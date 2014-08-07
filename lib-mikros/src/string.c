@@ -92,7 +92,7 @@ char* strtoknc(char* str, const char* delimiters) {
         return 0;
 
     /* initialize the sp during the first call */
-    if (str && !sp)
+    if (str)
         sp = str;
 
     /* find the start of the substring, skip delimiters */

@@ -67,7 +67,7 @@ struct cpu_state* schedule_exception(struct cpu_state* cpu) {
     if (current_task == first_task && current_task->next == 0) {
         //Only one process is running, which just crashed. Stop system.
         setclr(0x04);
-        kprintf("\n~~~ Terminated task (PID=%d) due to exception %x:%x \n", current_task->PID, cpu->intr, cpu->error);
+        kprintf("\n~~~ Terminated task (PID=%d PATH=%s) due to exception %x:%x \n", current_task->PID, current_task->path, cpu->intr, cpu->error);
         show_cod(cpu, "Last task crashed. Terminating kernel...");
 
         //will never occur cause COD terminates execution
@@ -75,7 +75,7 @@ struct cpu_state* schedule_exception(struct cpu_state* cpu) {
     } else {
         //Potential security leaks available in following code.
         setclr(0x04);
-        kprintf("\n~~~ Terminated task (PID=%d) due to exception %x:%x \n", current_task->PID, cpu->intr, cpu->error);
+        kprintf("\n~~~ Terminated task (PID=%d PATH=%s) due to exception %x:%x \n", current_task->PID, current_task->path, cpu->intr, cpu->error);
         kprintf("\n");
         show_dump(cpu);
         setclr(0x07);
@@ -87,8 +87,9 @@ struct cpu_state* schedule_exception(struct cpu_state* cpu) {
 struct cpu_state* terminate_current(struct cpu_state* cpu) {
     struct task* next = current_task->next;
     struct task* prev = current_task->prev;
+    struct task* old = current_task;
 
-    //TODO: free resources here
+    vmm_free_current_pagetables();
 
     if (current_task == first_task) {
         first_task = current_task->next;
@@ -107,6 +108,9 @@ struct cpu_state* terminate_current(struct cpu_state* cpu) {
 
     current_task = next;
 
+    free(old->cpuState);
+    free(old);
+
     if(current_task == 0) {
         show_cod(cpu, "Last task terminated.");
     }
@@ -116,15 +120,9 @@ struct cpu_state* terminate_current(struct cpu_state* cpu) {
 }
 
 void fork_task_state(struct task* new_task) {
-    new_task->user_stack_bottom = current_task->user_stack_bottom;
-
     new_task->stdout = current_task->stdout;
     new_task->stdin  = current_task->stdin;
     new_task->stderr = current_task->stderr;
-
-    memcpy(new_task->cpuState, current_task->cpuState, sizeof(struct cpu_state));
-
-    new_task->cpuState->eax = 0;
 }
 
 struct task* init_task(uint32_t task_pagedir, void* entry) {
@@ -153,9 +151,7 @@ struct task* init_task(uint32_t task_pagedir, void* entry) {
     uint32_t rest_pdir = vmm_get_current_pagedir();
     vmm_activate_pagedir(task_pagedir);
 
-    if (entry != 0) { //entry == 0 means that this will be forked
-        vmm_alloc_addr(ntask->user_stack_bottom, 0);
-    }
+    vmm_alloc_addr(ntask->user_stack_bottom, 0);
 
     struct cpu_state nstate = { .eax = 0, .ebx = 0, .ecx = 0, .edx = 0,
             .esi = 0, .edi = 0, .ebp = 0, .esp =

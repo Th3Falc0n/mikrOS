@@ -224,7 +224,7 @@ void driver_keyboard_init(void)
         inb(0x60);
     }
 
-    memset(key_flags, 256, sizeof(uint32_t));
+    memset(key_flags, 0, 256 * sizeof(uint32_t));
 
     // Leds alle ausloeschen
     send_command(0xED);
