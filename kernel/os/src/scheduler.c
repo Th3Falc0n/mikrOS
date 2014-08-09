@@ -10,7 +10,7 @@ uint32_t schedulingEnabled = 0;
 struct task* first_task = 0;
 struct task* current_task = 0;
 
-int nextPID = 1;
+int nextPID = 1; //FIXME int.max_value overflow
 
 void enableScheduling(void) {
     schedulingEnabled = 1;
@@ -22,6 +22,16 @@ uint32_t isSchedulingEnabled(void) {
 
 struct task* get_current_task(void) {
     return current_task;
+}
+
+struct task* get_task_by_pid(int pid) {
+    struct task* cur = first_task;
+
+    while(cur != 0 && cur->PID != pid) {
+        cur = cur->next;
+    }
+
+    return cur;
 }
 
 uint32_t register_handle(struct res_handle* h) {
@@ -120,8 +130,8 @@ struct cpu_state* terminate_current(struct cpu_state* cpu) {
 }
 
 struct task* init_task(uint32_t task_pagedir, void* entry) {
-    struct task* ntask = malloc(sizeof(struct task));
-    ntask->cpuState = malloc(sizeof(struct cpu_state));
+    struct task* ntask = calloc(1, sizeof(struct task));
+    ntask->cpuState = calloc(1, sizeof(struct cpu_state));
 
     ntask->phys_pdir = task_pagedir;
     ntask->user_stack_bottom = (void*) 0xFFFFE000;
@@ -165,7 +175,32 @@ struct task* init_task(uint32_t task_pagedir, void* entry) {
 }
 
 void save_cpu_state(struct cpu_state* cpu) {
-    memcpy(current_task->cpuState, cpu, sizeof(struct cpu_state));
+    if(current_task->rpc && current_task->rpc->executing) {
+        memcpy(current_task->rpc->state, cpu, sizeof(struct cpu_state));
+    }
+    else
+    {
+        memcpy(current_task->cpuState, cpu, sizeof(struct cpu_state));
+    }
+}
+
+struct cpu_state* schedule_to_task(struct task* dest) {
+    current_task = dest;
+
+    vmm_activate_pagedir(dest->phys_pdir);
+
+    if(!dest->rpc) {
+        return dest->cpuState;
+    }
+    else
+    {
+        if(!dest->rpc->executing) {
+            kprintf("RPC_INIT\n");
+            init_rpc_call(dest);
+        }
+        kprintf("RPC_SCHED at %x\n", dest->rpc->state->eip);
+        return dest->rpc->state;
+    }
 }
 
 struct cpu_state* schedule(struct cpu_state* cpu) {
@@ -182,9 +217,7 @@ struct cpu_state* schedule(struct cpu_state* cpu) {
 
         save_cpu_state(cpu);
 
-        current_task = next;
-        vmm_activate_pagedir(current_task->phys_pdir);
-        return current_task->cpuState;
+        return schedule_to_task(next);
     }
     return cpu;
 }

@@ -27,8 +27,6 @@ int main(int argc, char* args[])
 
     printf("[init] now working on tty0\n");
 
-    print_memstat();
-
     printf("[init] executing virtual file drivers\n");
     texec("/ibin/urnd_prov", 0);
     waitResp(cntrl);

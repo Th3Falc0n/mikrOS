@@ -8,7 +8,6 @@ rm initrfs.tar > /dev/null
 cd initrfs
 tar -cWf ../initrfs.tar * > /dev/null
 cd ..
-tar -rf initrfs.tar test-ramfs/ > /dev/null
 
 rm bin/kernel.objdump
 objdump -dS kernel/kernel > bin/kernel.objdump

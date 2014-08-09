@@ -1,5 +1,6 @@
 #include "process.h"
 #include "stdio.h"
+#include "process_rpc.c"
 
 extern int main(int argc, char* args[]);
 
@@ -28,6 +29,8 @@ void _start() {
           argc++;
       }
   }
+
+  set_rpc_handler();
 
   int result = main(argc, args);
 
@@ -95,7 +98,7 @@ int changeExecPath(char* path) {
 }
 
 void cd(char* path) {
-    if(!changeExecPath(path)) printexecerror(path, getLastVFSErr());
+    if(!changeExecPath(path)) printFilesystemError(path, getLastVFSErr());
 }
 
 int exec(char* path, char** args) {
@@ -117,13 +120,13 @@ int texec(char* path, char** args) {
     uint32_t res = exec(path, args);
 
     if(!res) {
-        printexecerror(path, getLastVFSErr());
+        printFilesystemError(path, getLastVFSErr());
     }
 
     return res;
 }
 
-void printexecerror(char* path, uint32_t code) {
+void printFilesystemError(char* path, uint32_t code) {
     switch(code) {
     case PE_NO_ERROR:
         printf("%s: Unknown error", path);
