@@ -14,9 +14,7 @@ struct exec_info {
 };
 
 struct cpu_state* syscall(struct cpu_state* cpu) {
-    save_cpu_state(cpu);
-
-    cpu = get_current_task()->cpuState;
+    cpu = save_cpu_state(cpu);
 
 	switch (cpu->eax) {
 	case 1: /* exit */

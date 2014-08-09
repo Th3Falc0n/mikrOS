@@ -174,13 +174,15 @@ struct task* init_task(uint32_t task_pagedir, void* entry) {
     return ntask;
 }
 
-void save_cpu_state(struct cpu_state* cpu) {
+struct cpu_state* save_cpu_state(struct cpu_state* cpu) {
     if(current_task->rpc && current_task->rpc->executing) {
         memcpy(current_task->rpc->state, cpu, sizeof(struct cpu_state));
+        return current_task->rpc->state;
     }
     else
     {
         memcpy(current_task->cpuState, cpu, sizeof(struct cpu_state));
+        return current_task->cpuState;
     }
 }
 
