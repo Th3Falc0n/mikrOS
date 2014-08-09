@@ -313,7 +313,7 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 
 	case 205: /* pmm_print_stats */
 		pmm_print_stats();
-        create_rpc_call(1, RPCT_IRQ, cpu->intr, 0, 0);
+        create_rpc_call(1, RPCT_KERNEL, 1, 0, 0);
 		break;
 
 	default:

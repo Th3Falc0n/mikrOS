@@ -50,7 +50,7 @@ static void _handle_rpc(uint32_t type, uint32_t funcID, uint32_t datasize) {
     void* localData = malloc(datasize);
     fetch_rpc_data(localData);
 
-    printf("RPC received! type:%d funcID:%d datasize:%d\n", type, funcID, datasize);
+    printf("RPC received! type:%x=%x funcID:%x=%x datasize:%x=%x\n", (uint32_t)&type, type, (uint32_t)&funcID, funcID, (uint32_t)&datasize, datasize);
 
     free(localData);
     return_rpc(0);

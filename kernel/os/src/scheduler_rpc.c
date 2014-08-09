@@ -9,18 +9,26 @@ void init_rpc_call(struct task* task) {
     struct rpc* rpc = task->rpc;
 
     rpc->state = calloc(1, sizeof(struct cpu_state));
-    memcpy(rpc->state, task->cpuState, sizeof(struct cpu_state));
 
-    kprintf("RPC_INIT to %x", task->rpc_handler_addr);
+    struct cpu_state nstate = {
+            .eax = 0, .ebx = 0, .ecx = 0, .edx = 0,
+            .esi = 0, .edi = 0, .ebp = 0,
 
-    rpc->state->eip = task->rpc_handler_addr;
-    rpc->state->esp -= 4 * sizeof(uint32_t);
+            .esp = task->cpuState->esp - 4 * sizeof(uint32_t),
+            .eip = task->rpc_handler_addr,
+
+            /* Ring-3-Segmentregister */
+            .cs = 0x18 | 0x03, .ss = 0x20 | 0x03,
+
+            .eflags = 0x200, };
+
+    memcpy(rpc->state, &nstate, sizeof(struct cpu_state));
 
     uint32_t* rpch_args = (void*) rpc->state->esp;
 
-    rpch_args[0] = rpc->type;
-    rpch_args[1] = rpc->funcID;
-    rpch_args[2] = rpc->dataSize;
+    rpch_args[1] = rpc->type;
+    rpch_args[2] = rpc->funcID;
+    rpch_args[3] = rpc->dataSize;
 
     rpc->executing = 1;
 }
@@ -89,7 +97,7 @@ struct cpu_state* return_rpc_call(struct cpu_state* cpu) {
     struct rpc* rpc = task->rpc;
     task->rpc = task->rpc->next;
 
-    if(task->rpc->returnPID) {
+    if(rpc->returnPID) {
         struct task* rTask = get_task_by_pid(rpc->returnPID);
 
         if(rTask == 0) {

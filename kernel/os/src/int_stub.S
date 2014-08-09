@@ -67,7 +67,7 @@ intr_common_handler:
     push %eax
     push %esp
 
-		mov $0x10, %ax
+    mov $0x10, %ax
     mov %ax, %ds
     mov %ax, %es
         
