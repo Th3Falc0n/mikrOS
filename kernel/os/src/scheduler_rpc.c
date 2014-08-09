@@ -100,6 +100,13 @@ struct cpu_state* return_rpc_call(struct cpu_state* cpu) {
     if(rpc->returnPID) {
         struct task* rTask = get_task_by_pid(rpc->returnPID);
 
+        if(rpc->type == RPCT_IRQ) {
+            enable_irq_rpc(rpc->funcID);
+        }
+
+        free(rpc->state);
+        free(rpc);
+
         if(rTask == 0) {
             return schedule_to_task(task);
         }

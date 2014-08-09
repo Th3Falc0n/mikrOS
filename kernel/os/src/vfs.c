@@ -298,6 +298,7 @@ void vfs_seek(struct res_handle* handle, uint32_t offset, uint32_t origin) {
 uint32_t vfs_exec(char* path, char* args[], char* execPath, char* stdin, char* stdout, char* stderr) {
     path = strclone(path);
     if(!vfs_exists(path)) {
+        free(path);
         vfs_set_error(PE_FILE_NOT_FOUND);
         return 0;
     }
@@ -329,12 +330,14 @@ uint32_t vfs_exec(char* path, char* args[], char* execPath, char* stdin, char* s
 
     if(!handle) {
         vfs_set_error(PE_PERM_DENIED);
+        free(path);
         return 0;
     }
 
     uint32_t size = vfs_available(handle);
     if(size == 0) {
         vfs_set_error(PE_CORRUPT_FILE);
+        free(path);
         return 0;
     }
 
@@ -343,6 +346,7 @@ uint32_t vfs_exec(char* path, char* args[], char* execPath, char* stdin, char* s
     uint32_t res = vfs_read(handle, modsrc, size, 1);
 
     if(res != RW_OK) {
+        free(path);
         free(modsrc);
         vfs_set_error(PE_FILESYSTEM);
         return 0;
@@ -359,6 +363,7 @@ uint32_t vfs_exec(char* path, char* args[], char* execPath, char* stdin, char* s
     /* Ist es ueberhaupt eine ELF-Datei? */
     if (header->magic != ELF_MAGIC) {
         free(modsrc);
+        free(path);
         vfs_set_error(PE_CORRUPT_FILE);
         return 0;
     }
@@ -390,9 +395,11 @@ uint32_t vfs_exec(char* path, char* args[], char* execPath, char* stdin, char* s
     for(uint32_t i = 0; i < argc; i++) {
         usargs[i] = vmm_alloc_ucont(1); //FIXME will fail on strings > 4095 chars or more than 1023 arguments
         strcpy(usargs[i], kargs[i]);
+        free(kargs[i]);
     }
 
     usargs[argc] = 0;
+    free(kargs);
 
     struct task* task = init_task(elf_mod_pdir, elf_mod_entry);
     if(get_current_task() != 0) {

@@ -197,10 +197,8 @@ struct cpu_state* schedule_to_task(struct task* dest) {
     else
     {
         if(!dest->rpc->executing) {
-            kprintf("RPC_INIT\n");
             init_rpc_call(dest);
         }
-        kprintf("RPC_SCHED at %x\n", dest->rpc->state->eip);
         return dest->rpc->state;
     }
 }

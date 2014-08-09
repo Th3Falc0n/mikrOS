@@ -16,6 +16,8 @@ static uint64_t idt[IDT_ENTRIES];
 static void (*handlers[IDT_ENTRIES])();
 static int handler_set[IDT_ENTRIES];
 
+static int irq_rpcs[IDT_ENTRIES];
+
 extern void intr_stub_0(void);
 extern void intr_stub_1(void);
 extern void intr_stub_2(void);
@@ -74,6 +76,7 @@ void init_idt() {
 
 	for (i = 0; i < IDT_ENTRIES; i++) {
 		handler_set[i] = 0;
+		irq_rpcs[i] = 0;
 	}
 
 	outb(0x20, 0x11); // Initialisierungsbefehl fuer den PIC
@@ -178,6 +181,30 @@ void register_intr_handler(int i, void (*fn)()) {
 	handler_set[i] = 1;
 }
 
+uint32_t register_irq_rpc(uint32_t irq) {
+    if (irq >= 0x20 && irq <= 0x2f) {
+        irq_rpcs[irq] = get_current_task()->PID;
+        return 1;
+    }
+    return 0;
+}
+
+void disable_irq_rpc(uint32_t irq) {
+    if (irq >= 0x20 && irq <= 0x2f) {
+        if(irq_rpcs[irq] > 0) {
+            irq_rpcs[irq] = -irq_rpcs[irq];
+        }
+    }
+}
+
+void enable_irq_rpc(uint32_t irq) {
+    if (irq >= 0x20 && irq <= 0x2f) {
+        if(irq_rpcs[irq] < 0) {
+            irq_rpcs[irq] = -irq_rpcs[irq];
+        }
+    }
+}
+
 struct cpu_state* handle_interrupt(struct cpu_state* cpu) {
 	struct cpu_state* new_cpu = cpu;
 
@@ -199,6 +226,10 @@ struct cpu_state* handle_interrupt(struct cpu_state* cpu) {
 		{
             if (handler_set[cpu->intr]) {
                 handlers[cpu->intr]();
+            }
+            if(irq_rpcs[cpu->intr] > 0) {
+                create_rpc_call(irq_rpcs[cpu->intr], RPCT_IRQ, cpu->intr, 0, 0);
+                //disable_irq_rpc(cpu->intr); TODO find out if we need to block
             }
 		}
 

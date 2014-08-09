@@ -73,6 +73,8 @@ uint32_t          create_rpc_call(int dPID, uint32_t type, uint32_t funcID, uint
 struct cpu_state* return_rpc_call(struct cpu_state* cpu);
 void              init_rpc_call(struct task* task);
 
+uint32_t          request_irq_rpc(uint32_t irqno);
+
 uint32_t          register_handle(struct res_handle* h);
 uint32_t          unregister_handle(struct res_handle* h);
 

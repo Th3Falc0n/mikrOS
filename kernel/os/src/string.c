@@ -1,4 +1,3 @@
-#include "vmm.h"
 #include "string.h"
 #include "stdlib.h"
 
@@ -74,10 +73,15 @@ char* strclone(char* str) {
 }
 
 char* sp = NULL; /* the start position of the string */
+void* fr = NULL;
 
 char* strtok(char* str, const char* delimiters) {
-    if(str != 0) { //TODO no way to free the cloned string :|
-        return strtoknc(strclone(str), delimiters);
+    if(str != 0) { //TODO better but if you call strtok and after that strtoknc will still be a memory leak. -> Don't use strtoknc
+        if(fr != 0) {
+            free(fr);
+        }
+        fr = strclone(str);
+        return strtoknc(fr, delimiters);
     }
     return strtoknc(0, delimiters);
 }
@@ -95,8 +99,9 @@ char* strtoknc(char* str, const char* delimiters) {
         return 0;
 
     /* initialize the sp during the first call */
-    if (str)
+    if (str) {
         sp = str;
+    }
 
     /* find the start of the substring, skip delimiters */
     char* p_start = sp;

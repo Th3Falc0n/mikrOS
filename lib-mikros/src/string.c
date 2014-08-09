@@ -2,26 +2,26 @@
 #include "stdlib.h"
 
 void* memset(void* buf, int c, size_t n) {
-	unsigned char* p = buf;
+    unsigned char* p = buf;
 
-	while (n--) {
-		*p++ = c;
-	}
+    while (n--) {
+        *p++ = c;
+    }
 
-	return buf;
+    return buf;
 }
 
 void* memcpy(void* dest, const void* src, size_t n) {
-	unsigned char* d = dest;
-	const unsigned char* s = src;
+    unsigned char* d = dest;
+    const unsigned char* s = src;
 
     if(n == 0) return 0;
 
-	while (n--) {
-		*d++ = *s++;
-	}
+    while (n--) {
+        *(d++) = *(s++);
+    }
 
-	return dest;
+    return dest;
 }
 
 int memcmp(const void* ptr1, const void* ptr2, size_t num) {
@@ -73,10 +73,15 @@ char* strclone(char* str) {
 }
 
 char* sp = NULL; /* the start position of the string */
+void* fr = NULL;
 
 char* strtok(char* str, const char* delimiters) {
-    if(str != 0) {
-        return strtoknc(strclone(str), delimiters);
+    if(str != 0) { //TODO better but if you call strtok and after that strtoknc will still be a memory leak. -> Don't use strtoknc
+        if(fr != 0) {
+            free(fr);
+        }
+        fr = strclone(str);
+        return strtoknc(fr, delimiters);
     }
     return strtoknc(0, delimiters);
 }
@@ -94,8 +99,9 @@ char* strtoknc(char* str, const char* delimiters) {
         return 0;
 
     /* initialize the sp during the first call */
-    if (str)
+    if (str) {
         sp = str;
+    }
 
     /* find the start of the substring, skip delimiters */
     char* p_start = sp;

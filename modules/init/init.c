@@ -11,6 +11,10 @@ static void waitResp(HANDLE cntrl) {
     }
 }
 
+static void hdlrx21(uint32_t irq) {
+    printf("IRQ 0x21!\n");
+}
+
 int main(int argc, char* args[])
 {
     printf("[ibin/init] Init process started... :) Thats so good!\n");
@@ -40,6 +44,8 @@ int main(int argc, char* args[])
     };
 
     texec("/ibin/csh", 0);
+
+    register_irq_handler(0x21, hdlrx21);
 
     while(1);
 

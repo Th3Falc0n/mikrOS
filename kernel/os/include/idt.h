@@ -10,5 +10,8 @@
 
 void init_idt();
 void register_intr_handler(int i, void (*fn)());
+uint32_t register_irq_rpc(uint32_t irq);
+void disable_irq_rpc(uint32_t irq);
+void enable_irq_rpc(uint32_t irq);
 
 #endif

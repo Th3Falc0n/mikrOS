@@ -87,8 +87,13 @@ static void merge_into_frees(struct memory_node* tf) {
     append_to_list(&first_free, tf);
 }
 
+uint32_t malloced = 0;
+
 void* malloc(size_t size) {
     if(size == 0) return 0;
+
+    malloced += size;
+    kprintf("malloc %d (%d) bytes \n", size, malloced);
 
     struct memory_node* last = 0;
     struct memory_node* cur = first_free;
@@ -187,6 +192,9 @@ void free(void* ptr) {
 
     while (cur != 0) {
         if (cur->address == (uint32_t) ptr) {
+            malloced -= cur->size;
+            kprintf("freed %d (%d) bytes \n", cur->size, malloced);
+
             merge_into_frees(cur);
             break;
         }

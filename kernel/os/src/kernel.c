@@ -257,7 +257,6 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 
 	case 30: /* return_rpc */
 	{
-	    kprintf("RPC_RET\n");
 	    cpu = return_rpc_call(cpu);
 	}
 	    break;
@@ -274,7 +273,6 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 	{
 	    uint32_t handlerAddr = cpu->ebx;
 	    if(get_current_task()->rpc_handler_addr == 0) {
-	        kprintf("RPC_SET to %x\n", cpu->ebx);
 	        get_current_task()->rpc_handler_addr = handlerAddr;
 	    }
 	}
@@ -282,13 +280,18 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 
 	case 33: /* fetch_rpc_data */
 	{
-        kprintf("RPC_FETCH\n");
 	    cpu->eax = 0;
 	    void* dest = (void*) cpu->ebx;
 	    if(get_current_task()->rpc != 0) {
 	        memcpy(dest, get_current_task()->rpc->data, get_current_task()->rpc->dataSize);
 	        cpu->eax = get_current_task()->rpc->dataSize;
 	    }
+	}
+	    break;
+
+	case 40:
+	{
+	    cpu->eax = register_irq_rpc(cpu->ebx);
 	}
 	    break;
 
