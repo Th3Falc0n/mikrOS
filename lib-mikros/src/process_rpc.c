@@ -59,7 +59,7 @@ static void _handle_rpc(uint32_t type, uint32_t funcID, uint32_t datasize) {
 void set_rpc_handler() {
     struct regstate state = {
       .eax = 32,
-      .ebx = (uint32_t)_start,
+      .ebx = (uint32_t)_handle_rpc,
       .ecx = 0,
       .edx = 0,
       .esi = 0,
