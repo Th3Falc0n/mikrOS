@@ -10,6 +10,7 @@ ARFLAGS = rcs
 
 lib-mikrOS.a: $(OBJS)
 	$(AR) $(ARFLAGS) $@ $^
+	objdump -dSx $@ > lib-mikrOS.objdump
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $^

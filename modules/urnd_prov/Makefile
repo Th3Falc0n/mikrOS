@@ -6,7 +6,7 @@ LD = ld
 
 ASFLAGS = -m32
 CFLAGS = -m32 -Wall -fno-builtin -Wno-unused-parameter -Wno-unused-variable -Werror -g -fno-stack-protector -nostdinc -Iinclude -I../../lib-mikros/include
-LDFLAGS = -melf_i386 -Tlink.ld
+LDFLAGS = -melf_i386 -Tlink.ld -u _start
 
 ../../initrfs/ibin/urnd_prov: $(OBJS)
 	$(LD) $(LDFLAGS) -o $@ $^ ../../lib-mikros/lib-mikrOS.a
