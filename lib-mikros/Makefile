@@ -5,7 +5,7 @@ CC = gcc -std=gnu99 -fno-leading-underscore
 AR = ar
 
 ASFLAGS = -m32
-CFLAGS = -m32 -Wall -Wno-unused -Werror -g -fno-builtin -fno-stack-protector -nostdlib -nostdinc -I include 
+CFLAGS = -m32 -Wall -Wno-unused -Werror -g -fno-builtin -fno-stack-protector -nostdinc -I include 
 ARFLAGS = rcs
 
 lib-mikrOS.a: $(OBJS)

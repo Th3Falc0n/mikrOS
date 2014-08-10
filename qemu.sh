@@ -1,0 +1,1 @@
+qemu-system-i386 -kernel kernel/kernel -initrd initrfs.tar -m 1024 --no-reboot --no-shutdown

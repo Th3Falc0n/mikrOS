@@ -1,8 +1,8 @@
 MODS = $(dir $(shell find modules/ -name 'Makefile'))
 ALL  = $(dir $(shell find -mindepth 2 -name 'Makefile'))
 
-.PHONY: emulate
-emulate: 
+.PHONY: all
+all: 
 	make kernel || exit 1
 	make modules || exit 1
 	make clean
@@ -12,7 +12,6 @@ emulate:
 
 	-rm bin/kernel.objdump
 	objdump -dS kernel/kernel > bin/kernel.objdump
-	-qemu-system-i386 -kernel kernel/kernel -initrd initrfs.tar -m 1024 --no-reboot --no-shutdown
 	
 .PHONY: kernel
 kernel:
