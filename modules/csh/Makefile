@@ -10,7 +10,7 @@ LDFLAGS = -melf_i386 -Tlink.ld
 
 ../../initrfs/ibin/csh: $(OBJS)
 	$(LD) $(LDFLAGS) -o $@ $^ ../../lib-mikros/lib-mikrOS.a
-	objdump -dS $@ > mod.objdump
+	objdump -dSx $@ > mod.objdump
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $^

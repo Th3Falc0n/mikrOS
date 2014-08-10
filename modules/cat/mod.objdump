@@ -1,5 +1,125 @@
 
 ../../initrfs/ibin/cat:     file format elf32-i386
+../../initrfs/ibin/cat
+architecture: i386, flags 0x00000112:
+EXEC_P, HAS_SYMS, D_PAGED
+start address 0x4000148d
+
+Program Header:
+    LOAD off    0x00001000 vaddr 0x40000000 paddr 0x40000000 align 2**12
+         filesz 0x000021d8 memsz 0x000021d8 flags r-x
+    LOAD off    0x00004000 vaddr 0x40003000 paddr 0x40003000 align 2**12
+         filesz 0x00000000 memsz 0x00000220 flags rw-
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00001763  40000000  40000000  00001000  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .rodata       000001d8  40002000  40002000  00003000  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  2 .bss          00000220  40003000  40003000  00004000  2**5
+                  ALLOC
+  3 .stab         000043c8  00000000  00000000  000031d8  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  4 .comment      0000007e  00000000  00000000  000075a0  2**0
+                  CONTENTS, READONLY
+  5 .stabstr      0000175d  00000000  00000000  0000761e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+SYMBOL TABLE:
+40000000 l    d  .text	00000000 .text
+40002000 l    d  .rodata	00000000 .rodata
+40003000 l    d  .bss	00000000 .bss
+00000000 l    d  .stab	00000000 .stab
+00000000 l    d  .comment	00000000 .comment
+00000000 l    d  .stabstr	00000000 .stabstr
+00000000 l    df *ABS*	00000000 cat.c
+00000000 l    df *ABS*	00000000 stdio.c
+400000a8 l     F .text	00000043 getpmhandle
+400000eb l     F .text	00000015 getstdout
+40000100 l     F .text	00000015 getstdin
+40000115 l     F .text	00000015 getstderr
+40000239 l     F .text	0000006c printrwerror
+400002a5 l     F .text	00000041 frwrite
+4000033d l     F .text	00000041 frread
+40000418 l     F .text	00000025 resolveHandle
+4000059d l     F .text	0000004a kputc
+40000675 l     F .text	00000043 kputs
+4000071f l     F .text	0000007c putn
+00000000 l    df *ABS*	00000000 string.c
+00000000 l    df *ABS*	00000000 stdlib.c
+40000c70 l     F .text	00000057 remove_from_list
+40000cc7 l     F .text	00000018 append_to_list
+40000cdf l     F .text	00000031 pop_from_list
+40000d10 l     F .text	00000062 allocate_unused_nodes
+40000d72 l     F .text	0000003b pop_unused_node
+40000dad l     F .text	000000c8 merge_into_frees
+00000000 l    df *ABS*	00000000 vmmcall.c
+00000000 l    df *ABS*	00000000 syscall.c
+00000000 l    df *ABS*	00000000 process.c
+4000123c l     F .text	00000040 return_rpc
+400012fc l     F .text	00000043 register_irq_rpc_syscall
+40003020 l     O .bss	00000200 irq_handlers
+40001372 l     F .text	00000088 _handle_rpc
+400021c0 l     O .rodata	00000018 C.8.1010
+40001449 l     F .text	00000044 getargs
+40001576 g     F .text	00000040 getExecPath
+400005e7 g     F .text	00000020 putchar
+40000aa5 g     F .text	00000023 strcpy
+400014e5 g     F .text	00000041 yield
+4000079b g     F .text	0000017a printf
+400011c4 g     F .text	00000077 syscall
+40000477 g     F .text	00000062 fgets
+400004d9 g     F .text	00000016 getc
+40000946 g     F .text	00000045 memcpy
+400006b8 g     F .text	00000018 puts
+40000e75 g     F .text	00000166 malloc
+400012bc g     F .text	00000040 fetch_rpc_data
+40000b60 g     F .text	0000010d strtoknc
+400015b6 g     F .text	00000043 changeExecPath
+40003010 g     O .bss	00000004 first_free
+4000016c g     F .text	00000018 setstdout
+40000fdb g     F .text	0000003f calloc
+40001100 g     F .text	00000043 vmm_alloc_cont
+40001627 g     F .text	00000042 exec
+4000148d g     F .text	00000058 _start
+4000101a g     F .text	0000009e realloc
+400013fa g     F .text	0000004f set_rpc_handler
+40000aff g     F .text	00000061 strtok
+4000098b g     F .text	0000009b memcmp
+4000037e g     F .text	00000057 fread
+40003008 g     O .bss	00000004 first_unused
+400001b4 g     F .text	00000042 fopen
+40000918 g     F .text	0000002e memset
+40000000 g     F .text	00000062 main
+400001f6 g     F .text	00000043 fclose
+400004ef g     F .text	00000015 getchar
+40000504 g     F .text	00000099 getln
+40003004 g     O .bss	00000004 fr
+40000607 g     F .text	00000021 putc
+40000a26 g     F .text	0000004f strcmp
+4000043d g     F .text	0000003a fgetc
+400015f9 g     F .text	0000002e cd
+40003000 g     O .bss	00000004 sp
+4000300c g     O .bss	00000004 first_used
+40000628 g     F .text	0000004d fputc
+400002e6 g     F .text	00000057 fwrite
+40000184 g     F .text	00000018 setstdin
+40001669 g     F .text	00000039 texec
+40000ac8 g     F .text	00000037 strclone
+40001526 g     F .text	00000050 exit
+4000133f g     F .text	00000033 register_irq_handler
+4000012a g     F .text	00000042 fopenpmhandle
+40001143 g     F .text	00000040 vmm_free
+400016a2 g     F .text	000000c1 printFilesystemError
+40000a75 g     F .text	00000030 strlen
+40000064 g     F .text	00000044 getLastVFSErr
+400006d0 g     F .text	0000004f fputs
+400003d5 g     F .text	00000043 fmkfifo
+4000127c g     F .text	00000040 call_rpc
+4000019c g     F .text	00000018 setstderr
+40001183 g     F .text	00000041 print_memstat
+400010b8 g     F .text	00000048 free
+
 
 
 Disassembly of section .text:
