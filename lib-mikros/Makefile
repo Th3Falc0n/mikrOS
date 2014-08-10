@@ -9,7 +9,7 @@ CFLAGS = -m32 -Wall -Wno-unused -Werror -g -fno-builtin -fno-stack-protector -no
 ARFLAGS = rcs
 
 lib-mikrOS.a: $(OBJS)
-	$(AR) $(ARFLAGS) -o $@ $^
+	$(AR) $(ARFLAGS) $@ $^
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $^
