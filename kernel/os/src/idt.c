@@ -8,7 +8,7 @@
 
 #define IDT_ENTRIES 64
 
-extern void interrupt_stack;
+extern uint8_t* interrupt_stack;
 
 static uint32_t tss[32] = { 0, (uint32_t) &interrupt_stack, 0x10 };
 

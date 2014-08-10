@@ -1,10 +1,23 @@
-MODS = $(dir $(shell find ./modules/ -name 'Makefile'))
+MODS = $(dir $(shell find modules/ -name 'Makefile'))
 ALL  = $(dir $(shell find -mindepth 2 -name 'Makefile'))
 
+.PHONY: emulate
+emulate: 
+	make kernel || exit 1
+	make modules || exit 1
+	make clean
+
+	-rm initrfs.tar
+	cd initrfs; tar -cWf ../initrfs.tar *
+
+	-rm bin/kernel.objdump
+	objdump -dS kernel/kernel > bin/kernel.objdump
+	-qemu-system-i386 -kernel kernel/kernel -initrd initrfs.tar -m 1024 --no-reboot --no-shutdown
+	
 .PHONY: kernel
 kernel:
-	make -C ./kernel/ -B || exit 1
-	make -C ./lib-mikros/ -B || exit 1
+	make -C kernel/ -B || exit 1
+	make -C lib-mikros/ -B || exit 1
 	
 .PHONY: modules
 modules: $(MODS)

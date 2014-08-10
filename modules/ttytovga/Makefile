@@ -1,11 +1,11 @@
 SRCS = $(shell find -name '*.c')
 OBJS = $(addsuffix .o,$(basename $(SRCS)))
 
-CC = clang
+CC = gcc -std=gnu99 -fno-leading-underscore
 LD = ld
 
 ASFLAGS = -m32
-CFLAGS = -m32 -Wall -Wno-builtin-requires-header  -Wno-unused-parameter -Wno-unused-variable -Werror -g -fno-stack-protector -nostdinc -Iinclude -I../../lib-mikros/include
+CFLAGS = -m32 -Wall -fno-builtin -Wno-unused-parameter -Wno-unused-variable -Werror -g -fno-stack-protector -nostdlib -nostdinc -Iinclude -I../../lib-mikros/include
 LDFLAGS = -melf_i386 -Tlink.ld
 
 ../../initrfs/ibin/ttytovga: $(OBJS)

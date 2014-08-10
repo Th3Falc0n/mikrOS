@@ -1,4 +1,0 @@
-title mikrOS
-kernel /kernel
-module /initrfs.tar
-boot

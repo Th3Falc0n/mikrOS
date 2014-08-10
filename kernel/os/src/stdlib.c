@@ -61,10 +61,9 @@ static struct memory_node* pop_unused_node() {
 static void merge_into_frees(struct memory_node* tf) {
     remove_from_list(&first_used, tf);
 
-    struct memory_node* last;
     struct memory_node* cur;
 
-    editedList: last = 0;
+    editedList:
     cur = first_free;
 
     while (cur != 0) {
@@ -80,7 +79,6 @@ static void merge_into_frees(struct memory_node* tf) {
             goto editedList;
         }
 
-        last = cur;
         cur = cur->next;
     }
 
@@ -95,14 +93,12 @@ void* malloc(size_t size) {
     malloced += size;
     kprintf("malloc %d (%d) bytes \n", size, malloced);
 
-    struct memory_node* last = 0;
     struct memory_node* cur = first_free;
 
     while (cur != 0) {
         if (cur->size >= size) {
             break;
         }
-        last = cur;
         cur = cur->next;
     }
 
@@ -164,7 +160,6 @@ void* calloc(size_t num, size_t size) {
 }
 
 void* realloc(void* ptr, size_t size) {
-    struct memory_node* last = 0;
     struct memory_node* cur = first_used;
 
     while (cur != 0) {
@@ -180,14 +175,12 @@ void* realloc(void* ptr, size_t size) {
                 return new;
             }
         }
-        last = cur;
         cur = cur->next;
     }
     return 0;
 }
 
 void free(void* ptr) {
-    struct memory_node* last = 0;
     struct memory_node* cur = first_used;
 
     while (cur != 0) {
@@ -198,7 +191,6 @@ void free(void* ptr) {
             merge_into_frees(cur);
             break;
         }
-        last = cur;
         cur = cur->next;
     }
 }

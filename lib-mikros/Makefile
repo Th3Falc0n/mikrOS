@@ -1,11 +1,11 @@
 SRCS = $(shell find -name '*.c')
 OBJS = $(addsuffix .o,$(basename $(SRCS)))
 
-CC = clang
+CC = gcc -std=gnu99 -fno-leading-underscore
 AR = ar
 
 ASFLAGS = -m32
-CFLAGS = -m32 -Wall -Wno-builtin-requires-header -Wno-unused -Werror -g -fno-stack-protector -nostdinc -I include
+CFLAGS = -m32 -Wall -Wno-unused -Werror -g -fno-builtin -fno-stack-protector -nostdlib -nostdinc -I include 
 ARFLAGS = rcs
 
 lib-mikrOS.a: $(OBJS)

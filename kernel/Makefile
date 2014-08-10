@@ -1,8 +1,9 @@
-SRCS  = $(shell find -name '*.[cS]')
+SRCS  = $(shell find -name '*.S')
+SRCS += $(shell find -name '*.c')
 SRCS += $(shell find -name '*.cpp')
 OBJS = $(addsuffix .o,$(basename $(SRCS)))
 
-CC = clang
+CC = gcc -std=gnu99 -fno-leading-underscore
 LD = ld
 
 ASFLAGS = -m32
