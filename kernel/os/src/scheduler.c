@@ -27,11 +27,12 @@ struct task* get_current_task(void) {
 struct task* get_task_by_pid(int pid) {
     struct task* cur = first_task;
 
-    while(cur != 0 && cur->PID != pid) {
+    while(cur != 0) {
+        if(cur->PID == pid) return cur;
         cur = cur->next;
     }
 
-    return cur;
+    return 0;
 }
 
 uint32_t register_handle(struct res_handle* h) {
@@ -113,8 +114,9 @@ struct cpu_state* terminate_current(struct cpu_state* cpu) {
         prev->next = next;
     }
 
-    if (next == 0)
+    if (next == 0) {
         next = first_task;
+    }
 
     current_task = next;
 
@@ -134,28 +136,28 @@ struct task* init_task(uint32_t task_pagedir, void* entry) {
     ntask->cpuState = calloc(1, sizeof(struct cpu_state));
 
     ntask->phys_pdir = task_pagedir;
-    ntask->user_stack_bottom = (void*) 0xFFFFE000;
+    ntask->user_stack_bottom = (void*) 0xFFFF0000;
     ntask->PID = nextPID++;
 
     ntask->stdin  = 0;
     ntask->stdout = 0;
     ntask->stderr = 0;
 
-    ntask->next = (void*) 0;
+    ntask->next = (void*) first_task;
     ntask->prev = (void*) 0;
 
-    if (first_task == 0) {
-        first_task = ntask;
-    } else {
-        ntask->next = first_task;
+    if (first_task != 0) {
         first_task->prev = ntask;
-        first_task = ntask;
     }
+
+    first_task = ntask;
 
     uint32_t rest_pdir = vmm_get_current_pagedir();
     vmm_activate_pagedir(task_pagedir);
 
-    vmm_alloc_addr(ntask->user_stack_bottom, 0);
+    for(uint8_t* addr = ntask->user_stack_bottom; (uint32_t)addr < 0xFFFFF000; addr += 0x1000) {
+        vmm_alloc_addr(addr, 0);
+    }
 
     struct cpu_state nstate = { .eax = 0, .ebx = 0, .ecx = 0, .edx = 0,
             .esi = 0, .edi = 0, .ebp = 0, .esp =

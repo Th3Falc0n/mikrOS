@@ -7,9 +7,9 @@
 
 typedef uint32_t HANDLE;
 
-#define PMID_STDOUT  0
-#define PMID_STDIN   1
-#define PMID_STDERR  2
+#define PMID_STDOUT  1
+#define PMID_STDIN   2
+#define PMID_STDERR  3
 
 #define FM_READ   (1 << 0)
 #define FM_WRITE  (1 << 1)
@@ -22,6 +22,7 @@ typedef uint32_t HANDLE;
 #define RW_ERR_DRIVER 3
 #define RW_NOFM_READ  4
 #define RW_NOFM_WRITE 5
+#define RW_EOF        6
 
 #define PE_NO_ERROR       0
 #define PE_FILE_NOT_FOUND 1
@@ -32,6 +33,7 @@ typedef uint32_t HANDLE;
 
 uint32_t getLastVFSErr();
 
+uint32_t favailable(uint32_t handle);
 HANDLE   fopen  (char* path, uint32_t filemode);
 HANDLE   fmkfifo(char* path);
 int      fclose (HANDLE handle);

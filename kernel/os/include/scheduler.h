@@ -7,9 +7,9 @@
 
 #define HANDLE_COUNT 1024
 
-#define PMID_STDOUT  0
-#define PMID_STDIN   1
-#define PMID_STDERR  2
+#define PMID_STDOUT  1
+#define PMID_STDIN   2
+#define PMID_STDERR  3
 
 #define RPCT_IRQ     0
 #define RPCT_KERNEL  1

@@ -17,7 +17,7 @@ uint32_t getLastVFSErr() {
     return state.eax;
 }
 
-static HANDLE getpmhandle   (uint32_t pmid) {
+static HANDLE getpmhandle(uint32_t pmid) {
     struct regstate state = {
       .eax = 20,
       .ebx = pmid,
@@ -30,6 +30,13 @@ static HANDLE getpmhandle   (uint32_t pmid) {
     syscall(&state);
 
     return (HANDLE)state.eax;
+}
+
+static HANDLE resolveHandle(HANDLE hdl) {
+    if(hdl < 0xFFF) {
+        hdl = getpmhandle(hdl);
+    }
+    return hdl;
 }
 
 static HANDLE getstdout() { return getpmhandle(PMID_STDOUT); };
@@ -103,6 +110,21 @@ static void printrwerror(HANDLE handle, uint32_t res) {
     }
 }
 
+uint32_t favailable(uint32_t handle) {
+    struct regstate state = {
+      .eax = 16,
+      .ebx = (uint32_t)handle,
+      .ecx = 0,
+      .edx = 0,
+      .esi = 0,
+      .edi = 0
+    };
+
+    syscall(&state);
+
+    return state.eax;
+}
+
 static uint32_t frwrite(uint32_t handle, const void* src, uint32_t length) {
     struct regstate state = {
       .eax = 12,
@@ -119,6 +141,8 @@ static uint32_t frwrite(uint32_t handle, const void* src, uint32_t length) {
 }
 
 uint32_t fwrite(uint32_t handle, const void* src, uint32_t length) {
+    handle = resolveHandle(handle);
+
     uint32_t res = frwrite(handle, src, length);
 
     while(res == RW_BLOCK) {
@@ -172,13 +196,6 @@ HANDLE fmkfifo(char* path) {
     syscall(&state);
 
     return (HANDLE)state.eax;
-}
-
-static HANDLE resolveHandle(HANDLE hdl) {
-    if(hdl < 0xFFF) {
-        hdl = getpmhandle(hdl);
-    }
-    return hdl;
 }
 
 char fgetc(HANDLE hdl) {

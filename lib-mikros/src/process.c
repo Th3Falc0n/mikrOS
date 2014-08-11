@@ -19,6 +19,21 @@ static uint32_t getargs() {
     return state.eax;
 }
 
+uint32_t pexists(int pid) {
+    struct regstate state = {
+      .eax = 2,
+      .ebx = (uint32_t)pid,
+      .ecx = 0,
+      .edx = 0,
+      .esi = 0,
+      .edi = 0
+    };
+
+    syscall(&state);
+
+    return state.eax;
+}
+
 void _start() {
   char** args = (char**) getargs();
 

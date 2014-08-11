@@ -38,8 +38,6 @@ int main(int argc, char* args[])
     printf("vgaController: %x\n", vgaController);
     printf("fifoInpt: %x\n", fifoInpt);
 
-    struct vga_command* vgac = malloc(sizeof(struct vga_command));
-
     setstdout("/dev/tty0");
     setstderr("/dev/tty0");
 

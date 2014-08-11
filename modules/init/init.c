@@ -17,10 +17,15 @@ static void hdlrx21(uint32_t irq) {
 
 int main(int argc, char* args[])
 {
-    printf("[ibin/init] Init process started... :) Thats so good!\n");
-    printf("[ibin/init] Switching into TTY to VGA mode.\nIf you see this something probably went wrong.\n");
+    printf("[ibin/init] initalizing...\n");
 
     HANDLE cntrl = fmkfifo("/var/cntrl/init");
+
+    printf("[init] starting kbc driver\n");
+    texec("/ibin/drivers/kbc", 0);
+    waitResp(cntrl);
+
+    printf("[ibin/init] Switching into TTY to VGA mode.\nIf you see this something probably went wrong.\n");
 
     texec("/ibin/ttytovga", 0);
     waitResp(cntrl);
@@ -45,7 +50,7 @@ int main(int argc, char* args[])
 
     texec("/ibin/csh", 0);
 
-    register_irq_handler(0x21, hdlrx21);
+    //register_irq_handler(0x21, hdlrx21);
 
     while(1);
 

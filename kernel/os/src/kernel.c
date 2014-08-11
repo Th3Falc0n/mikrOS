@@ -4,7 +4,6 @@
 #include "ramfs/block.h"
 #include "ramfs/tar.h"
 #include "ramfs/vgacntrl.h"
-#include "drivers/keyboard.h"
 
 struct exec_info {
     char* execPath;
@@ -19,6 +18,12 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 	switch (cpu->eax) {
 	case 1: /* exit */
 		return terminate_current(cpu);
+
+	case 2: /* pexists */
+	{
+	    cpu->eax = (uint32_t)get_task_by_pid((int)cpu->ebx);
+	}
+	    break;
 
     case 3: /* exec */
     {
@@ -182,6 +187,12 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 	}
 	    break;
 
+	case 16: /* favailable */
+	{
+	    cpu->eax = vfs_available((void*)cpu->ebx);
+	}
+	    break;
+
 	case 20: /* getpmhandle */
 	{
 	    struct res_handle* handle = 0;
@@ -295,6 +306,24 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 	}
 	    break;
 
+	case 50:
+	{
+	    cpu->eax = require_port((uint16_t)cpu->ebx);
+	}
+	    break;
+
+	case 51:
+	{
+	    cpu->eax = port_out(cpu->ebx, (uint16_t)cpu->ecx, cpu->edx);
+	}
+	    break;
+
+	case 52:
+	{
+	    cpu->eax = port_in(cpu->ebx, (uint16_t)cpu->ecx);
+	}
+	    break;
+
 	case 201: /* kputc */
 		cpu->eax = kprintf("%c", cpu->ebx);
 		break;
@@ -316,7 +345,6 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 
 	case 205: /* pmm_print_stats */
 		pmm_print_stats();
-        create_rpc_call(1, RPCT_KERNEL, 1, 0, 0);
 		break;
 
 	default:
@@ -332,8 +360,9 @@ void kernel_main(struct multiboot_info* mb_info) {
 
 	kprintf("Setting PIT interval...\n");
 
-	outb(0x43, 0x36);
-	outw(0x40, 1000);
+    outb(0x43, 0b00110100);
+    outb(0x40, 0x00);
+    outb(0x40, 0x08);
 
     kprintf("Initializing vfs...\n");
 
@@ -341,7 +370,7 @@ void kernel_main(struct multiboot_info* mb_info) {
     ramfs_fifo_init();
     ramfs_block_init();
 
-    driver_keyboard_init();
+    //driver_keyboard_init();
 
 
     map_address_active((uint32_t) mb_info,

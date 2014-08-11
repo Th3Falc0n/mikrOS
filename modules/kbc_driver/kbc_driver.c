@@ -1,11 +1,9 @@
-#include "drivers/keyboard.h"
 #include "stdint.h"
-#include "idt.h"
+#include "stdio.h"
+#include "stdlib.h"
+#include "process.h"
 #include "ports.h"
-#include "vfs.h"
-#include "ramfs/fifo.h"
-#include "console.h"
-
+ 
 uint32_t init_done = 0;
 static uint8_t sc_to_kc[][128] = {
     // Normale Scancodes
@@ -86,7 +84,7 @@ static char kc_to_char[][128] = {
 
 uint32_t key_flags[256];
 
-struct res_handle* charout = 0;
+HANDLE charout = 0;
 
 static uint8_t translate_scancode(int set, uint16_t scancode)
 {
@@ -118,13 +116,13 @@ static uint8_t translate_scancode(int set, uint16_t scancode)
     }
 
     if (keycode == 0) {
-        kprintf("kbc: Unknown Scancode: 0x%x (%d)\n", scancode, set);
+        printf("kbc: Unknown Scancode: 0x%x (%d)\n", scancode, set);
     }
 
     return keycode;
 }
 
-static char getchar(uint8_t keycode) {
+static char getcharfromkc(uint8_t keycode) {
     uint32_t index = 0;
 
     if(key_flags[0x2A] & KF_PRESSED) index = 1; //LSHIFT
@@ -136,17 +134,17 @@ static char getchar(uint8_t keycode) {
 static void send_command(uint8_t command)
 {
     do {
-        while (inb(0x64) & 0x2) {
+        while (port_in(PORTM_BYTE, 0x64) & 0x2) {
         }
 
-        outb(0x60, command);
+        port_out(PORTM_BYTE, 0x60, command);
 
-        while ((inb(0x64) & 0x1) == 0) {
+        while ((port_in(PORTM_BYTE, 0x64) & 0x1) == 0) {
         }
-    } while (inb(0x60) == 0xfe);
+    } while (port_in(PORTM_BYTE, 0x60) == 0xfe);
 }
 
-void irq_handler() {
+void irq_handler(uint32_t irq) {
     uint8_t scancode;
     uint8_t keycode = 0;
     int break_code = 0;
@@ -157,7 +155,7 @@ void irq_handler() {
 
     if(!init_done) return;
 
-    scancode = inb(0x60);
+    scancode = port_in(PORTM_BYTE, 0x60);
 
     // Um einen Breakcode handelt es sich, wenn das oberste Bit gesetzt ist und
     // es kein e0 oder e1 fuer einen Extended-scancode ist
@@ -207,22 +205,28 @@ void irq_handler() {
         key_flags[keycode] |= KF_PRESSED;
     }
 
-    char chr = getchar(keycode);
+    char chr = getcharfromkc(keycode);
 
     if(!break_code && chr) {
-        if(vfs_write(charout, &chr, sizeof(char), 1)) {
-            kprintf("[keyboard] BUFFER OVERFLOW! \n");
-        }
+        fwrite(charout, &chr, sizeof(char));
     }
 }
 
-void driver_keyboard_init(void)
+int main(int argc, char* args[])
 {
-    register_intr_handler(0x21, &irq_handler);
+    printf("[kbcdrv] requesting neccesary resources...\n");
 
-    while (inb(0x64) & 0x1) {
-        inb(0x60);
+    register_irq_handler(0x21, &irq_handler);
+    require_port(0x64);
+    require_port(0x60);
+
+    printf("[kbcdrv] emptying keyboard buffer...\n");
+
+    while (port_in(PORTM_BYTE, 0x64) & 0x1) {
+        port_in(PORTM_BYTE, 0x60);
     }
+
+    printf("[kbcdrv] initializing KBC...\n");
 
     memset(key_flags, 0, 256 * sizeof(uint32_t));
 
@@ -236,8 +240,17 @@ void driver_keyboard_init(void)
 
     send_command(0xF4);
 
-    vfs_create_kfile("/dev/keyboard", ramfs_fifo_driver_struct(), &(uint32_t){512});
-    charout = vfs_open("/dev/keyboard", FM_WRITE);
+    printf("[kbcdrv] creating output buffer at /dev/keyboard...\n");
+
+    charout = fmkfifo("/dev/keyboard");
 
     init_done = 1;
+
+    HANDLE initCtrl = fopen("/var/cntrl/init", FM_WRITE);
+    fwrite(initCtrl, &(char){'K'}, sizeof(char));
+    fclose(initCtrl);
+
+    printf("[kbcdrv] Done!\n");
+
+    while(1);
 }

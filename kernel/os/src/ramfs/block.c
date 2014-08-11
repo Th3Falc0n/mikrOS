@@ -55,30 +55,28 @@ uint32_t ramfs_block_read(struct res_handle* handle, void* dest, uint32_t length
     struct res_kfile* kf = ((struct res_kfile*)handle->res_ptr);
 
     if(buffer[kf->id] != 0) {
-        if(length > (buffer[kf->id]->size - handle->position)) return RW_ERR_DRIVER; //Can't read that much biatch
+        if(handle->position + length > buffer[kf->id]->size) return RW_EOF;
 
         memcpy(dest, buffer[kf->id]->buffer + handle->position, length);
-        handle->position += length;
 
         return RW_OK;
     }
 
-    return RW_ERR_DRIVER; //Deadlock if lib-mikrOS tries to block until successfull read when returning 0 so we return error code 1 (length+1)
+    return RW_ERR_DRIVER;
 }
 
 uint32_t ramfs_block_write(struct res_handle* handle, void* src, uint32_t length) {
     struct res_kfile* kf = ((struct res_kfile*)handle->res_ptr);
 
     if(buffer[kf->id] != 0) {
-        if(length > (buffer[kf->id]->size - handle->position)) return RW_ERR_DRIVER; //Can't write  that much biatch TODO realloc so file may grow
+        if(handle->position + length > buffer[kf->id]->size) return RW_EOF; //Can't write  that much biatch TODO realloc so file may grow and implement RW_EOF
 
         memcpy(buffer[kf->id]->buffer + handle->position, src, length);
-        handle->position += length;
 
         return RW_OK;
     }
 
-    return RW_ERR_DRIVER; //Deadlock if lib-mikrOS tries to block until successfull write when returning 0 so we return error code 1 (length+1)
+    return RW_ERR_DRIVER;
 }
 
 struct res_handle* ramfs_block_open(struct res_kfile* kf, uint32_t filemode) {

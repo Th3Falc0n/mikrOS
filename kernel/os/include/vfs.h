@@ -21,6 +21,7 @@
 #define RW_ERR_DRIVER 3
 #define RW_NOFM_READ  4
 #define RW_NOFM_WRITE 5
+#define RW_EOF        6
 
 #define SEEK_SET  0
 #define SEEK_CUR  1

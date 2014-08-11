@@ -5,8 +5,8 @@ CC = gcc -std=gnu99 -fno-leading-underscore
 LD = ld
 
 ASFLAGS = -m32
-CFLAGS = -m32 -Wall -fno-builtin -Wno-unused-parameter -Wno-unused-variable -Werror -g -fno-stack-protector -nostdinc -Iinclude -I../../lib-mikros/include
-LDFLAGS = -melf_i386 -Tlink.ld -u _start
+CFLAGS = -m32 -Wall -g -fno-stack-protector -fno-builtin -nostdinc -Iinclude -I../../lib-mikros/include
+LDFLAGS = -melf_i386 -Tlink.ld -u _start --gc-sections 
 
 ../../initrfs/ibin/csh: $(OBJS)
 	$(LD) $(LDFLAGS) -o $@ $^ ../../lib-mikros/lib-mikrOS.a

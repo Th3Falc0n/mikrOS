@@ -10,6 +10,7 @@
 
 void     _start();
 void     exit(int returncode);
+uint32_t pexists(int pid);
 void     yield();
 void     getExecPath(char* dest);
 int      changeExecPath(char* path);

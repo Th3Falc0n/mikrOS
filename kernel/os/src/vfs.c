@@ -233,11 +233,7 @@ uint32_t vfs_read(struct res_handle* handle, void* dest, uint32_t size, uint32_t
            return RW_OK;
        }
 
-       if(res == RW_BLOCK) {
-           return RW_BLOCK;
-       }
-
-       return RW_ERR_DRIVER;
+       return res;
     }
 
     return RW_ERR_VFS;
@@ -258,11 +254,7 @@ uint32_t vfs_write(struct res_handle* handle, void* src,  uint32_t size, uint32_
            return RW_OK;
        }
 
-       if(res == RW_BLOCK) {
-           return RW_BLOCK;
-       }
-
-       return RW_ERR_DRIVER;
+       return res;
     }
 
     return RW_ERR_VFS;
@@ -316,11 +308,14 @@ uint32_t vfs_exec(char* path, char* args[], char* execPath, char* stdin, char* s
         }
     }
 
+    argc++;
     char** kargs = malloc((sizeof(char*)) * (argc + 1));
 
-    for(uint32_t i = 0; i < argc; i++) {
-        kargs[i] = malloc(strlen(args[i]) + 1);
-        strcpy(kargs[i], args[i]);
+    kargs[0] = strclone(path);
+
+    for(uint32_t i = 1; i < argc; i++) {
+        kargs[i] = malloc(strlen(args[i-1]) + 1);
+        strcpy(kargs[i], args[i-1]);
     }
 
     kargs[argc] = 0;

@@ -38,7 +38,13 @@ int main(int argc, char* args[])
                 continue;
             }
 
-            texec(instr, pargs);
+            int PID = texec(instr, pargs);
+
+            while(pexists(PID)) {
+                yield();
+            }
+
+            printf("\n");
         }
     }
 
