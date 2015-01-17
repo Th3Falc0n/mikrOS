@@ -16,7 +16,7 @@ struct vga_command {
 
 static int  x     = 0;
 static int  y     = 0;
-static char color = 0x09;
+static char color = 0x07;
 
 struct vga_command vgac = { .command = 0, .offset = 0, .value = 0 };
 
@@ -67,7 +67,6 @@ int main(int argc, char* args[])
         }
 
         if (nchar == '\n') {
-            color = 0x09;
             continue;
         }
 
@@ -88,7 +87,6 @@ int main(int argc, char* args[])
             }
             ochar = ' ';
             nchar = 0;
-            color = 0x09;
         }
 
         uint16_t send = 0;
@@ -96,8 +94,6 @@ int main(int argc, char* args[])
 
         sndChr[0] = ochar;
         sndChr[1] = color;
-
-        color = 0x09;
 
         sendCommand(CMD_SET, x + y * 80, send);
 

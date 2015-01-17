@@ -77,6 +77,7 @@ uint32_t           vfs_create_kfile(char* path, struct kfs_driver* driver, uint3
 uint32_t           vfs_remove      (char* path);
 
 char*              vfs_resolve_path(char* path);
+char*              vfs_get_child_of_exec_path(int index);
 
 struct res_handle* vfs_open        (char* path, uint32_t filemode);
 uint32_t           vfs_close       (struct res_handle* handle);

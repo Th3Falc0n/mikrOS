@@ -25,11 +25,14 @@ static char* vfs_construct_absolute_path_for_node(struct res_node* node) {
     capfn_buf[512] = '\0';
     char* out =  &(capfn_buf[511]);
 
-    *out = '/';
+    if(node == root) {
+    	*out = '/';
+    }
 
     while(node != root) {
         out -= strlen(node->name);
         strcpy(out, node->name);
+        if(node->res_type == RES_SUBDIR) *(out+strlen(node->name)) = '/';
         *--out = '/';
 
         node = node->parent;
@@ -171,6 +174,25 @@ static int vfs_create_path(char* path) {
     }
 
     return created;
+}
+
+char* vfs_get_child_of_exec_path(int index) {
+	struct res_node* fparent = vfs_get_node(get_current_task()->execPath);
+	if(fparent != 0) {
+		if(fparent->res_type != RES_SUBDIR) return 0;
+
+		struct res_node* child = fparent->res_ptr;
+
+		while(index--) {
+			child = child->next;
+
+			if(child == 0) return 0;
+		}
+
+		return vfs_construct_absolute_path_for_node(child);
+	}
+
+	return 0;
 }
 
 uint32_t vfs_create_dir(char* path) {

@@ -6,7 +6,7 @@
 		</buildSystem>
 		<cconfiguration id="preference.org.eclipse.cdt.managedbuilder.core.configurationDataProvider.393412892">
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration buildProperties="" description="" id="preference.org.eclipse.cdt.managedbuilder.core.configurationDataProvider.393412892" name="Preference Configuration" parent="org.eclipse.cdt.build.core.prefbase.cfg">
+				<configuration artifactName="${ProjName}" buildProperties="" description="" id="preference.org.eclipse.cdt.managedbuilder.core.configurationDataProvider.393412892" name="Preference Configuration" parent="org.eclipse.cdt.build.core.prefbase.cfg">
 					<folderInfo id="preference.org.eclipse.cdt.managedbuilder.core.configurationDataProvider.393412892." name="/" resourcePath="">
 						<toolChain id="org.eclipse.cdt.build.core.prefbase.toolchain.1293409232" name="No ToolChain" resourceTypeBasedDiscovery="false" superClass="org.eclipse.cdt.build.core.prefbase.toolchain">
 							<targetPlatform id="org.eclipse.cdt.build.core.prefbase.toolchain.1293409232.900318095" name=""/>
@@ -55,5 +55,10 @@
 				<runAllBuilders>true</runAllBuilders>
 			</target>
 		</buildTargets>
+	</storageModule>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Preference Configuration">
+			<resource resourceType="PROJECT" workspacePath="/mikrOS"/>
+		</configuration>
 	</storageModule>
 </cproject>

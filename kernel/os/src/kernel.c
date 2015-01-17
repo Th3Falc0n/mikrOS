@@ -193,6 +193,23 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 	}
 	    break;
 
+	case 17: /* getExecPathChild */
+	{
+		char* path = vfs_get_child_of_exec_path(cpu->ebx);
+
+		if(path != 0 && cpu->ecx != 0) {
+			strcpy((char*)cpu->ecx, path);
+			free(path);
+
+			cpu->eax = cpu->ecx;
+		}
+		else
+		{
+			cpu->eax = 0;
+		}
+	}
+		break;
+
 	case 20: /* getpmhandle */
 	{
 	    struct res_handle* handle = 0;

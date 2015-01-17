@@ -112,6 +112,21 @@ int changeExecPath(char* path) {
     return state.eax;
 }
 
+char* getExecPathChild(uint32_t index, char* strbuf) {
+    struct regstate state = {
+        .eax = 17,
+        .ebx = index,
+        .ecx = (uint32_t)strbuf,
+        .edx = 0,
+        .esi = 0,
+        .edi = 0
+    };
+
+    syscall(&state);
+
+    return (char*)state.eax;
+}
+
 void cd(char* path) {
     if(!changeExecPath(path)) printFilesystemError(path, getLastVFSErr());
 }

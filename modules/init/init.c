@@ -42,12 +42,6 @@ int main(int argc, char* args[])
 
     printf("[init] switching to shell\n");
 
-    char* testparams[] = {
-        "test1",
-        "test2",
-        0
-    };
-
     texec("/ibin/csh", 0);
 
     //register_irq_handler(0x21, hdlrx21);

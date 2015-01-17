@@ -1,0 +1,2302 @@
+
+../../initrfs/ibin/ls:     file format elf32-i386
+../../initrfs/ibin/ls
+architecture: i386, flags 0x00000112:
+EXEC_P, HAS_SYMS, D_PAGED
+start address 0x40000447
+
+Program Header:
+    LOAD off    0x00001000 vaddr 0x40000000 paddr 0x40000000 align 2**12
+         filesz 0x000021be memsz 0x000021be flags r-x
+    LOAD off    0x00004000 vaddr 0x40003000 paddr 0x40003000 align 2**12
+         filesz 0x00000000 memsz 0x00000214 flags rw-
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00001220  40000000  40000000  00001000  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .rodata       00000034  40002000  40002000  00003000  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  2 .rodata.str1.1 0000018a  40002034  40002034  00003034  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  3 .bss          00000214  40003000  40003000  00004000  2**2
+                  ALLOC
+  4 .stab         00004890  00000000  00000000  000031c0  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  5 .comment      0000007e  00000000  00000000  00007a50  2**0
+                  CONTENTS, READONLY
+  6 .stabstr      00001859  00000000  00000000  00007ace  2**0
+                  CONTENTS, READONLY, DEBUGGING
+SYMBOL TABLE:
+40000000 l    d  .text	00000000 .text
+40002000 l    d  .rodata	00000000 .rodata
+40002034 l    d  .rodata.str1.1	00000000 .rodata.str1.1
+40003000 l    d  .bss	00000000 .bss
+00000000 l    d  .stab	00000000 .stab
+00000000 l    d  .comment	00000000 .comment
+00000000 l    d  .stabstr	00000000 .stabstr
+00000000 l    df *ABS*	00000000 ls.c
+00000000 l    df *ABS*	00000000 process.c
+40003000 l     O .bss	00000200 irq_handlers
+4000201c l     O .rodata	00000018 C.7.1015
+400004b9 l     F .text	000000c0 _handle_rpc
+00000000 l    df *ABS*	00000000 stdio.c
+4000057c l     F .text	00000047 resolveHandle
+40000a2c l     F .text	0000004a printrwerror
+40000879 l     F .text	0000003f putn
+00000000 l    df *ABS*	00000000 string.c
+00000000 l    df *ABS*	00000000 stdlib.c
+40000f20 l     F .text	00000069 pop_unused_node
+00000000 l    df *ABS*	00000000 vmmcall.c
+00000000 l    df *ABS*	00000000 syscall.c
+4000023d g     F .text	0000003d getExecPath
+40000930 g     F .text	00000014 putchar
+40000cdd g     F .text	00000033 strcpy
+400002c0 g     F .text	0000003e yield
+40000944 g     F .text	000000e8 printf
+400011d0 g     F .text	00000050 syscall
+40000b41 g     F .text	00000042 fgets
+40000b35 g     F .text	0000000c getc
+40000c0c g     F .text	00000026 memcpy
+40000867 g     F .text	00000012 puts
+400002fe g     F .text	0000003d pexists
+40000f89 g     F .text	000000f8 malloc
+40000393 g     F .text	0000003d fetch_rpc_data
+40000d10 g     F .text	000000a5 strtoknc
+400001d3 g     F .text	0000003d changeExecPath
+40003210 g     O .bss	00000004 first_free
+40000716 g     F .text	00000012 setstdout
+400010e1 g     F .text	00000034 calloc
+40000197 g     F .text	0000003c getExecPathChild
+40001193 g     F .text	0000003d vmm_alloc_cont
+40000125 g     F .text	0000003c exec
+40000447 g     F .text	00000072 _start
+40001081 g     F .text	00000060 realloc
+4000040a g     F .text	0000003d set_rpc_handler
+40000dee g     F .text	00000052 strtok
+40000c32 g     F .text	00000047 memcmp
+40000a76 g     F .text	00000085 fread
+40003208 g     O .bss	00000004 first_unused
+4000067a g     F .text	0000003c fopen
+40000bf0 g     F .text	0000001c memset
+40000000 g     F .text	000000b4 main
+4000063d g     F .text	0000003d fclose
+40000b26 g     F .text	0000000f getchar
+40000b83 g     F .text	0000006c getln
+40003204 g     O .bss	00000004 fr
+40000600 g     F .text	0000003d favailable
+4000091d g     F .text	00000013 putc
+40000c79 g     F .text	00000049 strcmp
+40000afb g     F .text	0000002b fgetc
+40003200 g     O .bss	00000004 sp
+40000210 g     F .text	0000002d cd
+4000320c g     O .bss	00000004 first_used
+400008b8 g     F .text	00000065 fputc
+40000766 g     F .text	00000093 fwrite
+40000704 g     F .text	00000012 setstdin
+40000161 g     F .text	00000036 texec
+40000db5 g     F .text	00000039 strclone
+4000027a g     F .text	00000046 exit
+4000033b g     F .text	00000058 register_irq_handler
+400006b6 g     F .text	0000003c fopenpmhandle
+40001156 g     F .text	0000003d vmm_free
+400000b4 g     F .text	00000071 printFilesystemError
+40000cc2 g     F .text	0000001b strlen
+40000728 g     F .text	0000003e getLastVFSErr
+400007f9 g     F .text	0000006e fputs
+400005c3 g     F .text	0000003d fmkfifo
+400003d0 g     F .text	0000003a call_rpc
+400006f2 g     F .text	00000012 setstderr
+40001118 g     F .text	0000003e print_memstat
+40000e40 g     F .text	000000e0 free
+
+
+
+Disassembly of section .text:
+
+40000000 <main>:
+#include "stdio.h"
+#include "process.h"
+#include "string.h"
+ 
+int main(int argc, char* args[])
+{
+40000000:	8d 4c 24 04          	lea    0x4(%esp),%ecx
+40000004:	83 e4 f0             	and    $0xfffffff0,%esp
+40000007:	ff 71 fc             	pushl  -0x4(%ecx)
+4000000a:	55                   	push   %ebp
+4000000b:	89 e5                	mov    %esp,%ebp
+4000000d:	51                   	push   %ecx
+4000000e:	81 ec 14 02 00 00    	sub    $0x214,%esp
+    uint32_t index = 0;
+40000014:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+    char child[512];
+
+
+    while(getExecPathChild(index++, child)) {
+4000001b:	eb 69                	jmp    40000086 <main+0x86>
+
+    	if(child[strlen(child)-1] == '/') {
+4000001d:	83 ec 0c             	sub    $0xc,%esp
+40000020:	8d 85 f4 fd ff ff    	lea    -0x20c(%ebp),%eax
+40000026:	50                   	push   %eax
+40000027:	e8 96 0c 00 00       	call   40000cc2 <strlen>
+4000002c:	83 c4 10             	add    $0x10,%esp
+4000002f:	48                   	dec    %eax
+40000030:	8a 84 05 f4 fd ff ff 	mov    -0x20c(%ebp,%eax,1),%al
+40000037:	3c 2f                	cmp    $0x2f,%al
+40000039:	75 1a                	jne    40000055 <main+0x55>
+    	    putchar(0x11);
+4000003b:	83 ec 0c             	sub    $0xc,%esp
+4000003e:	6a 11                	push   $0x11
+40000040:	e8 eb 08 00 00       	call   40000930 <putchar>
+40000045:	83 c4 10             	add    $0x10,%esp
+    	    putchar(0x31);
+40000048:	83 ec 0c             	sub    $0xc,%esp
+4000004b:	6a 31                	push   $0x31
+4000004d:	e8 de 08 00 00       	call   40000930 <putchar>
+40000052:	83 c4 10             	add    $0x10,%esp
+    	}
+
+		printf("%s\n", child);
+40000055:	83 ec 08             	sub    $0x8,%esp
+40000058:	8d 85 f4 fd ff ff    	lea    -0x20c(%ebp),%eax
+4000005e:	50                   	push   %eax
+4000005f:	68 00 20 00 40       	push   $0x40002000
+40000064:	e8 db 08 00 00       	call   40000944 <printf>
+40000069:	83 c4 10             	add    $0x10,%esp
+
+	    putchar(0x11);
+4000006c:	83 ec 0c             	sub    $0xc,%esp
+4000006f:	6a 11                	push   $0x11
+40000071:	e8 ba 08 00 00       	call   40000930 <putchar>
+40000076:	83 c4 10             	add    $0x10,%esp
+	    putchar(0x07);
+40000079:	83 ec 0c             	sub    $0xc,%esp
+4000007c:	6a 07                	push   $0x7
+4000007e:	e8 ad 08 00 00       	call   40000930 <putchar>
+40000083:	83 c4 10             	add    $0x10,%esp
+{
+    uint32_t index = 0;
+    char child[512];
+
+
+    while(getExecPathChild(index++, child)) {
+40000086:	8b 45 f4             	mov    -0xc(%ebp),%eax
+40000089:	ff 45 f4             	incl   -0xc(%ebp)
+4000008c:	83 ec 08             	sub    $0x8,%esp
+4000008f:	8d 95 f4 fd ff ff    	lea    -0x20c(%ebp),%edx
+40000095:	52                   	push   %edx
+40000096:	50                   	push   %eax
+40000097:	e8 fb 00 00 00       	call   40000197 <getExecPathChild>
+4000009c:	83 c4 10             	add    $0x10,%esp
+4000009f:	85 c0                	test   %eax,%eax
+400000a1:	0f 85 76 ff ff ff    	jne    4000001d <main+0x1d>
+
+	    putchar(0x11);
+	    putchar(0x07);
+    }
+
+    return 0;
+400000a7:	b8 00 00 00 00       	mov    $0x0,%eax
+}
+400000ac:	8b 4d fc             	mov    -0x4(%ebp),%ecx
+400000af:	c9                   	leave  
+400000b0:	8d 61 fc             	lea    -0x4(%ecx),%esp
+400000b3:	c3                   	ret    
+
+400000b4 <printFilesystemError>:
+400000b4:	55                   	push   %ebp
+400000b5:	89 e5                	mov    %esp,%ebp
+400000b7:	83 ec 08             	sub    $0x8,%esp
+400000ba:	8b 55 0c             	mov    0xc(%ebp),%edx
+400000bd:	8b 45 08             	mov    0x8(%ebp),%eax
+400000c0:	83 fa 05             	cmp    $0x5,%edx
+400000c3:	77 43                	ja     40000108 <printFilesystemError+0x54>
+400000c5:	ff 24 95 04 20 00 40 	jmp    *0x40002004(,%edx,4)
+400000cc:	52                   	push   %edx
+400000cd:	52                   	push   %edx
+400000ce:	50                   	push   %eax
+400000cf:	68 34 20 00 40       	push   $0x40002034
+400000d4:	eb 3a                	jmp    40000110 <printFilesystemError+0x5c>
+400000d6:	51                   	push   %ecx
+400000d7:	51                   	push   %ecx
+400000d8:	50                   	push   %eax
+400000d9:	68 46 20 00 40       	push   $0x40002046
+400000de:	eb 30                	jmp    40000110 <printFilesystemError+0x5c>
+400000e0:	52                   	push   %edx
+400000e1:	52                   	push   %edx
+400000e2:	50                   	push   %eax
+400000e3:	68 65 20 00 40       	push   $0x40002065
+400000e8:	eb 26                	jmp    40000110 <printFilesystemError+0x5c>
+400000ea:	51                   	push   %ecx
+400000eb:	51                   	push   %ecx
+400000ec:	50                   	push   %eax
+400000ed:	68 8f 20 00 40       	push   $0x4000208f
+400000f2:	eb 1c                	jmp    40000110 <printFilesystemError+0x5c>
+400000f4:	52                   	push   %edx
+400000f5:	52                   	push   %edx
+400000f6:	50                   	push   %eax
+400000f7:	68 a4 20 00 40       	push   $0x400020a4
+400000fc:	eb 12                	jmp    40000110 <printFilesystemError+0x5c>
+400000fe:	51                   	push   %ecx
+400000ff:	51                   	push   %ecx
+40000100:	50                   	push   %eax
+40000101:	68 df 20 00 40       	push   $0x400020df
+40000106:	eb 08                	jmp    40000110 <printFilesystemError+0x5c>
+40000108:	52                   	push   %edx
+40000109:	52                   	push   %edx
+4000010a:	50                   	push   %eax
+4000010b:	68 f2 20 00 40       	push   $0x400020f2
+40000110:	e8 2f 08 00 00       	call   40000944 <printf>
+40000115:	c7 45 08 0f 21 00 40 	movl   $0x4000210f,0x8(%ebp)
+4000011c:	83 c4 10             	add    $0x10,%esp
+4000011f:	c9                   	leave  
+40000120:	e9 1f 08 00 00       	jmp    40000944 <printf>
+
+40000125 <exec>:
+40000125:	55                   	push   %ebp
+40000126:	89 e5                	mov    %esp,%ebp
+40000128:	83 ec 34             	sub    $0x34,%esp
+4000012b:	8b 45 08             	mov    0x8(%ebp),%eax
+4000012e:	c7 45 e0 03 00 00 00 	movl   $0x3,-0x20(%ebp)
+40000135:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+40000138:	8b 45 0c             	mov    0xc(%ebp),%eax
+4000013b:	89 45 e8             	mov    %eax,-0x18(%ebp)
+4000013e:	8d 45 e0             	lea    -0x20(%ebp),%eax
+40000141:	50                   	push   %eax
+40000142:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+40000149:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+40000150:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+40000157:	e8 74 10 00 00       	call   400011d0 <syscall>
+4000015c:	8b 45 e0             	mov    -0x20(%ebp),%eax
+4000015f:	c9                   	leave  
+40000160:	c3                   	ret    
+
+40000161 <texec>:
+40000161:	55                   	push   %ebp
+40000162:	89 e5                	mov    %esp,%ebp
+40000164:	56                   	push   %esi
+40000165:	53                   	push   %ebx
+40000166:	53                   	push   %ebx
+40000167:	53                   	push   %ebx
+40000168:	8b 75 08             	mov    0x8(%ebp),%esi
+4000016b:	ff 75 0c             	pushl  0xc(%ebp)
+4000016e:	56                   	push   %esi
+4000016f:	e8 b1 ff ff ff       	call   40000125 <exec>
+40000174:	83 c4 10             	add    $0x10,%esp
+40000177:	89 c3                	mov    %eax,%ebx
+40000179:	85 c0                	test   %eax,%eax
+4000017b:	75 11                	jne    4000018e <texec+0x2d>
+4000017d:	e8 a6 05 00 00       	call   40000728 <getLastVFSErr>
+40000182:	51                   	push   %ecx
+40000183:	51                   	push   %ecx
+40000184:	50                   	push   %eax
+40000185:	56                   	push   %esi
+40000186:	e8 29 ff ff ff       	call   400000b4 <printFilesystemError>
+4000018b:	83 c4 10             	add    $0x10,%esp
+4000018e:	8d 65 f8             	lea    -0x8(%ebp),%esp
+40000191:	89 d8                	mov    %ebx,%eax
+40000193:	5b                   	pop    %ebx
+40000194:	5e                   	pop    %esi
+40000195:	5d                   	pop    %ebp
+40000196:	c3                   	ret    
+
+40000197 <getExecPathChild>:
+40000197:	55                   	push   %ebp
+40000198:	89 e5                	mov    %esp,%ebp
+4000019a:	83 ec 34             	sub    $0x34,%esp
+4000019d:	8b 45 08             	mov    0x8(%ebp),%eax
+400001a0:	c7 45 e0 11 00 00 00 	movl   $0x11,-0x20(%ebp)
+400001a7:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+400001aa:	8b 45 0c             	mov    0xc(%ebp),%eax
+400001ad:	89 45 e8             	mov    %eax,-0x18(%ebp)
+400001b0:	8d 45 e0             	lea    -0x20(%ebp),%eax
+400001b3:	50                   	push   %eax
+400001b4:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+400001bb:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+400001c2:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+400001c9:	e8 02 10 00 00       	call   400011d0 <syscall>
+400001ce:	8b 45 e0             	mov    -0x20(%ebp),%eax
+400001d1:	c9                   	leave  
+400001d2:	c3                   	ret    
+
+400001d3 <changeExecPath>:
+400001d3:	55                   	push   %ebp
+400001d4:	89 e5                	mov    %esp,%ebp
+400001d6:	83 ec 34             	sub    $0x34,%esp
+400001d9:	8b 45 08             	mov    0x8(%ebp),%eax
+400001dc:	c7 45 e0 07 00 00 00 	movl   $0x7,-0x20(%ebp)
+400001e3:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+400001e6:	8d 45 e0             	lea    -0x20(%ebp),%eax
+400001e9:	50                   	push   %eax
+400001ea:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+400001f1:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+400001f8:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+400001ff:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+40000206:	e8 c5 0f 00 00       	call   400011d0 <syscall>
+4000020b:	8b 45 e0             	mov    -0x20(%ebp),%eax
+4000020e:	c9                   	leave  
+4000020f:	c3                   	ret    
+
+40000210 <cd>:
+40000210:	55                   	push   %ebp
+40000211:	89 e5                	mov    %esp,%ebp
+40000213:	53                   	push   %ebx
+40000214:	83 ec 10             	sub    $0x10,%esp
+40000217:	8b 5d 08             	mov    0x8(%ebp),%ebx
+4000021a:	53                   	push   %ebx
+4000021b:	e8 b3 ff ff ff       	call   400001d3 <changeExecPath>
+40000220:	83 c4 10             	add    $0x10,%esp
+40000223:	85 c0                	test   %eax,%eax
+40000225:	75 11                	jne    40000238 <cd+0x28>
+40000227:	e8 fc 04 00 00       	call   40000728 <getLastVFSErr>
+4000022c:	52                   	push   %edx
+4000022d:	52                   	push   %edx
+4000022e:	50                   	push   %eax
+4000022f:	53                   	push   %ebx
+40000230:	e8 7f fe ff ff       	call   400000b4 <printFilesystemError>
+40000235:	83 c4 10             	add    $0x10,%esp
+40000238:	8b 5d fc             	mov    -0x4(%ebp),%ebx
+4000023b:	c9                   	leave  
+4000023c:	c3                   	ret    
+
+4000023d <getExecPath>:
+4000023d:	55                   	push   %ebp
+4000023e:	89 e5                	mov    %esp,%ebp
+40000240:	83 ec 34             	sub    $0x34,%esp
+40000243:	8b 45 08             	mov    0x8(%ebp),%eax
+40000246:	c7 45 e0 06 00 00 00 	movl   $0x6,-0x20(%ebp)
+4000024d:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+40000250:	8d 45 e0             	lea    -0x20(%ebp),%eax
+40000253:	50                   	push   %eax
+40000254:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+4000025b:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+40000262:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+40000269:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+40000270:	e8 5b 0f 00 00       	call   400011d0 <syscall>
+40000275:	83 c4 10             	add    $0x10,%esp
+40000278:	c9                   	leave  
+40000279:	c3                   	ret    
+
+4000027a <exit>:
+4000027a:	55                   	push   %ebp
+4000027b:	89 e5                	mov    %esp,%ebp
+4000027d:	83 ec 34             	sub    $0x34,%esp
+40000280:	8b 45 08             	mov    0x8(%ebp),%eax
+40000283:	c7 45 e0 01 00 00 00 	movl   $0x1,-0x20(%ebp)
+4000028a:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+4000028d:	8d 45 e0             	lea    -0x20(%ebp),%eax
+40000290:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+40000297:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+4000029e:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+400002a5:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+400002ac:	50                   	push   %eax
+400002ad:	e8 1e 0f 00 00       	call   400011d0 <syscall>
+400002b2:	c7 04 24 fa 20 00 40 	movl   $0x400020fa,(%esp)
+400002b9:	e8 86 06 00 00       	call   40000944 <printf>
+400002be:	eb f2                	jmp    400002b2 <exit+0x38>
+
+400002c0 <yield>:
+400002c0:	55                   	push   %ebp
+400002c1:	89 e5                	mov    %esp,%ebp
+400002c3:	83 ec 34             	sub    $0x34,%esp
+400002c6:	8d 45 e0             	lea    -0x20(%ebp),%eax
+400002c9:	c7 45 e0 05 00 00 00 	movl   $0x5,-0x20(%ebp)
+400002d0:	50                   	push   %eax
+400002d1:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
+400002d8:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+400002df:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+400002e6:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+400002ed:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+400002f4:	e8 d7 0e 00 00       	call   400011d0 <syscall>
+400002f9:	83 c4 10             	add    $0x10,%esp
+400002fc:	c9                   	leave  
+400002fd:	c3                   	ret    
+
+400002fe <pexists>:
+    	}
+
+		printf("%s\n", child);
+
+	    putchar(0x11);
+	    putchar(0x07);
+400002fe:	55                   	push   %ebp
+400002ff:	89 e5                	mov    %esp,%ebp
+40000301:	83 ec 34             	sub    $0x34,%esp
+    return 0;
+}
+40000304:	8b 45 08             	mov    0x8(%ebp),%eax
+40000307:	c7 45 e0 02 00 00 00 	movl   $0x2,-0x20(%ebp)
+4000030e:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+40000311:	8d 45 e0             	lea    -0x20(%ebp),%eax
+40000314:	50                   	push   %eax
+    return 0;
+}
+40000315:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+4000031c:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+40000323:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+4000032a:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+40000331:	e8 9a 0e 00 00       	call   400011d0 <syscall>
+40000336:	8b 45 e0             	mov    -0x20(%ebp),%eax
+40000339:	c9                   	leave  
+4000033a:	c3                   	ret    
+
+4000033b <register_irq_handler>:
+4000033b:	55                   	push   %ebp
+4000033c:	89 e5                	mov    %esp,%ebp
+4000033e:	53                   	push   %ebx
+4000033f:	83 ec 30             	sub    $0x30,%esp
+40000342:	8d 45 e0             	lea    -0x20(%ebp),%eax
+40000345:	8b 5d 08             	mov    0x8(%ebp),%ebx
+40000348:	50                   	push   %eax
+40000349:	c7 45 e0 28 00 00 00 	movl   $0x28,-0x20(%ebp)
+40000350:	89 5d e4             	mov    %ebx,-0x1c(%ebp)
+40000353:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+4000035a:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+40000361:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+40000368:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+4000036f:	e8 5c 0e 00 00       	call   400011d0 <syscall>
+40000374:	83 c4 10             	add    $0x10,%esp
+40000377:	31 c0                	xor    %eax,%eax
+40000379:	83 7d e0 00          	cmpl   $0x0,-0x20(%ebp)
+4000037d:	74 0f                	je     4000038e <register_irq_handler+0x53>
+4000037f:	8b 45 0c             	mov    0xc(%ebp),%eax
+40000382:	89 04 9d 00 30 00 40 	mov    %eax,0x40003000(,%ebx,4)
+40000389:	b8 01 00 00 00       	mov    $0x1,%eax
+4000038e:	8b 5d fc             	mov    -0x4(%ebp),%ebx
+40000391:	c9                   	leave  
+40000392:	c3                   	ret    
+
+40000393 <fetch_rpc_data>:
+40000393:	55                   	push   %ebp
+40000394:	89 e5                	mov    %esp,%ebp
+40000396:	83 ec 34             	sub    $0x34,%esp
+40000399:	8b 45 08             	mov    0x8(%ebp),%eax
+4000039c:	c7 45 e0 21 00 00 00 	movl   $0x21,-0x20(%ebp)
+400003a3:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+400003a6:	8d 45 e0             	lea    -0x20(%ebp),%eax
+400003a9:	50                   	push   %eax
+400003aa:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+400003b1:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+400003b8:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+400003bf:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+400003c6:	e8 05 0e 00 00       	call   400011d0 <syscall>
+400003cb:	83 c4 10             	add    $0x10,%esp
+400003ce:	c9                   	leave  
+400003cf:	c3                   	ret    
+
+400003d0 <call_rpc>:
+    	    putchar(0x11);
+    	    putchar(0x31);
+    	}
+
+		printf("%s\n", child);
+
+400003d0:	55                   	push   %ebp
+400003d1:	89 e5                	mov    %esp,%ebp
+400003d3:	83 ec 34             	sub    $0x34,%esp
+    }
+
+    return 0;
+}
+400003d6:	8b 45 08             	mov    0x8(%ebp),%eax
+400003d9:	c7 45 e0 1f 00 00 00 	movl   $0x1f,-0x20(%ebp)
+400003e0:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+400003e3:	8b 45 0c             	mov    0xc(%ebp),%eax
+400003e6:	89 45 e8             	mov    %eax,-0x18(%ebp)
+400003e9:	8b 45 10             	mov    0x10(%ebp),%eax
+400003ec:	89 45 ec             	mov    %eax,-0x14(%ebp)
+400003ef:	8b 45 14             	mov    0x14(%ebp),%eax
+400003f2:	89 45 f0             	mov    %eax,-0x10(%ebp)
+400003f5:	8d 45 e0             	lea    -0x20(%ebp),%eax
+400003f8:	50                   	push   %eax
+    }
+
+    return 0;
+}
+400003f9:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+40000400:	e8 cb 0d 00 00       	call   400011d0 <syscall>
+40000405:	8b 45 e0             	mov    -0x20(%ebp),%eax
+40000408:	c9                   	leave  
+40000409:	c3                   	ret    
+
+4000040a <set_rpc_handler>:
+4000040a:	55                   	push   %ebp
+4000040b:	89 e5                	mov    %esp,%ebp
+4000040d:	57                   	push   %edi
+4000040e:	56                   	push   %esi
+4000040f:	be 1c 20 00 40       	mov    $0x4000201c,%esi
+40000414:	83 ec 24             	sub    $0x24,%esp
+40000417:	8d 7d e0             	lea    -0x20(%ebp),%edi
+4000041a:	68 00 02 00 00       	push   $0x200
+4000041f:	6a 00                	push   $0x0
+40000421:	68 00 30 00 40       	push   $0x40003000
+40000426:	e8 c5 07 00 00       	call   40000bf0 <memset>
+4000042b:	b9 06 00 00 00       	mov    $0x6,%ecx
+40000430:	8d 45 e0             	lea    -0x20(%ebp),%eax
+40000433:	f3 a5                	rep movsl %ds:(%esi),%es:(%edi)
+40000435:	89 04 24             	mov    %eax,(%esp)
+40000438:	e8 93 0d 00 00       	call   400011d0 <syscall>
+4000043d:	83 c4 10             	add    $0x10,%esp
+40000440:	8d 65 f8             	lea    -0x8(%ebp),%esp
+40000443:	5e                   	pop    %esi
+40000444:	5f                   	pop    %edi
+40000445:	5d                   	pop    %ebp
+40000446:	c3                   	ret    
+
+40000447 <_start>:
+40000447:	55                   	push   %ebp
+40000448:	89 e5                	mov    %esp,%ebp
+4000044a:	56                   	push   %esi
+4000044b:	53                   	push   %ebx
+4000044c:	31 db                	xor    %ebx,%ebx
+4000044e:	83 ec 2c             	sub    $0x2c,%esp
+    while(getExecPathChild(index++, child)) {
+
+    	if(child[strlen(child)-1] == '/') {
+    	    putchar(0x11);
+    	    putchar(0x31);
+    	}
+40000451:	8d 45 e0             	lea    -0x20(%ebp),%eax
+
+
+    while(getExecPathChild(index++, child)) {
+
+    	if(child[strlen(child)-1] == '/') {
+    	    putchar(0x11);
+40000454:	c7 45 e0 04 00 00 00 	movl   $0x4,-0x20(%ebp)
+4000045b:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
+    	    putchar(0x31);
+    	}
+40000462:	50                   	push   %eax
+
+
+    while(getExecPathChild(index++, child)) {
+
+    	if(child[strlen(child)-1] == '/') {
+    	    putchar(0x11);
+40000463:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+4000046a:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+40000471:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+40000478:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+    	    putchar(0x31);
+    	}
+4000047f:	e8 4c 0d 00 00       	call   400011d0 <syscall>
+
+		printf("%s\n", child);
+40000484:	8b 75 e0             	mov    -0x20(%ebp),%esi
+40000487:	83 c4 10             	add    $0x10,%esp
+4000048a:	85 f6                	test   %esi,%esi
+4000048c:	75 05                	jne    40000493 <_start+0x4c>
+4000048e:	89 f3                	mov    %esi,%ebx
+40000490:	eb 07                	jmp    40000499 <_start+0x52>
+40000492:	43                   	inc    %ebx
+40000493:	83 3c 9e 00          	cmpl   $0x0,(%esi,%ebx,4)
+40000497:	75 f9                	jne    40000492 <_start+0x4b>
+40000499:	e8 6c ff ff ff       	call   4000040a <set_rpc_handler>
+4000049e:	51                   	push   %ecx
+4000049f:	51                   	push   %ecx
+400004a0:	56                   	push   %esi
+400004a1:	53                   	push   %ebx
+400004a2:	e8 59 fb ff ff       	call   40000000 <main>
+400004a7:	89 04 24             	mov    %eax,(%esp)
+400004aa:	e8 cb fd ff ff       	call   4000027a <exit>
+400004af:	83 c4 10             	add    $0x10,%esp
+400004b2:	8d 65 f8             	lea    -0x8(%ebp),%esp
+400004b5:	5b                   	pop    %ebx
+400004b6:	5e                   	pop    %esi
+400004b7:	5d                   	pop    %ebp
+400004b8:	c3                   	ret    
+
+400004b9 <_handle_rpc>:
+400004b9:	55                   	push   %ebp
+400004ba:	89 e5                	mov    %esp,%ebp
+400004bc:	56                   	push   %esi
+400004bd:	53                   	push   %ebx
+400004be:	83 ec 2c             	sub    $0x2c,%esp
+400004c1:	ff 75 10             	pushl  0x10(%ebp)
+400004c4:	8b 75 0c             	mov    0xc(%ebp),%esi
+400004c7:	e8 bd 0a 00 00       	call   40000f89 <malloc>
+400004cc:	89 04 24             	mov    %eax,(%esp)
+400004cf:	89 c3                	mov    %eax,%ebx
+400004d1:	e8 bd fe ff ff       	call   40000393 <fetch_rpc_data>
+400004d6:	83 c4 10             	add    $0x10,%esp
+400004d9:	83 7d 08 00          	cmpl   $0x0,0x8(%ebp)
+400004dd:	75 4b                	jne    4000052a <_handle_rpc+0x71>
+400004df:	8b 04 b5 00 30 00 40 	mov    0x40003000(,%esi,4),%eax
+400004e6:	85 c0                	test   %eax,%eax
+400004e8:	74 40                	je     4000052a <_handle_rpc+0x71>
+400004ea:	83 ec 0c             	sub    $0xc,%esp
+400004ed:	56                   	push   %esi
+400004ee:	ff d0                	call   *%eax
+
+
+    while(getExecPathChild(index++, child)) {
+
+    	if(child[strlen(child)-1] == '/') {
+    	    putchar(0x11);
+400004f0:	8d 45 e0             	lea    -0x20(%ebp),%eax
+    uint32_t index = 0;
+    char child[512];
+
+
+    while(getExecPathChild(index++, child)) {
+
+400004f3:	c7 45 e0 1e 00 00 00 	movl   $0x1e,-0x20(%ebp)
+    	if(child[strlen(child)-1] == '/') {
+    	    putchar(0x11);
+400004fa:	89 04 24             	mov    %eax,(%esp)
+    uint32_t index = 0;
+    char child[512];
+
+
+    while(getExecPathChild(index++, child)) {
+
+400004fd:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
+40000504:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+4000050b:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+40000512:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+40000519:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+    	if(child[strlen(child)-1] == '/') {
+    	    putchar(0x11);
+40000520:	e8 ab 0c 00 00       	call   400011d0 <syscall>
+40000525:	83 c4 10             	add    $0x10,%esp
+40000528:	eb fe                	jmp    40000528 <_handle_rpc+0x6f>
+4000052a:	83 ec 0c             	sub    $0xc,%esp
+4000052d:	68 01 21 00 40       	push   $0x40002101
+40000532:	e8 0d 04 00 00       	call   40000944 <printf>
+40000537:	89 1c 24             	mov    %ebx,(%esp)
+4000053a:	e8 01 09 00 00       	call   40000e40 <free>
+
+
+    while(getExecPathChild(index++, child)) {
+
+    	if(child[strlen(child)-1] == '/') {
+    	    putchar(0x11);
+4000053f:	8d 45 e0             	lea    -0x20(%ebp),%eax
+    uint32_t index = 0;
+    char child[512];
+
+
+    while(getExecPathChild(index++, child)) {
+
+40000542:	c7 45 e0 1e 00 00 00 	movl   $0x1e,-0x20(%ebp)
+    	if(child[strlen(child)-1] == '/') {
+    	    putchar(0x11);
+40000549:	89 04 24             	mov    %eax,(%esp)
+    uint32_t index = 0;
+    char child[512];
+
+
+    while(getExecPathChild(index++, child)) {
+
+4000054c:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
+40000553:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+4000055a:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+40000561:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+40000568:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+    	if(child[strlen(child)-1] == '/') {
+    	    putchar(0x11);
+4000056f:	e8 5c 0c 00 00       	call   400011d0 <syscall>
+40000574:	83 c4 10             	add    $0x10,%esp
+40000577:	eb fe                	jmp    40000577 <_handle_rpc+0xbe>
+40000579:	00 00                	add    %al,(%eax)
+	...
+
+4000057c <resolveHandle>:
+4000057c:	55                   	push   %ebp
+4000057d:	89 e5                	mov    %esp,%ebp
+4000057f:	83 ec 28             	sub    $0x28,%esp
+40000582:	3d fe 0f 00 00       	cmp    $0xffe,%eax
+40000587:	77 38                	ja     400005c1 <resolveHandle+0x45>
+    return 0;
+}
+40000589:	83 ec 0c             	sub    $0xc,%esp
+    }
+
+    return 0;
+}
+4000058c:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+4000058f:	8d 45 e0             	lea    -0x20(%ebp),%eax
+    }
+
+    return 0;
+}
+40000592:	c7 45 e0 14 00 00 00 	movl   $0x14,-0x20(%ebp)
+40000599:	50                   	push   %eax
+    }
+
+    return 0;
+}
+4000059a:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+400005a1:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+400005a8:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+400005af:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+400005b6:	e8 15 0c 00 00       	call   400011d0 <syscall>
+400005bb:	8b 45 e0             	mov    -0x20(%ebp),%eax
+400005be:	83 c4 10             	add    $0x10,%esp
+400005c1:	c9                   	leave  
+400005c2:	c3                   	ret    
+
+400005c3 <fmkfifo>:
+400005c3:	55                   	push   %ebp
+400005c4:	89 e5                	mov    %esp,%ebp
+400005c6:	83 ec 34             	sub    $0x34,%esp
+400005c9:	8b 45 08             	mov    0x8(%ebp),%eax
+400005cc:	c7 45 e0 0e 00 00 00 	movl   $0xe,-0x20(%ebp)
+400005d3:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+400005d6:	8d 45 e0             	lea    -0x20(%ebp),%eax
+400005d9:	50                   	push   %eax
+400005da:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+400005e1:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+400005e8:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+400005ef:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+400005f6:	e8 d5 0b 00 00       	call   400011d0 <syscall>
+400005fb:	8b 45 e0             	mov    -0x20(%ebp),%eax
+400005fe:	c9                   	leave  
+400005ff:	c3                   	ret    
+
+40000600 <favailable>:
+40000600:	55                   	push   %ebp
+40000601:	89 e5                	mov    %esp,%ebp
+40000603:	83 ec 34             	sub    $0x34,%esp
+40000606:	8b 45 08             	mov    0x8(%ebp),%eax
+40000609:	c7 45 e0 10 00 00 00 	movl   $0x10,-0x20(%ebp)
+40000610:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+40000613:	8d 45 e0             	lea    -0x20(%ebp),%eax
+40000616:	50                   	push   %eax
+40000617:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+4000061e:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+40000625:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+4000062c:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+40000633:	e8 98 0b 00 00       	call   400011d0 <syscall>
+40000638:	8b 45 e0             	mov    -0x20(%ebp),%eax
+4000063b:	c9                   	leave  
+4000063c:	c3                   	ret    
+
+4000063d <fclose>:
+4000063d:	55                   	push   %ebp
+4000063e:	89 e5                	mov    %esp,%ebp
+40000640:	83 ec 34             	sub    $0x34,%esp
+40000643:	8b 45 08             	mov    0x8(%ebp),%eax
+40000646:	c7 45 e0 0b 00 00 00 	movl   $0xb,-0x20(%ebp)
+4000064d:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+40000650:	8d 45 e0             	lea    -0x20(%ebp),%eax
+40000653:	50                   	push   %eax
+40000654:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+4000065b:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+40000662:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+40000669:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+40000670:	e8 5b 0b 00 00       	call   400011d0 <syscall>
+40000675:	8b 45 e0             	mov    -0x20(%ebp),%eax
+40000678:	c9                   	leave  
+40000679:	c3                   	ret    
+
+4000067a <fopen>:
+4000067a:	55                   	push   %ebp
+4000067b:	89 e5                	mov    %esp,%ebp
+4000067d:	83 ec 34             	sub    $0x34,%esp
+40000680:	8b 45 08             	mov    0x8(%ebp),%eax
+40000683:	c7 45 e0 0a 00 00 00 	movl   $0xa,-0x20(%ebp)
+4000068a:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+4000068d:	8b 45 0c             	mov    0xc(%ebp),%eax
+40000690:	89 45 e8             	mov    %eax,-0x18(%ebp)
+40000693:	8d 45 e0             	lea    -0x20(%ebp),%eax
+40000696:	50                   	push   %eax
+40000697:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+4000069e:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+400006a5:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+400006ac:	e8 1f 0b 00 00       	call   400011d0 <syscall>
+400006b1:	8b 45 e0             	mov    -0x20(%ebp),%eax
+400006b4:	c9                   	leave  
+400006b5:	c3                   	ret    
+
+400006b6 <fopenpmhandle>:
+400006b6:	55                   	push   %ebp
+400006b7:	89 e5                	mov    %esp,%ebp
+400006b9:	83 ec 34             	sub    $0x34,%esp
+400006bc:	8b 45 08             	mov    0x8(%ebp),%eax
+400006bf:	c7 45 e0 15 00 00 00 	movl   $0x15,-0x20(%ebp)
+400006c6:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+400006c9:	8b 45 0c             	mov    0xc(%ebp),%eax
+400006cc:	89 45 e8             	mov    %eax,-0x18(%ebp)
+400006cf:	8d 45 e0             	lea    -0x20(%ebp),%eax
+400006d2:	50                   	push   %eax
+400006d3:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+400006da:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+400006e1:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+400006e8:	e8 e3 0a 00 00       	call   400011d0 <syscall>
+400006ed:	8b 45 e0             	mov    -0x20(%ebp),%eax
+400006f0:	c9                   	leave  
+400006f1:	c3                   	ret    
+
+400006f2 <setstderr>:
+400006f2:	55                   	push   %ebp
+400006f3:	89 e5                	mov    %esp,%ebp
+400006f5:	83 ec 10             	sub    $0x10,%esp
+400006f8:	ff 75 08             	pushl  0x8(%ebp)
+400006fb:	6a 03                	push   $0x3
+400006fd:	e8 b4 ff ff ff       	call   400006b6 <fopenpmhandle>
+40000702:	c9                   	leave  
+40000703:	c3                   	ret    
+
+40000704 <setstdin>:
+40000704:	55                   	push   %ebp
+40000705:	89 e5                	mov    %esp,%ebp
+40000707:	83 ec 10             	sub    $0x10,%esp
+4000070a:	ff 75 08             	pushl  0x8(%ebp)
+4000070d:	6a 02                	push   $0x2
+4000070f:	e8 a2 ff ff ff       	call   400006b6 <fopenpmhandle>
+40000714:	c9                   	leave  
+40000715:	c3                   	ret    
+
+40000716 <setstdout>:
+40000716:	55                   	push   %ebp
+40000717:	89 e5                	mov    %esp,%ebp
+40000719:	83 ec 10             	sub    $0x10,%esp
+4000071c:	ff 75 08             	pushl  0x8(%ebp)
+4000071f:	6a 01                	push   $0x1
+40000721:	e8 90 ff ff ff       	call   400006b6 <fopenpmhandle>
+40000726:	c9                   	leave  
+40000727:	c3                   	ret    
+
+40000728 <getLastVFSErr>:
+#include "stdint.h"
+#include "stdio.h"
+#include "process.h"
+#include "string.h"
+ 
+40000728:	55                   	push   %ebp
+40000729:	89 e5                	mov    %esp,%ebp
+4000072b:	83 ec 34             	sub    $0x34,%esp
+
+
+    while(getExecPathChild(index++, child)) {
+
+    	if(child[strlen(child)-1] == '/') {
+    	    putchar(0x11);
+4000072e:	8d 45 e0             	lea    -0x20(%ebp),%eax
+    uint32_t index = 0;
+    char child[512];
+
+
+    while(getExecPathChild(index++, child)) {
+
+40000731:	c7 45 e0 0f 00 00 00 	movl   $0xf,-0x20(%ebp)
+    	if(child[strlen(child)-1] == '/') {
+    	    putchar(0x11);
+40000738:	50                   	push   %eax
+    uint32_t index = 0;
+    char child[512];
+
+
+    while(getExecPathChild(index++, child)) {
+
+40000739:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
+40000740:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+40000747:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+4000074e:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+40000755:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+    	if(child[strlen(child)-1] == '/') {
+    	    putchar(0x11);
+4000075c:	e8 6f 0a 00 00       	call   400011d0 <syscall>
+    	    putchar(0x31);
+    	}
+
+40000761:	8b 45 e0             	mov    -0x20(%ebp),%eax
+40000764:	c9                   	leave  
+40000765:	c3                   	ret    
+
+40000766 <fwrite>:
+40000766:	55                   	push   %ebp
+40000767:	89 e5                	mov    %esp,%ebp
+40000769:	57                   	push   %edi
+4000076a:	56                   	push   %esi
+4000076b:	53                   	push   %ebx
+4000076c:	83 ec 3c             	sub    $0x3c,%esp
+4000076f:	8b 45 08             	mov    0x8(%ebp),%eax
+40000772:	8b 7d 10             	mov    0x10(%ebp),%edi
+40000775:	e8 02 fe ff ff       	call   4000057c <resolveHandle>
+4000077a:	83 ec 0c             	sub    $0xc,%esp
+4000077d:	89 c6                	mov    %eax,%esi
+4000077f:	89 45 d4             	mov    %eax,-0x2c(%ebp)
+40000782:	8b 45 0c             	mov    0xc(%ebp),%eax
+40000785:	c7 45 d0 0c 00 00 00 	movl   $0xc,-0x30(%ebp)
+4000078c:	89 45 d8             	mov    %eax,-0x28(%ebp)
+4000078f:	8d 45 d0             	lea    -0x30(%ebp),%eax
+40000792:	89 7d dc             	mov    %edi,-0x24(%ebp)
+40000795:	c7 45 e0 00 00 00 00 	movl   $0x0,-0x20(%ebp)
+4000079c:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
+400007a3:	50                   	push   %eax
+400007a4:	89 45 c4             	mov    %eax,-0x3c(%ebp)
+400007a7:	eb 2d                	jmp    400007d6 <fwrite+0x70>
+400007a9:	e8 12 fb ff ff       	call   400002c0 <yield>
+400007ae:	8b 45 0c             	mov    0xc(%ebp),%eax
+400007b1:	83 ec 0c             	sub    $0xc,%esp
+400007b4:	89 45 d8             	mov    %eax,-0x28(%ebp)
+400007b7:	8d 45 d0             	lea    -0x30(%ebp),%eax
+400007ba:	c7 45 d0 0c 00 00 00 	movl   $0xc,-0x30(%ebp)
+400007c1:	89 75 d4             	mov    %esi,-0x2c(%ebp)
+400007c4:	89 7d dc             	mov    %edi,-0x24(%ebp)
+400007c7:	c7 45 e0 00 00 00 00 	movl   $0x0,-0x20(%ebp)
+400007ce:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
+400007d5:	50                   	push   %eax
+400007d6:	e8 f5 09 00 00       	call   400011d0 <syscall>
+400007db:	8b 5d d0             	mov    -0x30(%ebp),%ebx
+400007de:	83 c4 10             	add    $0x10,%esp
+400007e1:	83 fb 01             	cmp    $0x1,%ebx
+400007e4:	74 c3                	je     400007a9 <fwrite+0x43>
+400007e6:	89 f0                	mov    %esi,%eax
+400007e8:	89 da                	mov    %ebx,%edx
+400007ea:	e8 3d 02 00 00       	call   40000a2c <printrwerror>
+400007ef:	8d 65 f4             	lea    -0xc(%ebp),%esp
+400007f2:	89 d8                	mov    %ebx,%eax
+400007f4:	5b                   	pop    %ebx
+400007f5:	5e                   	pop    %esi
+400007f6:	5f                   	pop    %edi
+400007f7:	5d                   	pop    %ebp
+400007f8:	c3                   	ret    
+
+400007f9 <fputs>:
+400007f9:	55                   	push   %ebp
+400007fa:	89 e5                	mov    %esp,%ebp
+400007fc:	56                   	push   %esi
+400007fd:	53                   	push   %ebx
+400007fe:	83 ec 20             	sub    $0x20,%esp
+40000801:	8b 45 0c             	mov    0xc(%ebp),%eax
+40000804:	8b 5d 08             	mov    0x8(%ebp),%ebx
+40000807:	e8 70 fd ff ff       	call   4000057c <resolveHandle>
+4000080c:	89 c6                	mov    %eax,%esi
+4000080e:	85 c0                	test   %eax,%eax
+40000810:	74 16                	je     40000828 <fputs+0x2f>
+40000812:	83 ec 0c             	sub    $0xc,%esp
+40000815:	53                   	push   %ebx
+40000816:	e8 a7 04 00 00       	call   40000cc2 <strlen>
+4000081b:	83 c4 0c             	add    $0xc,%esp
+4000081e:	50                   	push   %eax
+4000081f:	53                   	push   %ebx
+40000820:	56                   	push   %esi
+40000821:	e8 40 ff ff ff       	call   40000766 <fwrite>
+40000826:	eb 35                	jmp    4000085d <fputs+0x64>
+40000828:	83 ec 0c             	sub    $0xc,%esp
+4000082b:	8d 45 e0             	lea    -0x20(%ebp),%eax
+4000082e:	c7 45 e0 ca 00 00 00 	movl   $0xca,-0x20(%ebp)
+40000835:	89 5d e4             	mov    %ebx,-0x1c(%ebp)
+40000838:	50                   	push   %eax
+40000839:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+40000840:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+40000847:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+4000084e:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+40000855:	e8 76 09 00 00       	call   400011d0 <syscall>
+4000085a:	8b 45 e0             	mov    -0x20(%ebp),%eax
+4000085d:	83 c4 10             	add    $0x10,%esp
+40000860:	8d 65 f8             	lea    -0x8(%ebp),%esp
+40000863:	5b                   	pop    %ebx
+40000864:	5e                   	pop    %esi
+40000865:	5d                   	pop    %ebp
+40000866:	c3                   	ret    
+
+40000867 <puts>:
+40000867:	55                   	push   %ebp
+40000868:	89 e5                	mov    %esp,%ebp
+4000086a:	83 ec 10             	sub    $0x10,%esp
+4000086d:	6a 01                	push   $0x1
+4000086f:	ff 75 08             	pushl  0x8(%ebp)
+40000872:	e8 82 ff ff ff       	call   400007f9 <fputs>
+40000877:	c9                   	leave  
+40000878:	c3                   	ret    
+
+40000879 <putn>:
+40000879:	55                   	push   %ebp
+4000087a:	89 e5                	mov    %esp,%ebp
+4000087c:	56                   	push   %esi
+4000087d:	53                   	push   %ebx
+4000087e:	31 f6                	xor    %esi,%esi
+40000880:	83 ec 50             	sub    $0x50,%esp
+40000883:	89 d3                	mov    %edx,%ebx
+40000885:	83 fa 24             	cmp    $0x24,%edx
+40000888:	7f 25                	jg     400008af <putn+0x36>
+4000088a:	c6 45 f7 00          	movb   $0x0,-0x9(%ebp)
+4000088e:	8d 4d f7             	lea    -0x9(%ebp),%ecx
+40000891:	31 d2                	xor    %edx,%edx
+40000893:	49                   	dec    %ecx
+40000894:	f7 f3                	div    %ebx
+40000896:	46                   	inc    %esi
+40000897:	85 c0                	test   %eax,%eax
+40000899:	8a 92 11 21 00 40    	mov    0x40002111(%edx),%dl
+4000089f:	88 11                	mov    %dl,(%ecx)
+400008a1:	75 ee                	jne    40000891 <putn+0x18>
+400008a3:	83 ec 0c             	sub    $0xc,%esp
+400008a6:	51                   	push   %ecx
+400008a7:	e8 bb ff ff ff       	call   40000867 <puts>
+400008ac:	83 c4 10             	add    $0x10,%esp
+400008af:	8d 65 f8             	lea    -0x8(%ebp),%esp
+400008b2:	89 f0                	mov    %esi,%eax
+400008b4:	5b                   	pop    %ebx
+400008b5:	5e                   	pop    %esi
+400008b6:	5d                   	pop    %ebp
+400008b7:	c3                   	ret    
+
+400008b8 <fputc>:
+400008b8:	55                   	push   %ebp
+400008b9:	89 e5                	mov    %esp,%ebp
+400008bb:	83 ec 38             	sub    $0x38,%esp
+400008be:	8b 45 08             	mov    0x8(%ebp),%eax
+400008c1:	88 45 d4             	mov    %al,-0x2c(%ebp)
+400008c4:	8b 45 0c             	mov    0xc(%ebp),%eax
+400008c7:	e8 b0 fc ff ff       	call   4000057c <resolveHandle>
+400008cc:	85 c0                	test   %eax,%eax
+400008ce:	74 0f                	je     400008df <fputc+0x27>
+400008d0:	52                   	push   %edx
+400008d1:	8d 55 d4             	lea    -0x2c(%ebp),%edx
+400008d4:	6a 01                	push   $0x1
+400008d6:	52                   	push   %edx
+400008d7:	50                   	push   %eax
+400008d8:	e8 89 fe ff ff       	call   40000766 <fwrite>
+400008dd:	eb 39                	jmp    40000918 <fputc+0x60>
+400008df:	0f be 45 d4          	movsbl -0x2c(%ebp),%eax
+400008e3:	83 ec 0c             	sub    $0xc,%esp
+400008e6:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+400008e9:	8d 45 e0             	lea    -0x20(%ebp),%eax
+400008ec:	c7 45 e0 c9 00 00 00 	movl   $0xc9,-0x20(%ebp)
+400008f3:	50                   	push   %eax
+400008f4:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+400008fb:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+40000902:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+40000909:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+40000910:	e8 bb 08 00 00       	call   400011d0 <syscall>
+40000915:	8b 45 e0             	mov    -0x20(%ebp),%eax
+40000918:	83 c4 10             	add    $0x10,%esp
+4000091b:	c9                   	leave  
+4000091c:	c3                   	ret    
+
+4000091d <putc>:
+4000091d:	55                   	push   %ebp
+4000091e:	89 e5                	mov    %esp,%ebp
+40000920:	83 ec 08             	sub    $0x8,%esp
+40000923:	0f be 45 08          	movsbl 0x8(%ebp),%eax
+40000927:	89 45 08             	mov    %eax,0x8(%ebp)
+4000092a:	c9                   	leave  
+4000092b:	e9 88 ff ff ff       	jmp    400008b8 <fputc>
+
+40000930 <putchar>:
+40000930:	55                   	push   %ebp
+40000931:	89 e5                	mov    %esp,%ebp
+40000933:	83 ec 10             	sub    $0x10,%esp
+40000936:	0f be 45 08          	movsbl 0x8(%ebp),%eax
+4000093a:	6a 01                	push   $0x1
+4000093c:	50                   	push   %eax
+4000093d:	e8 76 ff ff ff       	call   400008b8 <fputc>
+40000942:	c9                   	leave  
+40000943:	c3                   	ret    
+
+40000944 <printf>:
+40000944:	55                   	push   %ebp
+40000945:	89 e5                	mov    %esp,%ebp
+40000947:	57                   	push   %edi
+40000948:	56                   	push   %esi
+40000949:	53                   	push   %ebx
+4000094a:	83 ec 1c             	sub    $0x1c,%esp
+4000094d:	8d 75 0c             	lea    0xc(%ebp),%esi
+40000950:	8b 7d 08             	mov    0x8(%ebp),%edi
+40000953:	31 db                	xor    %ebx,%ebx
+40000955:	e9 be 00 00 00       	jmp    40000a18 <printf+0xd4>
+4000095a:	3c 25                	cmp    $0x25,%al
+4000095c:	0f 85 a4 00 00 00    	jne    40000a06 <printf+0xc2>
+40000962:	47                   	inc    %edi
+40000963:	8a 07                	mov    (%edi),%al
+40000965:	3c 70                	cmp    $0x70,%al
+40000967:	74 47                	je     400009b0 <printf+0x6c>
+40000969:	7f 1a                	jg     40000985 <printf+0x41>
+4000096b:	3c 63                	cmp    $0x63,%al
+4000096d:	74 5a                	je     400009c9 <printf+0x85>
+4000096f:	7f 0e                	jg     4000097f <printf+0x3b>
+40000971:	84 c0                	test   %al,%al
+40000973:	0f 84 a9 00 00 00    	je     40000a22 <printf+0xde>
+40000979:	3c 25                	cmp    $0x25,%al
+4000097b:	75 6c                	jne    400009e9 <printf+0xa5>
+4000097d:	eb 63                	jmp    400009e2 <printf+0x9e>
+4000097f:	3c 64                	cmp    $0x64,%al
+40000981:	75 66                	jne    400009e9 <printf+0xa5>
+40000983:	eb 1e                	jmp    400009a3 <printf+0x5f>
+40000985:	3c 75                	cmp    $0x75,%al
+40000987:	74 1a                	je     400009a3 <printf+0x5f>
+40000989:	3c 78                	cmp    $0x78,%al
+4000098b:	74 23                	je     400009b0 <printf+0x6c>
+4000098d:	3c 73                	cmp    $0x73,%al
+4000098f:	75 58                	jne    400009e9 <printf+0xa5>
+40000991:	83 ec 0c             	sub    $0xc,%esp
+40000994:	8d 46 04             	lea    0x4(%esi),%eax
+40000997:	ff 36                	pushl  (%esi)
+40000999:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+4000099c:	e8 c6 fe ff ff       	call   40000867 <puts>
+400009a1:	eb 38                	jmp    400009db <printf+0x97>
+400009a3:	8d 46 04             	lea    0x4(%esi),%eax
+400009a6:	ba 0a 00 00 00       	mov    $0xa,%edx
+400009ab:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+400009ae:	eb 0b                	jmp    400009bb <printf+0x77>
+400009b0:	8d 46 04             	lea    0x4(%esi),%eax
+400009b3:	ba 10 00 00 00       	mov    $0x10,%edx
+400009b8:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+400009bb:	8b 06                	mov    (%esi),%eax
+400009bd:	e8 b7 fe ff ff       	call   40000879 <putn>
+400009c2:	8b 75 e4             	mov    -0x1c(%ebp),%esi
+400009c5:	01 c3                	add    %eax,%ebx
+400009c7:	eb 4e                	jmp    40000a17 <printf+0xd3>
+400009c9:	8d 46 04             	lea    0x4(%esi),%eax
+400009cc:	83 ec 0c             	sub    $0xc,%esp
+400009cf:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+400009d2:	0f be 06             	movsbl (%esi),%eax
+400009d5:	50                   	push   %eax
+400009d6:	e8 55 ff ff ff       	call   40000930 <putchar>
+400009db:	01 c3                	add    %eax,%ebx
+400009dd:	8b 75 e4             	mov    -0x1c(%ebp),%esi
+400009e0:	eb 32                	jmp    40000a14 <printf+0xd0>
+400009e2:	83 ec 0c             	sub    $0xc,%esp
+400009e5:	6a 25                	push   $0x25
+400009e7:	eb 24                	jmp    40000a0d <printf+0xc9>
+400009e9:	83 ec 0c             	sub    $0xc,%esp
+400009ec:	6a 25                	push   $0x25
+400009ee:	e8 3d ff ff ff       	call   40000930 <putchar>
+400009f3:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+400009f6:	0f be 07             	movsbl (%edi),%eax
+400009f9:	89 04 24             	mov    %eax,(%esp)
+400009fc:	e8 2f ff ff ff       	call   40000930 <putchar>
+40000a01:	03 45 e4             	add    -0x1c(%ebp),%eax
+40000a04:	eb 0c                	jmp    40000a12 <printf+0xce>
+40000a06:	83 ec 0c             	sub    $0xc,%esp
+40000a09:	0f be c0             	movsbl %al,%eax
+40000a0c:	50                   	push   %eax
+40000a0d:	e8 1e ff ff ff       	call   40000930 <putchar>
+40000a12:	01 c3                	add    %eax,%ebx
+40000a14:	83 c4 10             	add    $0x10,%esp
+40000a17:	47                   	inc    %edi
+40000a18:	8a 07                	mov    (%edi),%al
+40000a1a:	84 c0                	test   %al,%al
+40000a1c:	0f 85 38 ff ff ff    	jne    4000095a <printf+0x16>
+40000a22:	8d 65 f4             	lea    -0xc(%ebp),%esp
+40000a25:	89 d8                	mov    %ebx,%eax
+40000a27:	5b                   	pop    %ebx
+40000a28:	5e                   	pop    %esi
+40000a29:	5f                   	pop    %edi
+40000a2a:	5d                   	pop    %ebp
+40000a2b:	c3                   	ret    
+
+40000a2c <printrwerror>:
+40000a2c:	55                   	push   %ebp
+40000a2d:	89 e5                	mov    %esp,%ebp
+40000a2f:	83 ec 08             	sub    $0x8,%esp
+40000a32:	83 fa 02             	cmp    $0x2,%edx
+40000a35:	75 0a                	jne    40000a41 <printrwerror+0x15>
+40000a37:	52                   	push   %edx
+40000a38:	52                   	push   %edx
+40000a39:	50                   	push   %eax
+40000a3a:	68 36 21 00 40       	push   $0x40002136
+40000a3f:	eb 2b                	jmp    40000a6c <printrwerror+0x40>
+40000a41:	83 fa 03             	cmp    $0x3,%edx
+40000a44:	75 0a                	jne    40000a50 <printrwerror+0x24>
+40000a46:	51                   	push   %ecx
+40000a47:	51                   	push   %ecx
+40000a48:	50                   	push   %eax
+40000a49:	68 4e 21 00 40       	push   $0x4000214e
+40000a4e:	eb 1c                	jmp    40000a6c <printrwerror+0x40>
+40000a50:	83 fa 04             	cmp    $0x4,%edx
+40000a53:	75 0a                	jne    40000a5f <printrwerror+0x33>
+40000a55:	52                   	push   %edx
+40000a56:	52                   	push   %edx
+40000a57:	50                   	push   %eax
+40000a58:	68 69 21 00 40       	push   $0x40002169
+40000a5d:	eb 0d                	jmp    40000a6c <printrwerror+0x40>
+40000a5f:	83 fa 05             	cmp    $0x5,%edx
+40000a62:	75 10                	jne    40000a74 <printrwerror+0x48>
+40000a64:	51                   	push   %ecx
+40000a65:	51                   	push   %ecx
+40000a66:	50                   	push   %eax
+40000a67:	68 93 21 00 40       	push   $0x40002193
+40000a6c:	e8 d3 fe ff ff       	call   40000944 <printf>
+40000a71:	83 c4 10             	add    $0x10,%esp
+40000a74:	c9                   	leave  
+40000a75:	c3                   	ret    
+
+40000a76 <fread>:
+40000a76:	55                   	push   %ebp
+40000a77:	89 e5                	mov    %esp,%ebp
+40000a79:	57                   	push   %edi
+40000a7a:	56                   	push   %esi
+40000a7b:	53                   	push   %ebx
+40000a7c:	83 ec 38             	sub    $0x38,%esp
+40000a7f:	8d 7d d0             	lea    -0x30(%ebp),%edi
+40000a82:	8b 45 0c             	mov    0xc(%ebp),%eax
+40000a85:	8b 75 08             	mov    0x8(%ebp),%esi
+40000a88:	89 45 d8             	mov    %eax,-0x28(%ebp)
+40000a8b:	8b 45 10             	mov    0x10(%ebp),%eax
+40000a8e:	c7 45 d0 0d 00 00 00 	movl   $0xd,-0x30(%ebp)
+40000a95:	89 75 d4             	mov    %esi,-0x2c(%ebp)
+40000a98:	89 45 dc             	mov    %eax,-0x24(%ebp)
+40000a9b:	c7 45 e0 00 00 00 00 	movl   $0x0,-0x20(%ebp)
+40000aa2:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
+40000aa9:	eb 2c                	jmp    40000ad7 <fread+0x61>
+40000aab:	e8 10 f8 ff ff       	call   400002c0 <yield>
+40000ab0:	8b 45 0c             	mov    0xc(%ebp),%eax
+40000ab3:	89 45 d8             	mov    %eax,-0x28(%ebp)
+40000ab6:	8b 45 10             	mov    0x10(%ebp),%eax
+40000ab9:	c7 45 d0 0d 00 00 00 	movl   $0xd,-0x30(%ebp)
+40000ac0:	89 75 d4             	mov    %esi,-0x2c(%ebp)
+40000ac3:	89 45 dc             	mov    %eax,-0x24(%ebp)
+40000ac6:	c7 45 e0 00 00 00 00 	movl   $0x0,-0x20(%ebp)
+40000acd:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
+40000ad4:	83 ec 0c             	sub    $0xc,%esp
+40000ad7:	57                   	push   %edi
+40000ad8:	e8 f3 06 00 00       	call   400011d0 <syscall>
+40000add:	8b 5d d0             	mov    -0x30(%ebp),%ebx
+40000ae0:	83 c4 10             	add    $0x10,%esp
+40000ae3:	83 fb 01             	cmp    $0x1,%ebx
+40000ae6:	74 c3                	je     40000aab <fread+0x35>
+40000ae8:	89 f0                	mov    %esi,%eax
+40000aea:	89 da                	mov    %ebx,%edx
+40000aec:	e8 3b ff ff ff       	call   40000a2c <printrwerror>
+40000af1:	8d 65 f4             	lea    -0xc(%ebp),%esp
+40000af4:	89 d8                	mov    %ebx,%eax
+40000af6:	5b                   	pop    %ebx
+40000af7:	5e                   	pop    %esi
+40000af8:	5f                   	pop    %edi
+40000af9:	5d                   	pop    %ebp
+40000afa:	c3                   	ret    
+
+40000afb <fgetc>:
+40000afb:	55                   	push   %ebp
+40000afc:	89 e5                	mov    %esp,%ebp
+40000afe:	83 ec 18             	sub    $0x18,%esp
+40000b01:	8b 45 08             	mov    0x8(%ebp),%eax
+40000b04:	e8 73 fa ff ff       	call   4000057c <resolveHandle>
+40000b09:	c6 45 f7 00          	movb   $0x0,-0x9(%ebp)
+40000b0d:	85 c0                	test   %eax,%eax
+40000b0f:	74 10                	je     40000b21 <fgetc+0x26>
+40000b11:	8d 55 f7             	lea    -0x9(%ebp),%edx
+40000b14:	51                   	push   %ecx
+40000b15:	6a 01                	push   $0x1
+40000b17:	52                   	push   %edx
+40000b18:	50                   	push   %eax
+40000b19:	e8 58 ff ff ff       	call   40000a76 <fread>
+40000b1e:	83 c4 10             	add    $0x10,%esp
+40000b21:	8a 45 f7             	mov    -0x9(%ebp),%al
+40000b24:	c9                   	leave  
+40000b25:	c3                   	ret    
+
+40000b26 <getchar>:
+40000b26:	55                   	push   %ebp
+40000b27:	89 e5                	mov    %esp,%ebp
+40000b29:	83 ec 14             	sub    $0x14,%esp
+40000b2c:	6a 02                	push   $0x2
+40000b2e:	e8 c8 ff ff ff       	call   40000afb <fgetc>
+40000b33:	c9                   	leave  
+40000b34:	c3                   	ret    
+
+40000b35 <getc>:
+40000b35:	55                   	push   %ebp
+40000b36:	89 e5                	mov    %esp,%ebp
+40000b38:	83 ec 08             	sub    $0x8,%esp
+40000b3b:	c9                   	leave  
+40000b3c:	e9 ba ff ff ff       	jmp    40000afb <fgetc>
+
+40000b41 <fgets>:
+40000b41:	55                   	push   %ebp
+40000b42:	89 e5                	mov    %esp,%ebp
+40000b44:	57                   	push   %edi
+40000b45:	56                   	push   %esi
+40000b46:	53                   	push   %ebx
+40000b47:	83 ec 1c             	sub    $0x1c,%esp
+40000b4a:	31 db                	xor    %ebx,%ebx
+40000b4c:	8b 7d 0c             	mov    0xc(%ebp),%edi
+40000b4f:	8b 75 08             	mov    0x8(%ebp),%esi
+40000b52:	8d 47 ff             	lea    -0x1(%edi),%eax
+40000b55:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+40000b58:	eb 16                	jmp    40000b70 <fgets+0x2f>
+40000b5a:	83 ec 0c             	sub    $0xc,%esp
+40000b5d:	ff 75 10             	pushl  0x10(%ebp)
+40000b60:	e8 96 ff ff ff       	call   40000afb <fgetc>
+40000b65:	83 c4 10             	add    $0x10,%esp
+40000b68:	88 04 1e             	mov    %al,(%esi,%ebx,1)
+40000b6b:	84 c0                	test   %al,%al
+40000b6d:	74 0a                	je     40000b79 <fgets+0x38>
+40000b6f:	43                   	inc    %ebx
+40000b70:	3b 5d e4             	cmp    -0x1c(%ebp),%ebx
+40000b73:	7c e5                	jl     40000b5a <fgets+0x19>
+40000b75:	c6 04 3e 00          	movb   $0x0,(%esi,%edi,1)
+40000b79:	8d 65 f4             	lea    -0xc(%ebp),%esp
+40000b7c:	89 f0                	mov    %esi,%eax
+40000b7e:	5b                   	pop    %ebx
+40000b7f:	5e                   	pop    %esi
+40000b80:	5f                   	pop    %edi
+40000b81:	5d                   	pop    %ebp
+40000b82:	c3                   	ret    
+
+40000b83 <getln>:
+40000b83:	55                   	push   %ebp
+40000b84:	89 e5                	mov    %esp,%ebp
+40000b86:	56                   	push   %esi
+40000b87:	53                   	push   %ebx
+40000b88:	31 db                	xor    %ebx,%ebx
+40000b8a:	8b 75 08             	mov    0x8(%ebp),%esi
+40000b8d:	eb 42                	jmp    40000bd1 <getln+0x4e>
+40000b8f:	3c 0a                	cmp    $0xa,%al
+40000b91:	75 0f                	jne    40000ba2 <getln+0x1f>
+40000b93:	83 ec 0c             	sub    $0xc,%esp
+40000b96:	6a 0a                	push   $0xa
+40000b98:	e8 93 fd ff ff       	call   40000930 <putchar>
+40000b9d:	83 c4 10             	add    $0x10,%esp
+40000ba0:	eb 40                	jmp    40000be2 <getln+0x5f>
+40000ba2:	3c 08                	cmp    $0x8,%al
+40000ba4:	75 18                	jne    40000bbe <getln+0x3b>
+40000ba6:	85 db                	test   %ebx,%ebx
+40000ba8:	74 0e                	je     40000bb8 <getln+0x35>
+40000baa:	83 ec 0c             	sub    $0xc,%esp
+40000bad:	4b                   	dec    %ebx
+40000bae:	6a 08                	push   $0x8
+40000bb0:	e8 7b fd ff ff       	call   40000930 <putchar>
+40000bb5:	83 c4 10             	add    $0x10,%esp
+40000bb8:	c6 04 1e 00          	movb   $0x0,(%esi,%ebx,1)
+40000bbc:	eb 13                	jmp    40000bd1 <getln+0x4e>
+40000bbe:	83 ec 0c             	sub    $0xc,%esp
+40000bc1:	88 04 1e             	mov    %al,(%esi,%ebx,1)
+40000bc4:	0f be c0             	movsbl %al,%eax
+40000bc7:	50                   	push   %eax
+40000bc8:	43                   	inc    %ebx
+40000bc9:	e8 62 fd ff ff       	call   40000930 <putchar>
+40000bce:	83 c4 10             	add    $0x10,%esp
+40000bd1:	83 ec 0c             	sub    $0xc,%esp
+40000bd4:	6a 02                	push   $0x2
+40000bd6:	e8 20 ff ff ff       	call   40000afb <fgetc>
+40000bdb:	83 c4 10             	add    $0x10,%esp
+40000bde:	84 c0                	test   %al,%al
+40000be0:	75 ad                	jne    40000b8f <getln+0xc>
+40000be2:	c6 04 1e 00          	movb   $0x0,(%esi,%ebx,1)
+40000be6:	8d 65 f8             	lea    -0x8(%ebp),%esp
+40000be9:	89 f0                	mov    %esi,%eax
+40000beb:	5b                   	pop    %ebx
+40000bec:	5e                   	pop    %esi
+40000bed:	5d                   	pop    %ebp
+40000bee:	c3                   	ret    
+	...
+
+40000bf0 <memset>:
+#include "stdint.h"
+#include "stdio.h"
+#include "process.h"
+#include "string.h"
+40000bf0:	55                   	push   %ebp
+40000bf1:	89 e5                	mov    %esp,%ebp
+40000bf3:	53                   	push   %ebx
+40000bf4:	8b 45 08             	mov    0x8(%ebp),%eax
+40000bf7:	8b 5d 0c             	mov    0xc(%ebp),%ebx
+40000bfa:	8b 4d 10             	mov    0x10(%ebp),%ecx
+ 
+40000bfd:	89 c2                	mov    %eax,%edx
+int main(int argc, char* args[])
+{
+40000bff:	eb 04                	jmp    40000c05 <memset+0x15>
+    uint32_t index = 0;
+40000c01:	88 1a                	mov    %bl,(%edx)
+40000c03:	49                   	dec    %ecx
+40000c04:	42                   	inc    %edx
+#include "stdio.h"
+#include "process.h"
+#include "string.h"
+ 
+int main(int argc, char* args[])
+{
+40000c05:	85 c9                	test   %ecx,%ecx
+40000c07:	75 f8                	jne    40000c01 <memset+0x11>
+    uint32_t index = 0;
+    char child[512];
+
+
+    while(getExecPathChild(index++, child)) {
+40000c09:	5b                   	pop    %ebx
+40000c0a:	5d                   	pop    %ebp
+40000c0b:	c3                   	ret    
+
+40000c0c <memcpy>:
+
+    	if(child[strlen(child)-1] == '/') {
+40000c0c:	55                   	push   %ebp
+    	    putchar(0x11);
+    	    putchar(0x31);
+    	}
+
+40000c0d:	31 c9                	xor    %ecx,%ecx
+    char child[512];
+
+
+    while(getExecPathChild(index++, child)) {
+
+    	if(child[strlen(child)-1] == '/') {
+40000c0f:	89 e5                	mov    %esp,%ebp
+40000c11:	56                   	push   %esi
+40000c12:	53                   	push   %ebx
+40000c13:	8b 75 10             	mov    0x10(%ebp),%esi
+40000c16:	8b 45 08             	mov    0x8(%ebp),%eax
+40000c19:	8b 5d 0c             	mov    0xc(%ebp),%ebx
+    	    putchar(0x11);
+    	    putchar(0x31);
+    	}
+
+40000c1c:	85 f6                	test   %esi,%esi
+40000c1e:	75 04                	jne    40000c24 <memcpy+0x18>
+40000c20:	31 c0                	xor    %eax,%eax
+40000c22:	eb 0a                	jmp    40000c2e <memcpy+0x22>
+		printf("%s\n", child);
+
+	    putchar(0x11);
+40000c24:	8a 14 0b             	mov    (%ebx,%ecx,1),%dl
+40000c27:	88 14 08             	mov    %dl,(%eax,%ecx,1)
+40000c2a:	41                   	inc    %ecx
+    	    putchar(0x11);
+    	    putchar(0x31);
+    	}
+
+		printf("%s\n", child);
+
+40000c2b:	4e                   	dec    %esi
+40000c2c:	75 f6                	jne    40000c24 <memcpy+0x18>
+	    putchar(0x11);
+	    putchar(0x07);
+    }
+
+    return 0;
+40000c2e:	5b                   	pop    %ebx
+40000c2f:	5e                   	pop    %esi
+40000c30:	5d                   	pop    %ebp
+40000c31:	c3                   	ret    
+
+40000c32 <memcmp>:
+}
+40000c32:	55                   	push   %ebp
+40000c33:	83 c8 ff             	or     $0xffffffff,%eax
+	    putchar(0x07);
+    }
+
+    return 0;
+}
+40000c36:	89 e5                	mov    %esp,%ebp
+40000c38:	57                   	push   %edi
+40000c39:	56                   	push   %esi
+40000c3a:	53                   	push   %ebx
+40000c3b:	8b 75 08             	mov    0x8(%ebp),%esi
+40000c3e:	8b 7d 0c             	mov    0xc(%ebp),%edi
+40000c41:	8b 5d 10             	mov    0x10(%ebp),%ebx
+40000c44:	85 f6                	test   %esi,%esi
+40000c46:	74 2c                	je     40000c74 <memcmp+0x42>
+40000c48:	b8 01 00 00 00       	mov    $0x1,%eax
+40000c4d:	85 ff                	test   %edi,%edi
+40000c4f:	74 23                	je     40000c74 <memcmp+0x42>
+40000c51:	31 d2                	xor    %edx,%edx
+40000c53:	85 db                	test   %ebx,%ebx
+40000c55:	75 17                	jne    40000c6e <memcmp+0x3c>
+40000c57:	eb 19                	jmp    40000c72 <memcmp+0x40>
+40000c59:	8a 04 16             	mov    (%esi,%edx,1),%al
+40000c5c:	8a 0c 17             	mov    (%edi,%edx,1),%cl
+40000c5f:	38 c8                	cmp    %cl,%al
+40000c61:	74 0a                	je     40000c6d <memcmp+0x3b>
+40000c63:	0f b6 c0             	movzbl %al,%eax
+40000c66:	0f b6 c9             	movzbl %cl,%ecx
+40000c69:	29 c8                	sub    %ecx,%eax
+40000c6b:	eb 07                	jmp    40000c74 <memcmp+0x42>
+40000c6d:	42                   	inc    %edx
+40000c6e:	39 da                	cmp    %ebx,%edx
+40000c70:	72 e7                	jb     40000c59 <memcmp+0x27>
+40000c72:	31 c0                	xor    %eax,%eax
+40000c74:	5b                   	pop    %ebx
+40000c75:	5e                   	pop    %esi
+40000c76:	5f                   	pop    %edi
+40000c77:	5d                   	pop    %ebp
+40000c78:	c3                   	ret    
+
+40000c79 <strcmp>:
+40000c79:	55                   	push   %ebp
+40000c7a:	31 c0                	xor    %eax,%eax
+40000c7c:	89 e5                	mov    %esp,%ebp
+40000c7e:	56                   	push   %esi
+40000c7f:	53                   	push   %ebx
+40000c80:	31 db                	xor    %ebx,%ebx
+40000c82:	8b 55 08             	mov    0x8(%ebp),%edx
+40000c85:	8b 4d 0c             	mov    0xc(%ebp),%ecx
+40000c88:	85 d2                	test   %edx,%edx
+40000c8a:	75 03                	jne    40000c8f <strcmp+0x16>
+40000c8c:	eb 09                	jmp    40000c97 <strcmp+0x1e>
+40000c8e:	40                   	inc    %eax
+40000c8f:	89 c3                	mov    %eax,%ebx
+40000c91:	80 3c 02 00          	cmpb   $0x0,(%edx,%eax,1)
+40000c95:	75 f7                	jne    40000c8e <strcmp+0x15>
+40000c97:	31 c0                	xor    %eax,%eax
+40000c99:	31 f6                	xor    %esi,%esi
+40000c9b:	85 c9                	test   %ecx,%ecx
+40000c9d:	75 03                	jne    40000ca2 <strcmp+0x29>
+40000c9f:	eb 09                	jmp    40000caa <strcmp+0x31>
+40000ca1:	40                   	inc    %eax
+40000ca2:	89 c6                	mov    %eax,%esi
+40000ca4:	80 3c 01 00          	cmpb   $0x0,(%ecx,%eax,1)
+40000ca8:	75 f7                	jne    40000ca1 <strcmp+0x28>
+40000caa:	89 f0                	mov    %esi,%eax
+40000cac:	39 de                	cmp    %ebx,%esi
+40000cae:	7e 02                	jle    40000cb2 <strcmp+0x39>
+40000cb0:	89 d8                	mov    %ebx,%eax
+40000cb2:	40                   	inc    %eax
+40000cb3:	50                   	push   %eax
+40000cb4:	51                   	push   %ecx
+40000cb5:	52                   	push   %edx
+40000cb6:	e8 77 ff ff ff       	call   40000c32 <memcmp>
+40000cbb:	8d 65 f8             	lea    -0x8(%ebp),%esp
+40000cbe:	5b                   	pop    %ebx
+40000cbf:	5e                   	pop    %esi
+40000cc0:	5d                   	pop    %ebp
+40000cc1:	c3                   	ret    
+
+40000cc2 <strlen>:
+40000cc2:	55                   	push   %ebp
+40000cc3:	31 d2                	xor    %edx,%edx
+40000cc5:	89 e5                	mov    %esp,%ebp
+40000cc7:	31 c0                	xor    %eax,%eax
+40000cc9:	8b 4d 08             	mov    0x8(%ebp),%ecx
+40000ccc:	85 c9                	test   %ecx,%ecx
+40000cce:	75 03                	jne    40000cd3 <strlen+0x11>
+40000cd0:	eb 09                	jmp    40000cdb <strlen+0x19>
+40000cd2:	42                   	inc    %edx
+40000cd3:	89 d0                	mov    %edx,%eax
+40000cd5:	80 3c 11 00          	cmpb   $0x0,(%ecx,%edx,1)
+40000cd9:	75 f7                	jne    40000cd2 <strlen+0x10>
+40000cdb:	5d                   	pop    %ebp
+40000cdc:	c3                   	ret    
+
+40000cdd <strcpy>:
+40000cdd:	55                   	push   %ebp
+40000cde:	31 d2                	xor    %edx,%edx
+40000ce0:	89 e5                	mov    %esp,%ebp
+40000ce2:	56                   	push   %esi
+40000ce3:	53                   	push   %ebx
+40000ce4:	31 c9                	xor    %ecx,%ecx
+40000ce6:	8b 5d 0c             	mov    0xc(%ebp),%ebx
+40000ce9:	8b 45 08             	mov    0x8(%ebp),%eax
+40000cec:	85 db                	test   %ebx,%ebx
+40000cee:	75 03                	jne    40000cf3 <strcpy+0x16>
+40000cf0:	eb 09                	jmp    40000cfb <strcpy+0x1e>
+40000cf2:	42                   	inc    %edx
+40000cf3:	89 d1                	mov    %edx,%ecx
+40000cf5:	80 3c 13 00          	cmpb   $0x0,(%ebx,%edx,1)
+40000cf9:	75 f7                	jne    40000cf2 <strcpy+0x15>
+
+    	if(child[strlen(child)-1] == '/') {
+    	    putchar(0x11);
+    	    putchar(0x31);
+    	}
+
+40000cfb:	89 ce                	mov    %ecx,%esi
+40000cfd:	46                   	inc    %esi
+40000cfe:	74 0c                	je     40000d0c <strcpy+0x2f>
+40000d00:	31 d2                	xor    %edx,%edx
+		printf("%s\n", child);
+
+	    putchar(0x11);
+40000d02:	8a 0c 13             	mov    (%ebx,%edx,1),%cl
+40000d05:	88 0c 10             	mov    %cl,(%eax,%edx,1)
+40000d08:	42                   	inc    %edx
+    	    putchar(0x11);
+    	    putchar(0x31);
+    	}
+
+		printf("%s\n", child);
+
+40000d09:	4e                   	dec    %esi
+40000d0a:	75 f6                	jne    40000d02 <strcpy+0x25>
+40000d0c:	5b                   	pop    %ebx
+40000d0d:	5e                   	pop    %esi
+40000d0e:	5d                   	pop    %ebp
+40000d0f:	c3                   	ret    
+
+40000d10 <strtoknc>:
+40000d10:	55                   	push   %ebp
+40000d11:	31 c0                	xor    %eax,%eax
+40000d13:	89 e5                	mov    %esp,%ebp
+40000d15:	57                   	push   %edi
+40000d16:	56                   	push   %esi
+40000d17:	53                   	push   %ebx
+40000d18:	83 ec 04             	sub    $0x4,%esp
+40000d1b:	8b 5d 0c             	mov    0xc(%ebp),%ebx
+40000d1e:	8b 4d 08             	mov    0x8(%ebp),%ecx
+40000d21:	85 db                	test   %ebx,%ebx
+40000d23:	75 06                	jne    40000d2b <strtoknc+0x1b>
+40000d25:	e9 83 00 00 00       	jmp    40000dad <strtoknc+0x9d>
+40000d2a:	40                   	inc    %eax
+40000d2b:	89 c7                	mov    %eax,%edi
+40000d2d:	80 3c 03 00          	cmpb   $0x0,(%ebx,%eax,1)
+40000d31:	75 f7                	jne    40000d2a <strtoknc+0x1a>
+40000d33:	85 c0                	test   %eax,%eax
+40000d35:	74 76                	je     40000dad <strtoknc+0x9d>
+40000d37:	85 c9                	test   %ecx,%ecx
+40000d39:	75 0b                	jne    40000d46 <strtoknc+0x36>
+40000d3b:	83 3d 00 32 00 40 00 	cmpl   $0x0,0x40003200
+40000d42:	75 08                	jne    40000d4c <strtoknc+0x3c>
+40000d44:	eb 67                	jmp    40000dad <strtoknc+0x9d>
+40000d46:	89 0d 00 32 00 40    	mov    %ecx,0x40003200
+40000d4c:	a1 00 32 00 40       	mov    0x40003200,%eax
+40000d51:	31 c9                	xor    %ecx,%ecx
+40000d53:	eb 0b                	jmp    40000d60 <strtoknc+0x50>
+40000d55:	8a 10                	mov    (%eax),%dl
+40000d57:	3a 14 0b             	cmp    (%ebx,%ecx,1),%dl
+40000d5a:	75 03                	jne    40000d5f <strtoknc+0x4f>
+40000d5c:	40                   	inc    %eax
+40000d5d:	eb 05                	jmp    40000d64 <strtoknc+0x54>
+40000d5f:	41                   	inc    %ecx
+40000d60:	39 f9                	cmp    %edi,%ecx
+40000d62:	7c f1                	jl     40000d55 <strtoknc+0x45>
+40000d64:	39 f9                	cmp    %edi,%ecx
+40000d66:	75 e9                	jne    40000d51 <strtoknc+0x41>
+40000d68:	a3 00 32 00 40       	mov    %eax,0x40003200
+40000d6d:	80 38 00             	cmpb   $0x0,(%eax)
+40000d70:	75 28                	jne    40000d9a <strtoknc+0x8a>
+40000d72:	c7 05 00 32 00 40 00 	movl   $0x0,0x40003200
+40000d79:	00 00 00 
+40000d7c:	eb 2f                	jmp    40000dad <strtoknc+0x9d>
+40000d7e:	8a 55 f3             	mov    -0xd(%ebp),%dl
+40000d81:	3a 14 0b             	cmp    (%ebx,%ecx,1),%dl
+40000d84:	75 05                	jne    40000d8b <strtoknc+0x7b>
+40000d86:	c6 06 00             	movb   $0x0,(%esi)
+40000d89:	eb 05                	jmp    40000d90 <strtoknc+0x80>
+40000d8b:	41                   	inc    %ecx
+40000d8c:	39 f9                	cmp    %edi,%ecx
+40000d8e:	7c ee                	jl     40000d7e <strtoknc+0x6e>
+40000d90:	ff 05 00 32 00 40    	incl   0x40003200
+40000d96:	39 f9                	cmp    %edi,%ecx
+40000d98:	7c 15                	jl     40000daf <strtoknc+0x9f>
+40000d9a:	8b 35 00 32 00 40    	mov    0x40003200,%esi
+40000da0:	8a 16                	mov    (%esi),%dl
+40000da2:	88 55 f3             	mov    %dl,-0xd(%ebp)
+40000da5:	84 d2                	test   %dl,%dl
+40000da7:	74 06                	je     40000daf <strtoknc+0x9f>
+40000da9:	31 c9                	xor    %ecx,%ecx
+40000dab:	eb df                	jmp    40000d8c <strtoknc+0x7c>
+40000dad:	31 c0                	xor    %eax,%eax
+40000daf:	5a                   	pop    %edx
+40000db0:	5b                   	pop    %ebx
+40000db1:	5e                   	pop    %esi
+40000db2:	5f                   	pop    %edi
+40000db3:	5d                   	pop    %ebp
+40000db4:	c3                   	ret    
+
+40000db5 <strclone>:
+40000db5:	55                   	push   %ebp
+40000db6:	31 c0                	xor    %eax,%eax
+40000db8:	89 e5                	mov    %esp,%ebp
+40000dba:	56                   	push   %esi
+40000dbb:	53                   	push   %ebx
+40000dbc:	31 d2                	xor    %edx,%edx
+40000dbe:	8b 5d 08             	mov    0x8(%ebp),%ebx
+40000dc1:	85 db                	test   %ebx,%ebx
+40000dc3:	75 03                	jne    40000dc8 <strclone+0x13>
+40000dc5:	eb 09                	jmp    40000dd0 <strclone+0x1b>
+40000dc7:	40                   	inc    %eax
+40000dc8:	89 c2                	mov    %eax,%edx
+40000dca:	80 3c 03 00          	cmpb   $0x0,(%ebx,%eax,1)
+40000dce:	75 f7                	jne    40000dc7 <strclone+0x12>
+40000dd0:	83 ec 0c             	sub    $0xc,%esp
+40000dd3:	42                   	inc    %edx
+40000dd4:	52                   	push   %edx
+40000dd5:	e8 af 01 00 00       	call   40000f89 <malloc>
+40000dda:	59                   	pop    %ecx
+40000ddb:	89 c6                	mov    %eax,%esi
+40000ddd:	58                   	pop    %eax
+40000dde:	53                   	push   %ebx
+40000ddf:	56                   	push   %esi
+40000de0:	e8 f8 fe ff ff       	call   40000cdd <strcpy>
+40000de5:	8d 65 f8             	lea    -0x8(%ebp),%esp
+40000de8:	89 f0                	mov    %esi,%eax
+40000dea:	5b                   	pop    %ebx
+40000deb:	5e                   	pop    %esi
+40000dec:	5d                   	pop    %ebp
+40000ded:	c3                   	ret    
+
+40000dee <strtok>:
+40000dee:	55                   	push   %ebp
+40000def:	89 e5                	mov    %esp,%ebp
+40000df1:	56                   	push   %esi
+40000df2:	53                   	push   %ebx
+40000df3:	8b 75 08             	mov    0x8(%ebp),%esi
+40000df6:	8b 5d 0c             	mov    0xc(%ebp),%ebx
+40000df9:	85 f6                	test   %esi,%esi
+40000dfb:	74 2e                	je     40000e2b <strtok+0x3d>
+40000dfd:	a1 04 32 00 40       	mov    0x40003204,%eax
+40000e02:	85 c0                	test   %eax,%eax
+40000e04:	74 0c                	je     40000e12 <strtok+0x24>
+40000e06:	83 ec 0c             	sub    $0xc,%esp
+40000e09:	50                   	push   %eax
+40000e0a:	e8 31 00 00 00       	call   40000e40 <free>
+40000e0f:	83 c4 10             	add    $0x10,%esp
+40000e12:	83 ec 0c             	sub    $0xc,%esp
+40000e15:	56                   	push   %esi
+40000e16:	e8 9a ff ff ff       	call   40000db5 <strclone>
+40000e1b:	83 c4 10             	add    $0x10,%esp
+40000e1e:	a3 04 32 00 40       	mov    %eax,0x40003204
+40000e23:	89 5d 0c             	mov    %ebx,0xc(%ebp)
+40000e26:	89 45 08             	mov    %eax,0x8(%ebp)
+40000e29:	eb 0a                	jmp    40000e35 <strtok+0x47>
+40000e2b:	89 5d 0c             	mov    %ebx,0xc(%ebp)
+40000e2e:	c7 45 08 00 00 00 00 	movl   $0x0,0x8(%ebp)
+40000e35:	8d 65 f8             	lea    -0x8(%ebp),%esp
+40000e38:	5b                   	pop    %ebx
+40000e39:	5e                   	pop    %esi
+40000e3a:	5d                   	pop    %ebp
+40000e3b:	e9 d0 fe ff ff       	jmp    40000d10 <strtoknc>
+
+40000e40 <free>:
+40000e40:	55                   	push   %ebp
+40000e41:	89 e5                	mov    %esp,%ebp
+40000e43:	57                   	push   %edi
+40000e44:	56                   	push   %esi
+40000e45:	53                   	push   %ebx
+40000e46:	83 ec 08             	sub    $0x8,%esp
+40000e49:	8b 15 0c 32 00 40    	mov    0x4000320c,%edx
+40000e4f:	8b 4d 08             	mov    0x8(%ebp),%ecx
+40000e52:	89 d0                	mov    %edx,%eax
+40000e54:	e9 b8 00 00 00       	jmp    40000f11 <free+0xd1>
+40000e59:	3b 48 04             	cmp    0x4(%eax),%ecx
+40000e5c:	0f 85 ac 00 00 00    	jne    40000f0e <free+0xce>
+40000e62:	31 c9                	xor    %ecx,%ecx
+40000e64:	eb 23                	jmp    40000e89 <free+0x49>
+    uint32_t index = 0;
+    char child[512];
+
+
+    while(getExecPathChild(index++, child)) {
+
+40000e66:	39 c2                	cmp    %eax,%edx
+40000e68:	75 1a                	jne    40000e84 <free+0x44>
+    	if(child[strlen(child)-1] == '/') {
+40000e6a:	85 c9                	test   %ecx,%ecx
+40000e6c:	8b 50 08             	mov    0x8(%eax),%edx
+40000e6f:	75 0e                	jne    40000e7f <free+0x3f>
+    	    putchar(0x11);
+40000e71:	89 15 0c 32 00 40    	mov    %edx,0x4000320c
+40000e77:	8b 0d 10 32 00 40    	mov    0x40003210,%ecx
+40000e7d:	eb 10                	jmp    40000e8f <free+0x4f>
+    	    putchar(0x31);
+    	}
+
+40000e7f:	89 51 08             	mov    %edx,0x8(%ecx)
+40000e82:	eb f3                	jmp    40000e77 <free+0x37>
+		printf("%s\n", child);
+
+	    putchar(0x11);
+	    putchar(0x07);
+    }
+40000e84:	89 d1                	mov    %edx,%ecx
+40000e86:	8b 52 08             	mov    0x8(%edx),%edx
+{
+    uint32_t index = 0;
+    char child[512];
+
+
+    while(getExecPathChild(index++, child)) {
+40000e89:	85 d2                	test   %edx,%edx
+40000e8b:	75 d9                	jne    40000e66 <free+0x26>
+40000e8d:	eb e8                	jmp    40000e77 <free+0x37>
+40000e8f:	89 ca                	mov    %ecx,%edx
+40000e91:	eb 6d                	jmp    40000f00 <free+0xc0>
+40000e93:	8b 5a 04             	mov    0x4(%edx),%ebx
+40000e96:	8b 32                	mov    (%edx),%esi
+40000e98:	8b 78 04             	mov    0x4(%eax),%edi
+40000e9b:	89 7d ec             	mov    %edi,-0x14(%ebp)
+40000e9e:	8d 3c 1e             	lea    (%esi,%ebx,1),%edi
+40000ea1:	89 7d f0             	mov    %edi,-0x10(%ebp)
+40000ea4:	8b 7d ec             	mov    -0x14(%ebp),%edi
+40000ea7:	39 7d f0             	cmp    %edi,-0x10(%ebp)
+40000eaa:	75 18                	jne    40000ec4 <free+0x84>
+40000eac:	89 58 04             	mov    %ebx,0x4(%eax)
+40000eaf:	31 f6                	xor    %esi,%esi
+40000eb1:	89 cb                	mov    %ecx,%ebx
+40000eb3:	eb 09                	jmp    40000ebe <free+0x7e>
+    uint32_t index = 0;
+    char child[512];
+
+
+    while(getExecPathChild(index++, child)) {
+
+40000eb5:	39 d3                	cmp    %edx,%ebx
+40000eb7:	74 29                	je     40000ee2 <free+0xa2>
+
+		printf("%s\n", child);
+
+	    putchar(0x11);
+	    putchar(0x07);
+    }
+40000eb9:	89 de                	mov    %ebx,%esi
+40000ebb:	8b 5b 08             	mov    0x8(%ebx),%ebx
+{
+    uint32_t index = 0;
+    char child[512];
+
+
+    while(getExecPathChild(index++, child)) {
+40000ebe:	85 db                	test   %ebx,%ebx
+40000ec0:	75 f3                	jne    40000eb5 <free+0x75>
+40000ec2:	eb cb                	jmp    40000e8f <free+0x4f>
+40000ec4:	8b 38                	mov    (%eax),%edi
+40000ec6:	89 7d f0             	mov    %edi,-0x10(%ebp)
+40000ec9:	8b 7d ec             	mov    -0x14(%ebp),%edi
+40000ecc:	03 7d f0             	add    -0x10(%ebp),%edi
+40000ecf:	39 fb                	cmp    %edi,%ebx
+40000ed1:	75 2a                	jne    40000efd <free+0xbd>
+40000ed3:	03 75 f0             	add    -0x10(%ebp),%esi
+40000ed6:	89 cb                	mov    %ecx,%ebx
+40000ed8:	89 30                	mov    %esi,(%eax)
+40000eda:	31 f6                	xor    %esi,%esi
+40000edc:	eb 19                	jmp    40000ef7 <free+0xb7>
+    uint32_t index = 0;
+    char child[512];
+
+
+    while(getExecPathChild(index++, child)) {
+
+40000ede:	39 d3                	cmp    %edx,%ebx
+40000ee0:	75 10                	jne    40000ef2 <free+0xb2>
+    	if(child[strlen(child)-1] == '/') {
+40000ee2:	85 f6                	test   %esi,%esi
+40000ee4:	8b 53 08             	mov    0x8(%ebx),%edx
+40000ee7:	75 04                	jne    40000eed <free+0xad>
+    	    putchar(0x11);
+40000ee9:	89 d1                	mov    %edx,%ecx
+40000eeb:	eb a2                	jmp    40000e8f <free+0x4f>
+    	    putchar(0x31);
+    	}
+
+40000eed:	89 56 08             	mov    %edx,0x8(%esi)
+40000ef0:	eb 9d                	jmp    40000e8f <free+0x4f>
+		printf("%s\n", child);
+
+	    putchar(0x11);
+	    putchar(0x07);
+    }
+40000ef2:	89 de                	mov    %ebx,%esi
+40000ef4:	8b 5b 08             	mov    0x8(%ebx),%ebx
+{
+    uint32_t index = 0;
+    char child[512];
+
+
+    while(getExecPathChild(index++, child)) {
+40000ef7:	85 db                	test   %ebx,%ebx
+40000ef9:	75 e3                	jne    40000ede <free+0x9e>
+40000efb:	eb 92                	jmp    40000e8f <free+0x4f>
+40000efd:	8b 52 08             	mov    0x8(%edx),%edx
+40000f00:	85 d2                	test   %edx,%edx
+40000f02:	75 8f                	jne    40000e93 <free+0x53>
+
+    return 0;
+}
+40000f04:	89 48 08             	mov    %ecx,0x8(%eax)
+40000f07:	a3 10 32 00 40       	mov    %eax,0x40003210
+40000f0c:	eb 0b                	jmp    40000f19 <free+0xd9>
+40000f0e:	8b 40 08             	mov    0x8(%eax),%eax
+40000f11:	85 c0                	test   %eax,%eax
+40000f13:	0f 85 40 ff ff ff    	jne    40000e59 <free+0x19>
+40000f19:	58                   	pop    %eax
+40000f1a:	5a                   	pop    %edx
+40000f1b:	5b                   	pop    %ebx
+40000f1c:	5e                   	pop    %esi
+40000f1d:	5f                   	pop    %edi
+40000f1e:	5d                   	pop    %ebp
+40000f1f:	c3                   	ret    
+
+40000f20 <pop_unused_node>:
+40000f20:	55                   	push   %ebp
+40000f21:	89 e5                	mov    %esp,%ebp
+40000f23:	53                   	push   %ebx
+40000f24:	83 ec 04             	sub    $0x4,%esp
+40000f27:	a1 08 32 00 40       	mov    0x40003208,%eax
+40000f2c:	eb 45                	jmp    40000f73 <pop_unused_node+0x53>
+40000f2e:	83 ec 0c             	sub    $0xc,%esp
+40000f31:	6a 01                	push   $0x1
+40000f33:	e8 5b 02 00 00       	call   40001193 <vmm_alloc_cont>
+40000f38:	83 c4 0c             	add    $0xc,%esp
+40000f3b:	89 c3                	mov    %eax,%ebx
+40000f3d:	68 00 10 00 00       	push   $0x1000
+40000f42:	6a 00                	push   $0x0
+40000f44:	50                   	push   %eax
+40000f45:	e8 a6 fc ff ff       	call   40000bf0 <memset>
+40000f4a:	8b 15 08 32 00 40    	mov    0x40003208,%edx
+40000f50:	8d 43 0c             	lea    0xc(%ebx),%eax
+40000f53:	8d 8b fc 0f 00 00    	lea    0xffc(%ebx),%ecx
+40000f59:	83 c4 10             	add    $0x10,%esp
+
+    return 0;
+}
+40000f5c:	89 50 08             	mov    %edx,0x8(%eax)
+40000f5f:	89 c2                	mov    %eax,%edx
+40000f61:	83 c0 0c             	add    $0xc,%eax
+40000f64:	39 c8                	cmp    %ecx,%eax
+40000f66:	75 f4                	jne    40000f5c <pop_unused_node+0x3c>
+40000f68:	8d 83 f0 0f 00 00    	lea    0xff0(%ebx),%eax
+40000f6e:	a3 08 32 00 40       	mov    %eax,0x40003208
+40000f73:	85 c0                	test   %eax,%eax
+40000f75:	74 b7                	je     40000f2e <pop_unused_node+0xe>
+
+
+    while(getExecPathChild(index++, child)) {
+
+    	if(child[strlen(child)-1] == '/') {
+    	    putchar(0x11);
+40000f77:	8b 50 08             	mov    0x8(%eax),%edx
+40000f7a:	85 c0                	test   %eax,%eax
+
+
+    while(getExecPathChild(index++, child)) {
+
+    	if(child[strlen(child)-1] == '/') {
+    	    putchar(0x11);
+40000f7c:	89 15 08 32 00 40    	mov    %edx,0x40003208
+40000f82:	74 aa                	je     40000f2e <pop_unused_node+0xe>
+40000f84:	8b 5d fc             	mov    -0x4(%ebp),%ebx
+40000f87:	c9                   	leave  
+40000f88:	c3                   	ret    
+
+40000f89 <malloc>:
+40000f89:	55                   	push   %ebp
+40000f8a:	89 e5                	mov    %esp,%ebp
+40000f8c:	57                   	push   %edi
+40000f8d:	56                   	push   %esi
+40000f8e:	53                   	push   %ebx
+40000f8f:	83 ec 1c             	sub    $0x1c,%esp
+40000f92:	a1 10 32 00 40       	mov    0x40003210,%eax
+40000f97:	8b 75 08             	mov    0x8(%ebp),%esi
+40000f9a:	89 c3                	mov    %eax,%ebx
+40000f9c:	eb 07                	jmp    40000fa5 <malloc+0x1c>
+40000f9e:	39 33                	cmp    %esi,(%ebx)
+40000fa0:	73 0c                	jae    40000fae <malloc+0x25>
+40000fa2:	8b 5b 08             	mov    0x8(%ebx),%ebx
+40000fa5:	85 db                	test   %ebx,%ebx
+40000fa7:	75 f5                	jne    40000f9e <malloc+0x15>
+40000fa9:	e9 93 00 00 00       	jmp    40001041 <malloc+0xb8>
+40000fae:	8b 3b                	mov    (%ebx),%edi
+40000fb0:	31 d2                	xor    %edx,%edx
+40000fb2:	29 f7                	sub    %esi,%edi
+40000fb4:	89 33                	mov    %esi,(%ebx)
+40000fb6:	eb 4b                	jmp    40001003 <malloc+0x7a>
+40000fb8:	e8 63 ff ff ff       	call   40000f20 <pop_unused_node>
+40000fbd:	8b 13                	mov    (%ebx),%edx
+40000fbf:	03 53 04             	add    0x4(%ebx),%edx
+40000fc2:	29 f7                	sub    %esi,%edi
+40000fc4:	89 50 04             	mov    %edx,0x4(%eax)
+
+    return 0;
+}
+40000fc7:	8b 15 10 32 00 40    	mov    0x40003210,%edx
+40000fcd:	89 50 08             	mov    %edx,0x8(%eax)
+40000fd0:	89 38                	mov    %edi,(%eax)
+    return 0;
+}
+40000fd2:	a3 10 32 00 40       	mov    %eax,0x40003210
+
+    return 0;
+}
+40000fd7:	a1 0c 32 00 40       	mov    0x4000320c,%eax
+40000fdc:	89 43 08             	mov    %eax,0x8(%ebx)
+40000fdf:	89 1d 0c 32 00 40    	mov    %ebx,0x4000320c
+40000fe5:	eb 4f                	jmp    40001036 <malloc+0xad>
+    uint32_t index = 0;
+    char child[512];
+
+
+    while(getExecPathChild(index++, child)) {
+
+40000fe7:	39 d8                	cmp    %ebx,%eax
+40000fe9:	75 13                	jne    40000ffe <malloc+0x75>
+    	if(child[strlen(child)-1] == '/') {
+40000feb:	85 d2                	test   %edx,%edx
+40000fed:	8b 43 08             	mov    0x8(%ebx),%eax
+40000ff0:	75 07                	jne    40000ff9 <malloc+0x70>
+    	    putchar(0x11);
+40000ff2:	a3 10 32 00 40       	mov    %eax,0x40003210
+40000ff7:	eb 0e                	jmp    40001007 <malloc+0x7e>
+    	    putchar(0x31);
+    	}
+
+40000ff9:	89 42 08             	mov    %eax,0x8(%edx)
+40000ffc:	eb 09                	jmp    40001007 <malloc+0x7e>
+		printf("%s\n", child);
+
+	    putchar(0x11);
+	    putchar(0x07);
+    }
+40000ffe:	89 c2                	mov    %eax,%edx
+40001000:	8b 40 08             	mov    0x8(%eax),%eax
+{
+    uint32_t index = 0;
+    char child[512];
+
+
+    while(getExecPathChild(index++, child)) {
+40001003:	85 c0                	test   %eax,%eax
+40001005:	75 e0                	jne    40000fe7 <malloc+0x5e>
+
+    return 0;
+}
+40001007:	a1 0c 32 00 40       	mov    0x4000320c,%eax
+4000100c:	85 ff                	test   %edi,%edi
+
+    return 0;
+}
+4000100e:	89 43 08             	mov    %eax,0x8(%ebx)
+40001011:	89 1d 0c 32 00 40    	mov    %ebx,0x4000320c
+40001017:	74 1d                	je     40001036 <malloc+0xad>
+40001019:	e8 02 ff ff ff       	call   40000f20 <pop_unused_node>
+4000101e:	8b 13                	mov    (%ebx),%edx
+40001020:	03 53 04             	add    0x4(%ebx),%edx
+40001023:	89 50 04             	mov    %edx,0x4(%eax)
+
+    return 0;
+}
+40001026:	8b 15 10 32 00 40    	mov    0x40003210,%edx
+4000102c:	89 50 08             	mov    %edx,0x8(%eax)
+4000102f:	89 38                	mov    %edi,(%eax)
+    return 0;
+}
+40001031:	a3 10 32 00 40       	mov    %eax,0x40003210
+40001036:	8b 43 04             	mov    0x4(%ebx),%eax
+40001039:	8d 65 f4             	lea    -0xc(%ebp),%esp
+4000103c:	5b                   	pop    %ebx
+4000103d:	5e                   	pop    %esi
+4000103e:	5f                   	pop    %edi
+4000103f:	5d                   	pop    %ebp
+40001040:	c3                   	ret    
+40001041:	89 f0                	mov    %esi,%eax
+40001043:	89 f7                	mov    %esi,%edi
+40001045:	c1 ef 0c             	shr    $0xc,%edi
+40001048:	25 ff 0f 00 00       	and    $0xfff,%eax
+4000104d:	83 f8 01             	cmp    $0x1,%eax
+40001050:	83 df ff             	sbb    $0xffffffff,%edi
+40001053:	83 ec 0c             	sub    $0xc,%esp
+40001056:	57                   	push   %edi
+40001057:	e8 37 01 00 00       	call   40001193 <vmm_alloc_cont>
+4000105c:	c1 e7 0c             	shl    $0xc,%edi
+4000105f:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+40001062:	e8 b9 fe ff ff       	call   40000f20 <pop_unused_node>
+40001067:	8b 55 e4             	mov    -0x1c(%ebp),%edx
+4000106a:	83 c4 10             	add    $0x10,%esp
+4000106d:	89 c3                	mov    %eax,%ebx
+4000106f:	89 50 04             	mov    %edx,0x4(%eax)
+40001072:	89 30                	mov    %esi,(%eax)
+40001074:	39 f7                	cmp    %esi,%edi
+40001076:	0f 86 5b ff ff ff    	jbe    40000fd7 <malloc+0x4e>
+4000107c:	e9 37 ff ff ff       	jmp    40000fb8 <malloc+0x2f>
+
+40001081 <realloc>:
+40001081:	55                   	push   %ebp
+40001082:	89 e5                	mov    %esp,%ebp
+40001084:	56                   	push   %esi
+40001085:	53                   	push   %ebx
+40001086:	8b 1d 0c 32 00 40    	mov    0x4000320c,%ebx
+4000108c:	8b 55 08             	mov    0x8(%ebp),%edx
+4000108f:	8b 45 0c             	mov    0xc(%ebp),%eax
+40001092:	eb 3e                	jmp    400010d2 <realloc+0x51>
+40001094:	3b 53 04             	cmp    0x4(%ebx),%edx
+40001097:	75 36                	jne    400010cf <realloc+0x4e>
+40001099:	85 c0                	test   %eax,%eax
+4000109b:	75 0b                	jne    400010a8 <realloc+0x27>
+4000109d:	52                   	push   %edx
+4000109e:	31 f6                	xor    %esi,%esi
+400010a0:	e8 9b fd ff ff       	call   40000e40 <free>
+400010a5:	5b                   	pop    %ebx
+400010a6:	eb 30                	jmp    400010d8 <realloc+0x57>
+400010a8:	83 ec 0c             	sub    $0xc,%esp
+400010ab:	50                   	push   %eax
+400010ac:	e8 d8 fe ff ff       	call   40000f89 <malloc>
+400010b1:	83 c4 0c             	add    $0xc,%esp
+400010b4:	89 c6                	mov    %eax,%esi
+400010b6:	ff 33                	pushl  (%ebx)
+400010b8:	ff 73 04             	pushl  0x4(%ebx)
+400010bb:	50                   	push   %eax
+400010bc:	e8 4b fb ff ff       	call   40000c0c <memcpy>
+400010c1:	59                   	pop    %ecx
+400010c2:	ff 73 04             	pushl  0x4(%ebx)
+400010c5:	e8 76 fd ff ff       	call   40000e40 <free>
+400010ca:	83 c4 10             	add    $0x10,%esp
+400010cd:	eb 09                	jmp    400010d8 <realloc+0x57>
+400010cf:	8b 5b 08             	mov    0x8(%ebx),%ebx
+400010d2:	85 db                	test   %ebx,%ebx
+400010d4:	75 be                	jne    40001094 <realloc+0x13>
+400010d6:	31 f6                	xor    %esi,%esi
+400010d8:	8d 65 f8             	lea    -0x8(%ebp),%esp
+400010db:	89 f0                	mov    %esi,%eax
+400010dd:	5b                   	pop    %ebx
+400010de:	5e                   	pop    %esi
+400010df:	5d                   	pop    %ebp
+400010e0:	c3                   	ret    
+
+400010e1 <calloc>:
+400010e1:	55                   	push   %ebp
+400010e2:	89 e5                	mov    %esp,%ebp
+400010e4:	56                   	push   %esi
+400010e5:	53                   	push   %ebx
+400010e6:	8b 5d 0c             	mov    0xc(%ebp),%ebx
+400010e9:	83 ec 0c             	sub    $0xc,%esp
+400010ec:	0f af 5d 08          	imul   0x8(%ebp),%ebx
+400010f0:	53                   	push   %ebx
+400010f1:	e8 93 fe ff ff       	call   40000f89 <malloc>
+400010f6:	83 c4 10             	add    $0x10,%esp
+400010f9:	89 c6                	mov    %eax,%esi
+400010fb:	85 c0                	test   %eax,%eax
+400010fd:	74 0d                	je     4000110c <calloc+0x2b>
+400010ff:	50                   	push   %eax
+40001100:	53                   	push   %ebx
+40001101:	6a 00                	push   $0x0
+40001103:	56                   	push   %esi
+40001104:	e8 e7 fa ff ff       	call   40000bf0 <memset>
+40001109:	83 c4 10             	add    $0x10,%esp
+4000110c:	8d 65 f8             	lea    -0x8(%ebp),%esp
+4000110f:	89 f0                	mov    %esi,%eax
+40001111:	5b                   	pop    %ebx
+40001112:	5e                   	pop    %esi
+40001113:	5d                   	pop    %ebp
+40001114:	c3                   	ret    
+40001115:	00 00                	add    %al,(%eax)
+	...
+
+40001118 <print_memstat>:
+}
+40001118:	55                   	push   %ebp
+40001119:	89 e5                	mov    %esp,%ebp
+4000111b:	83 ec 34             	sub    $0x34,%esp
+4000111e:	8d 45 e0             	lea    -0x20(%ebp),%eax
+40001121:	c7 45 e0 cd 00 00 00 	movl   $0xcd,-0x20(%ebp)
+40001128:	50                   	push   %eax
+40001129:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
+40001130:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+40001137:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+4000113e:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+40001145:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+4000114c:	e8 7f 00 00 00       	call   400011d0 <syscall>
+40001151:	83 c4 10             	add    $0x10,%esp
+40001154:	c9                   	leave  
+40001155:	c3                   	ret    
+
+40001156 <vmm_free>:
+
+    	if(child[strlen(child)-1] == '/') {
+    	    putchar(0x11);
+    	    putchar(0x31);
+    	}
+
+40001156:	55                   	push   %ebp
+40001157:	89 e5                	mov    %esp,%ebp
+40001159:	83 ec 34             	sub    $0x34,%esp
+	    putchar(0x11);
+	    putchar(0x07);
+    }
+
+    return 0;
+}
+4000115c:	8b 45 08             	mov    0x8(%ebp),%eax
+4000115f:	c7 45 e0 cc 00 00 00 	movl   $0xcc,-0x20(%ebp)
+40001166:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+40001169:	8d 45 e0             	lea    -0x20(%ebp),%eax
+4000116c:	50                   	push   %eax
+	    putchar(0x11);
+	    putchar(0x07);
+    }
+
+    return 0;
+}
+4000116d:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+40001174:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+4000117b:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+40001182:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+40001189:	e8 42 00 00 00       	call   400011d0 <syscall>
+4000118e:	83 c4 10             	add    $0x10,%esp
+40001191:	c9                   	leave  
+40001192:	c3                   	ret    
+
+40001193 <vmm_alloc_cont>:
+#include "stdint.h"
+#include "stdio.h"
+#include "process.h"
+40001193:	55                   	push   %ebp
+40001194:	89 e5                	mov    %esp,%ebp
+40001196:	83 ec 34             	sub    $0x34,%esp
+int main(int argc, char* args[])
+{
+    uint32_t index = 0;
+    char child[512];
+
+
+40001199:	8b 45 08             	mov    0x8(%ebp),%eax
+4000119c:	c7 45 e0 cb 00 00 00 	movl   $0xcb,-0x20(%ebp)
+400011a3:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+    while(getExecPathChild(index++, child)) {
+
+400011a6:	8d 45 e0             	lea    -0x20(%ebp),%eax
+400011a9:	50                   	push   %eax
+int main(int argc, char* args[])
+{
+    uint32_t index = 0;
+    char child[512];
+
+
+400011aa:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+400011b1:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+400011b8:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+400011bf:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+    while(getExecPathChild(index++, child)) {
+
+400011c6:	e8 05 00 00 00       	call   400011d0 <syscall>
+    	if(child[strlen(child)-1] == '/') {
+    	    putchar(0x11);
+    	    putchar(0x31);
+400011cb:	8b 45 e0             	mov    -0x20(%ebp),%eax
+400011ce:	c9                   	leave  
+400011cf:	c3                   	ret    
+
+400011d0 <syscall>:
+#include "stdint.h"
+#include "stdio.h"
+#include "process.h"
+400011d0:	55                   	push   %ebp
+400011d1:	89 e5                	mov    %esp,%ebp
+400011d3:	57                   	push   %edi
+400011d4:	56                   	push   %esi
+400011d5:	53                   	push   %ebx
+400011d6:	83 ec 10             	sub    $0x10,%esp
+#include "string.h"
+400011d9:	8b 55 08             	mov    0x8(%ebp),%edx
+400011dc:	8b 45 08             	mov    0x8(%ebp),%eax
+400011df:	8b 72 0c             	mov    0xc(%edx),%esi
+400011e2:	8b 00                	mov    (%eax),%eax
+400011e4:	89 75 e4             	mov    %esi,-0x1c(%ebp)
+400011e7:	8b 5a 04             	mov    0x4(%edx),%ebx
+400011ea:	8b 4a 08             	mov    0x8(%edx),%ecx
+400011ed:	8b 72 10             	mov    0x10(%edx),%esi
+400011f0:	8b 7a 14             	mov    0x14(%edx),%edi
+400011f3:	89 45 ec             	mov    %eax,-0x14(%ebp)
+400011f6:	8b 55 e4             	mov    -0x1c(%ebp),%edx
+400011f9:	cd 30                	int    $0x30
+400011fb:	89 55 e8             	mov    %edx,-0x18(%ebp)
+400011fe:	8b 55 08             	mov    0x8(%ebp),%edx
+40001201:	89 45 f0             	mov    %eax,-0x10(%ebp)
+40001204:	89 02                	mov    %eax,(%edx)
+40001206:	8b 45 e8             	mov    -0x18(%ebp),%eax
+40001209:	89 5a 04             	mov    %ebx,0x4(%edx)
+4000120c:	89 4a 08             	mov    %ecx,0x8(%edx)
+4000120f:	89 42 0c             	mov    %eax,0xc(%edx)
+40001212:	89 72 10             	mov    %esi,0x10(%edx)
+40001215:	89 7a 14             	mov    %edi,0x14(%edx)
+    	if(child[strlen(child)-1] == '/') {
+    	    putchar(0x11);
+    	    putchar(0x31);
+    	}
+
+		printf("%s\n", child);
+40001218:	83 c4 10             	add    $0x10,%esp
+4000121b:	5b                   	pop    %ebx
+4000121c:	5e                   	pop    %esi
+4000121d:	5f                   	pop    %edi
+4000121e:	5d                   	pop    %ebp
+4000121f:	c3                   	ret    
