@@ -22,12 +22,12 @@ int main(int argc, char* args[])
     HANDLE cntrl = fmkfifo("/var/cntrl/init");
 
     printf("[init] starting kbc driver\n");
-    texec("/ibin/drivers/kbc", 0);
+    dexec("/ibin/drivers/kbc", 0);
     waitResp(cntrl);
 
     printf("[ibin/init] Switching into TTY to VGA mode.\nIf you see this something probably went wrong.\n");
 
-    texec("/ibin/ttytovga", 0);
+    dexec("/ibin/ttytovga", 0);
     waitResp(cntrl);
 
     setstdout("/dev/tty0");
@@ -37,12 +37,12 @@ int main(int argc, char* args[])
     printf("[init] now working on tty0\n");
 
     printf("[init] executing virtual file drivers\n");
-    texec("/ibin/urnd_prov", 0);
+    dexec("/ibin/urnd_prov", 0);
     waitResp(cntrl);
 
     printf("[init] switching to shell\n");
 
-    texec("/ibin/csh", 0);
+    dexec("/ibin/csh", 0);
 
     //register_irq_handler(0x21, hdlrx21);
 

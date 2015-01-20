@@ -309,7 +309,7 @@ void vfs_seek(struct res_handle* handle, uint32_t offset, uint32_t origin) {
     }
 }
 
-uint32_t vfs_exec(char* path, char* args[], char* execPath, char* stdin, char* stdout, char* stderr) {
+uint32_t vfs_exec(char* path, char* args[], char* execPath, char* stdin, char* stdout, char* stderr, int sub) {
     path = strclone(path);
     if(!vfs_exists(path)) {
         free(path);
@@ -458,6 +458,11 @@ uint32_t vfs_exec(char* path, char* args[], char* execPath, char* stdin, char* s
     task->filePath = path;
 
     vmm_activate_pagedir(old_pdir);
+
+    if(sub) {
+    	get_current_task()->blockedBySub = task;
+    	task->subOf = get_current_task();
+    }
 
     free(modsrc);
 

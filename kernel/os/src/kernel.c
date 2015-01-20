@@ -29,32 +29,13 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
     {
         char* path = strclone((char*) cpu->ebx);
 
-        struct exec_info* einp = (void*) cpu->edx;
-
-        struct exec_info ein = {
-            .execPath = 0,
-            .stdin = 0,
-            .stdout = 0,
-            .stderr = 0
-        };
-
-        if(einp != 0) {
-            ein.execPath = strclone(einp->execPath);
-            ein.stdin = strclone(einp->stdin);
-            ein.stdout = strclone(einp->stdout);
-            ein.stderr = strclone(einp->stderr);
-        }
-
-        cpu->eax = vfs_exec(path, (char**) cpu->ecx, ein.execPath, ein.stdin, ein.stdout, ein.stderr);
-
-        if(einp != 0) {
-            free(ein.execPath);
-            free(ein.stdin);
-            free(ein.stdout);
-            free(ein.stderr);
-        }
+		cpu->eax = vfs_exec(path, (char**) cpu->ecx, 0, 0, 0, 0, cpu->edx);
 
         free(path);
+
+		if(cpu->edx) {
+			cpu = schedule(cpu);
+		}
     }
         break;
 
@@ -415,7 +396,7 @@ void kernel_main(struct multiboot_info* mb_info) {
     if(vfs_exists("/ibin/init")) {
         kprintf("[init] /ibin/init found. Executing...\n");
 
-        vfs_exec("/ibin/init", 0, 0, 0, 0, 0);
+        vfs_exec("/ibin/init", 0, 0, 0, 0, 0, 0);
         enableScheduling();
     }
 

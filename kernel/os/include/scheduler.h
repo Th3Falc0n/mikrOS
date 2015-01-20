@@ -57,6 +57,9 @@ struct task {
     struct res_handle* stdin;
 
     struct hl_node* handle_list;
+
+    struct task* subOf;
+    struct task* blockedBySub;
 };
 
 struct hl_node {

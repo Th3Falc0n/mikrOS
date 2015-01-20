@@ -100,6 +100,13 @@ struct cpu_state* terminate_current(struct cpu_state* cpu) {
     struct task* prev = current_task->prev;
     struct task* old = current_task;
 
+    if(current_task->subOf) {
+    	current_task->subOf->blockedBySub = 0;
+
+    	free(current_task->subOf->execPath);
+    	current_task->subOf->execPath = current_task->execPath;
+    }
+
     vmm_free_current_pagetables();
 
     if (current_task == first_task) {
@@ -145,6 +152,9 @@ struct task* init_task(uint32_t task_pagedir, void* entry) {
 
     ntask->next = (void*) first_task;
     ntask->prev = (void*) 0;
+
+    ntask->subOf = 0;
+    ntask->blockedBySub = 0;
 
     if (first_task != 0) {
         first_task->prev = ntask;
@@ -213,9 +223,13 @@ struct cpu_state* schedule(struct cpu_state* cpu) {
             return current_task->cpuState;
         }
 
-        struct task* next = current_task->next;
-        if (next == 0)
-            next = first_task;
+    	struct task* next = current_task->next;
+
+        do {
+        	next = current_task->next;
+			if (next == 0)
+				next = first_task;
+        } while(next->blockedBySub);
 
         save_cpu_state(cpu);
 

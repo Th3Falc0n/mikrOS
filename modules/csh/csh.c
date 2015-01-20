@@ -23,26 +23,9 @@ int main(int argc, char* args[])
 
             do {
                 pargs[n] = strtoknc(0, " ");
-                n++;
-            } while(pargs[n-1] != 0);
+            } while(pargs[n++] != 0);
 
-            if(!strcmp(cmd, "cd")) {
-                if(pargs[0] != 0) {
-                    cd((char*)pargs[0]);
-                }
-                else
-                {
-                    printf("cd: usage: \"cd [PATH)\"\n");
-                }
-
-                continue;
-            }
-
-            int PID = texec(instr, pargs);
-
-            while(pexists(PID)) {
-                yield();
-            }
+            sexec(instr, pargs);
 
             printf("\n");
         }

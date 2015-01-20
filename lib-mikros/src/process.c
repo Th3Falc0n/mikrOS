@@ -131,12 +131,12 @@ void cd(char* path) {
     if(!changeExecPath(path)) printFilesystemError(path, getLastVFSErr());
 }
 
-int exec(char* path, char** args) {
+int exec(char* path, char** args, int asSubtask) {
     struct regstate state = {
         .eax = 3,
         .ebx = (uint32_t) path,
         .ecx = (uint32_t) args,
-        .edx = 0,
+        .edx = asSubtask,
         .esi = 0,
         .edi = 0
     };
@@ -146,8 +146,18 @@ int exec(char* path, char** args) {
     return state.eax;
 }
 
-int texec(char* path, char** args) {
-    uint32_t res = exec(path, args);
+int dexec(char* path, char** args) {
+    uint32_t res = exec(path, args, 0);
+
+    if(!res) {
+        printFilesystemError(path, getLastVFSErr());
+    }
+
+    return res;
+}
+
+int sexec(char* path, char** args) {
+    uint32_t res = exec(path, args, 1);
 
     if(!res) {
         printFilesystemError(path, getLastVFSErr());
