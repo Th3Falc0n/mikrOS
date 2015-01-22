@@ -42,7 +42,7 @@ int main(int argc, char* args[])
 
     printf("[init] switching to shell\n");
 
-    dexec("/ibin/csh", 0);
+    dexec("/ibin/stsh", 0);
 
     //register_irq_handler(0x21, hdlrx21);
 

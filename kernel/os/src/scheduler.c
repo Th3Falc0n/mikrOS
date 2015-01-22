@@ -103,6 +103,12 @@ struct cpu_state* terminate_current(struct cpu_state* cpu) {
     if(current_task->subOf) {
     	current_task->subOf->blockedBySub = 0;
 
+    	/*TODO the complete environment[1] of the subtask has to be carried to the parent task,
+    	 * as they should behave as being a single environment
+    	 *
+    	 * 1: stdin,err,out are not part of the environment!
+    	 */
+
     	free(current_task->subOf->execPath);
     	current_task->subOf->execPath = current_task->execPath;
     }
@@ -223,12 +229,13 @@ struct cpu_state* schedule(struct cpu_state* cpu) {
             return current_task->cpuState;
         }
 
-    	struct task* next = current_task->next;
+    	struct task* next = current_task;
 
         do {
-        	next = current_task->next;
-			if (next == 0)
+        	next = next->next;
+			if (next == 0) {
 				next = first_task;
+			}
         } while(next->blockedBySub);
 
         save_cpu_state(cpu);

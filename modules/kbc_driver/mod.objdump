@@ -3,7 +3,7 @@
 ../../initrfs/ibin/drivers/kbc
 architecture: i386, flags 0x00000112:
 EXEC_P, HAS_SYMS, D_PAGED
-start address 0x40000866
+start address 0x40000865
 
 Program Header:
     LOAD off    0x00001000 vaddr 0x40000000 paddr 0x40000000 align 2**12
@@ -23,11 +23,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   4 .bss          00000640  40004000  40004000  000042b2  2**5
                   ALLOC
-  5 .stab         0000531c  00000000  00000000  000042b4  2**2
+  5 .stab         00005334  00000000  00000000  000042b4  2**2
                   CONTENTS, READONLY, DEBUGGING
-  6 .comment      00000090  00000000  00000000  000095d0  2**0
+  6 .comment      00000090  00000000  00000000  000095e8  2**0
                   CONTENTS, READONLY
-  7 .stabstr      00001b6f  00000000  00000000  00009660  2**0
+  7 .stabstr      00001b6b  00000000  00000000  00009678  2**0
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 40000000 l    d  .text	00000000 .text
@@ -44,13 +44,13 @@ SYMBOL TABLE:
 40000000 l     F .text	00000088 translate_scancode
 40000088 l     F .text	00000053 getcharfromkc
 400000db l     F .text	00000068 send_command
-40004008 l     O .bss	00000004 e1_code.1042
-4000400c l     O .bss	00000004 e0_code.1041
-40004010 l     O .bss	00000002 e1_prev.1043
+40004008 l     O .bss	00000004 e1_code.1043
+4000400c l     O .bss	00000004 e0_code.1042
+40004010 l     O .bss	00000002 e1_prev.1044
 00000000 l    df *ABS*	00000000 process.c
 40004014 l     O .bss	00000200 irq_handlers
-40003110 l     O .rodata	00000018 C.7.1019
-400008d8 l     F .text	000000c0 _handle_rpc
+40003110 l     O .rodata	00000018 C.7.1020
+400008d7 l     F .text	000000c0 _handle_rpc
 00000000 l    df *ABS*	00000000 stdio.c
 40000998 l     F .text	00000047 resolveHandle
 40000e48 l     F .text	0000004a printrwerror
@@ -61,10 +61,10 @@ SYMBOL TABLE:
 00000000 l    df *ABS*	00000000 vmmcall.c
 00000000 l    df *ABS*	00000000 ports.c
 00000000 l    df *ABS*	00000000 syscall.c
-4000065c g     F .text	0000003d getExecPath
+4000065b g     F .text	0000003d getExecPath
 40000d4c g     F .text	00000014 putchar
 400010f9 g     F .text	00000033 strcpy
-400006df g     F .text	0000003e yield
+400006de g     F .text	0000003e yield
 40000d60 g     F .text	000000e8 printf
 400016a4 g     F .text	00000050 syscall
 40004000 g     O .bss	00000004 init_done
@@ -72,11 +72,11 @@ SYMBOL TABLE:
 40000f51 g     F .text	0000000c getc
 40001028 g     F .text	00000026 memcpy
 40000c83 g     F .text	00000012 puts
-4000071d g     F .text	0000003d pexists
+4000071c g     F .text	0000003d pexists
 400013a5 g     F .text	000000f8 malloc
-400007b2 g     F .text	0000003d fetch_rpc_data
+400007b1 g     F .text	0000003d fetch_rpc_data
 4000112c g     F .text	000000a5 strtoknc
-400005f2 g     F .text	0000003d changeExecPath
+400005f1 g     F .text	0000003d changeExecPath
 40001665 g     F .text	0000003e require_port
 400015ec g     F .text	0000003d port_in
 40004224 g     O .bss	00000004 first_free
@@ -84,12 +84,11 @@ SYMBOL TABLE:
 40001629 g     F .text	0000003c port_out
 40000b32 g     F .text	00000012 setstdout
 400014fd g     F .text	00000034 calloc
-400005b6 g     F .text	0000003c getExecPathChild
 400015af g     F .text	0000003d vmm_alloc_cont
 4000050d g     F .text	0000003b exec
-40000866 g     F .text	00000072 _start
+40000865 g     F .text	00000072 _start
 4000149d g     F .text	00000060 realloc
-40000829 g     F .text	0000003d set_rpc_handler
+40000828 g     F .text	0000003d set_rpc_handler
 4000120a g     F .text	00000052 strtok
 4000104e g     F .text	00000047 memcmp
 40000548 g     F .text	00000037 sexec
@@ -108,16 +107,17 @@ SYMBOL TABLE:
 40004004 g     O .bss	00000004 charout
 40001095 g     F .text	00000049 strcmp
 40000f17 g     F .text	0000002b fgetc
+400005b6 g     F .text	0000003b getPathChild
 40004214 g     O .bss	00000004 sp
-4000062f g     F .text	0000002d cd
+4000062e g     F .text	0000002d cd
 40000143 g     F .text	000001e5 irq_handler
 40004220 g     O .bss	00000004 first_used
 40000cd4 g     F .text	00000065 fputc
 40000b82 g     F .text	00000093 fwrite
 40000b20 g     F .text	00000012 setstdin
 400011d1 g     F .text	00000039 strclone
-40000699 g     F .text	00000046 exit
-4000075a g     F .text	00000058 register_irq_handler
+40000698 g     F .text	00000046 exit
+40000759 g     F .text	00000058 register_irq_handler
 40000ad2 g     F .text	0000003c fopenpmhandle
 40001572 g     F .text	0000003d vmm_free
 4000049c g     F .text	00000071 printFilesystemError
@@ -125,7 +125,7 @@ SYMBOL TABLE:
 40000b44 g     F .text	0000003e getLastVFSErr
 40000c15 g     F .text	0000006e fputs
 400009df g     F .text	0000003d fmkfifo
-400007ef g     F .text	0000003a call_rpc
+400007ee g     F .text	0000003a call_rpc
 40000b0e g     F .text	00000012 setstderr
 40001534 g     F .text	0000003e print_memstat
 4000125c g     F .text	000000e0 free
@@ -563,7 +563,7 @@ int main(int argc, char* args[])
 40000349:	83 ec 08             	sub    $0x8,%esp
 4000034c:	68 43 01 00 40       	push   $0x40000143
 40000351:	6a 21                	push   $0x21
-40000353:	e8 02 04 00 00       	call   4000075a <register_irq_handler>
+40000353:	e8 01 04 00 00       	call   40000759 <register_irq_handler>
 40000358:	83 c4 10             	add    $0x10,%esp
     require_port(0x64);
 4000035b:	83 ec 0c             	sub    $0xc,%esp
@@ -959,7 +959,7 @@ void irq_handler(uint32_t irq) {
 400005b4:	5d                   	pop    %ebp
 400005b5:	c3                   	ret    
 
-400005b6 <getExecPathChild>:
+400005b6 <getPathChild>:
                     break;
 
                 default:
@@ -980,736 +980,738 @@ void irq_handler(uint32_t irq) {
 400005c6:	89 45 e4             	mov    %eax,-0x1c(%ebp)
 400005c9:	8b 45 0c             	mov    0xc(%ebp),%eax
 400005cc:	89 45 e8             	mov    %eax,-0x18(%ebp)
+400005cf:	8b 45 10             	mov    0x10(%ebp),%eax
+400005d2:	89 45 ec             	mov    %eax,-0x14(%ebp)
 
 static char getcharfromkc(uint8_t keycode) {
-400005cf:	8d 45 e0             	lea    -0x20(%ebp),%eax
-400005d2:	50                   	push   %eax
+400005d5:	8d 45 e0             	lea    -0x20(%ebp),%eax
+400005d8:	50                   	push   %eax
     if (keycode == 0) {
         printf("kbc: Unknown Scancode: 0x%x (%d)\n", scancode, set);
     }
 
     return keycode;
 }
-400005d3:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
-400005da:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
-400005e1:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+400005d9:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+400005e0:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
 
 static char getcharfromkc(uint8_t keycode) {
-400005e8:	e8 b7 10 00 00       	call   400016a4 <syscall>
+400005e7:	e8 b8 10 00 00       	call   400016a4 <syscall>
     uint32_t index = 0;
 
     if(key_flags[0x2A] & KF_PRESSED) index = 1; //LSHIFT
-400005ed:	8b 45 e0             	mov    -0x20(%ebp),%eax
-400005f0:	c9                   	leave  
-400005f1:	c3                   	ret    
+400005ec:	8b 45 e0             	mov    -0x20(%ebp),%eax
+400005ef:	c9                   	leave  
+400005f0:	c3                   	ret    
 
-400005f2 <changeExecPath>:
+400005f1 <changeExecPath>:
         case 0:
             keycode = sc_to_kc[0][scancode];
             break;
 
         // e0-Scancodes
         case 1:
-400005f2:	55                   	push   %ebp
-400005f3:	89 e5                	mov    %esp,%ebp
-400005f5:	83 ec 34             	sub    $0x34,%esp
+400005f1:	55                   	push   %ebp
+400005f2:	89 e5                	mov    %esp,%ebp
+400005f4:	83 ec 34             	sub    $0x34,%esp
 
         // e1-Scancodes
         case 2:
             switch (scancode) {
                 // Pause
                 case 0x451D:
-400005f8:	8b 45 08             	mov    0x8(%ebp),%eax
-400005fb:	c7 45 e0 07 00 00 00 	movl   $0x7,-0x20(%ebp)
-40000602:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+400005f7:	8b 45 08             	mov    0x8(%ebp),%eax
+400005fa:	c7 45 e0 07 00 00 00 	movl   $0x7,-0x20(%ebp)
+40000601:	89 45 e4             	mov    %eax,-0x1c(%ebp)
                     keycode = 119;
                     break;
-40000605:	8d 45 e0             	lea    -0x20(%ebp),%eax
-40000608:	50                   	push   %eax
+40000604:	8d 45 e0             	lea    -0x20(%ebp),%eax
+40000607:	50                   	push   %eax
 
         // e1-Scancodes
         case 2:
             switch (scancode) {
                 // Pause
                 case 0x451D:
-40000609:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
-40000610:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
-40000617:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
-4000061e:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+40000608:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+4000060f:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+40000616:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+4000061d:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
                     keycode = 119;
                     break;
-40000625:	e8 7a 10 00 00       	call   400016a4 <syscall>
+40000624:	e8 7b 10 00 00       	call   400016a4 <syscall>
 
                 default:
                     keycode = 0x0;
-4000062a:	8b 45 e0             	mov    -0x20(%ebp),%eax
-4000062d:	c9                   	leave  
-4000062e:	c3                   	ret    
+40000629:	8b 45 e0             	mov    -0x20(%ebp),%eax
+4000062c:	c9                   	leave  
+4000062d:	c3                   	ret    
 
-4000062f <cd>:
+4000062e <cd>:
 static char getcharfromkc(uint8_t keycode) {
     uint32_t index = 0;
 
     if(key_flags[0x2A] & KF_PRESSED) index = 1; //LSHIFT
     if(key_flags[0x36] & KF_PRESSED) index = 1; //RSHIFT
 
-4000062f:	55                   	push   %ebp
-40000630:	89 e5                	mov    %esp,%ebp
-40000632:	53                   	push   %ebx
-40000633:	83 ec 10             	sub    $0x10,%esp
-40000636:	8b 5d 08             	mov    0x8(%ebp),%ebx
+4000062e:	55                   	push   %ebp
+4000062f:	89 e5                	mov    %esp,%ebp
+40000631:	53                   	push   %ebx
+40000632:	83 ec 10             	sub    $0x10,%esp
+40000635:	8b 5d 08             	mov    0x8(%ebp),%ebx
     return kc_to_char[index][keycode];
-40000639:	53                   	push   %ebx
-4000063a:	e8 b3 ff ff ff       	call   400005f2 <changeExecPath>
-4000063f:	83 c4 10             	add    $0x10,%esp
-40000642:	85 c0                	test   %eax,%eax
-40000644:	75 11                	jne    40000657 <cd+0x28>
-40000646:	e8 f9 04 00 00       	call   40000b44 <getLastVFSErr>
+40000638:	53                   	push   %ebx
+40000639:	e8 b3 ff ff ff       	call   400005f1 <changeExecPath>
+4000063e:	83 c4 10             	add    $0x10,%esp
+40000641:	85 c0                	test   %eax,%eax
+40000643:	75 11                	jne    40000656 <cd+0x28>
+40000645:	e8 fa 04 00 00       	call   40000b44 <getLastVFSErr>
+4000064a:	52                   	push   %edx
 4000064b:	52                   	push   %edx
-4000064c:	52                   	push   %edx
-4000064d:	50                   	push   %eax
-4000064e:	53                   	push   %ebx
-4000064f:	e8 48 fe ff ff       	call   4000049c <printFilesystemError>
-40000654:	83 c4 10             	add    $0x10,%esp
+4000064c:	50                   	push   %eax
+4000064d:	53                   	push   %ebx
+4000064e:	e8 49 fe ff ff       	call   4000049c <printFilesystemError>
+40000653:	83 c4 10             	add    $0x10,%esp
 }
-40000657:	8b 5d fc             	mov    -0x4(%ebp),%ebx
-4000065a:	c9                   	leave  
-4000065b:	c3                   	ret    
+40000656:	8b 5d fc             	mov    -0x4(%ebp),%ebx
+40000659:	c9                   	leave  
+4000065a:	c3                   	ret    
 
-4000065c <getExecPath>:
+4000065b <getExecPath>:
 
 #define KF_PRESSED (1 << 0)
 
 uint32_t key_flags[256];
 
 HANDLE charout = 0;
-4000065c:	55                   	push   %ebp
-4000065d:	89 e5                	mov    %esp,%ebp
-4000065f:	83 ec 34             	sub    $0x34,%esp
+4000065b:	55                   	push   %ebp
+4000065c:	89 e5                	mov    %esp,%ebp
+4000065e:	83 ec 34             	sub    $0x34,%esp
 {
     uint8_t keycode = 0;
 
     switch (set) {
         // Normal scancodes
         case 0:
-40000662:	8b 45 08             	mov    0x8(%ebp),%eax
-40000665:	c7 45 e0 06 00 00 00 	movl   $0x6,-0x20(%ebp)
-4000066c:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+40000661:	8b 45 08             	mov    0x8(%ebp),%eax
+40000664:	c7 45 e0 06 00 00 00 	movl   $0x6,-0x20(%ebp)
+4000066b:	89 45 e4             	mov    %eax,-0x1c(%ebp)
             keycode = sc_to_kc[0][scancode];
             break;
-4000066f:	8d 45 e0             	lea    -0x20(%ebp),%eax
-40000672:	50                   	push   %eax
+4000066e:	8d 45 e0             	lea    -0x20(%ebp),%eax
+40000671:	50                   	push   %eax
 {
     uint8_t keycode = 0;
 
     switch (set) {
         // Normal scancodes
         case 0:
-40000673:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
-4000067a:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
-40000681:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
-40000688:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+40000672:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+40000679:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+40000680:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+40000687:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
             keycode = sc_to_kc[0][scancode];
             break;
-4000068f:	e8 10 10 00 00       	call   400016a4 <syscall>
-40000694:	83 c4 10             	add    $0x10,%esp
+4000068e:	e8 11 10 00 00       	call   400016a4 <syscall>
+40000693:	83 c4 10             	add    $0x10,%esp
 
-40000697:	c9                   	leave  
-40000698:	c3                   	ret    
+40000696:	c9                   	leave  
+40000697:	c3                   	ret    
 
-40000699 <exit>:
+40000698 <exit>:
             /* 0x08 */ '/', '(', ')', '=', '?', '`',  8 ,  9 ,
             /* 0x10 */ 'Q', 'W', 'E', 'R', 'T', 'Z', 'U', 'I',
             /* 0x18 */ 'O', 'P', 252, '*','\n',  0 , 'A', 'S', //252 = ü TODO change to upper case
             /* 0x20 */ 'D', 'F', 'G', 'H', 'J', 'K', 'L', 246, //246 = ö
             /* 0x28 */ 228,'\'',  0 , '>', 'Y', 'X', 'C', 'V', //228 = ä
             /* 0x30 */ 'B', 'N', 'M', ';', ':', '_',  0 , '*',
-40000699:	55                   	push   %ebp
-4000069a:	89 e5                	mov    %esp,%ebp
-4000069c:	83 ec 34             	sub    $0x34,%esp
+40000698:	55                   	push   %ebp
+40000699:	89 e5                	mov    %esp,%ebp
+4000069b:	83 ec 34             	sub    $0x34,%esp
             /* 0x48 */ '8', '9', '-', '4', '5', '6', '+', '1',
             /* 0x50 */ '2', '3', '0', '.',  0 ,  0 ,  0 ,  0 ,
             /* 0x58 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x60 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x68 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x70 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
-4000069f:	8b 45 08             	mov    0x8(%ebp),%eax
-400006a2:	c7 45 e0 01 00 00 00 	movl   $0x1,-0x20(%ebp)
-400006a9:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+4000069e:	8b 45 08             	mov    0x8(%ebp),%eax
+400006a1:	c7 45 e0 01 00 00 00 	movl   $0x1,-0x20(%ebp)
+400006a8:	89 45 e4             	mov    %eax,-0x1c(%ebp)
             /* 0x78 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
         }
-400006ac:	8d 45 e0             	lea    -0x20(%ebp),%eax
+400006ab:	8d 45 e0             	lea    -0x20(%ebp),%eax
             /* 0x48 */ '8', '9', '-', '4', '5', '6', '+', '1',
             /* 0x50 */ '2', '3', '0', '.',  0 ,  0 ,  0 ,  0 ,
             /* 0x58 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x60 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x68 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x70 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
-400006af:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
-400006b6:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
-400006bd:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
-400006c4:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+400006ae:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+400006b5:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+400006bc:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+400006c3:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
             /* 0x78 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
         }
-400006cb:	50                   	push   %eax
-400006cc:	e8 d3 0f 00 00       	call   400016a4 <syscall>
+400006ca:	50                   	push   %eax
+400006cb:	e8 d4 0f 00 00       	call   400016a4 <syscall>
 };
 
 #define KF_PRESSED (1 << 0)
-400006d1:	c7 04 24 ee 31 00 40 	movl   $0x400031ee,(%esp)
-400006d8:	e8 83 06 00 00       	call   40000d60 <printf>
-400006dd:	eb f2                	jmp    400006d1 <exit+0x38>
+400006d0:	c7 04 24 ee 31 00 40 	movl   $0x400031ee,(%esp)
+400006d7:	e8 84 06 00 00       	call   40000d60 <printf>
+400006dc:	eb f2                	jmp    400006d0 <exit+0x38>
 
-400006df <yield>:
+400006de <yield>:
             /* 0x20 */ 'd', 'f', 'g', 'h', 'j', 'k', 'l', 246, //246 = ö
             /* 0x28 */ 228, '#',  0 , '<', 'y', 'x', 'c', 'v', //228 = ä
             /* 0x30 */ 'b', 'n', 'm', ',', '.', '-',  0 , '*',
             /* 0x38 */  0 , ' ',  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x40 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 , '7',
             /* 0x48 */ '8', '9', '-', '4', '5', '6', '+', '1',
-400006df:	55                   	push   %ebp
-400006e0:	89 e5                	mov    %esp,%ebp
-400006e2:	83 ec 34             	sub    $0x34,%esp
+400006de:	55                   	push   %ebp
+400006df:	89 e5                	mov    %esp,%ebp
+400006e1:	83 ec 34             	sub    $0x34,%esp
             /* 0x70 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x78 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
         },
         {   /* 1 Table: With shift */
             /* 0x00 */  0 , '^', '!', '"', 000, '$', '%', '&', //000 = § TODO find out ISO-8859-1 code
             /* 0x08 */ '/', '(', ')', '=', '?', '`',  8 ,  9 ,
-400006e5:	8d 45 e0             	lea    -0x20(%ebp),%eax
+400006e4:	8d 45 e0             	lea    -0x20(%ebp),%eax
             /* 0x60 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x68 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x70 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x78 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
         },
         {   /* 1 Table: With shift */
-400006e8:	c7 45 e0 05 00 00 00 	movl   $0x5,-0x20(%ebp)
+400006e7:	c7 45 e0 05 00 00 00 	movl   $0x5,-0x20(%ebp)
             /* 0x00 */  0 , '^', '!', '"', 000, '$', '%', '&', //000 = § TODO find out ISO-8859-1 code
             /* 0x08 */ '/', '(', ')', '=', '?', '`',  8 ,  9 ,
-400006ef:	50                   	push   %eax
+400006ee:	50                   	push   %eax
             /* 0x60 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x68 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x70 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x78 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
         },
         {   /* 1 Table: With shift */
-400006f0:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
-400006f7:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
-400006fe:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
-40000705:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
-4000070c:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+400006ef:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
+400006f6:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+400006fd:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+40000704:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+4000070b:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
             /* 0x00 */  0 , '^', '!', '"', 000, '$', '%', '&', //000 = § TODO find out ISO-8859-1 code
             /* 0x08 */ '/', '(', ')', '=', '?', '`',  8 ,  9 ,
-40000713:	e8 8c 0f 00 00       	call   400016a4 <syscall>
-40000718:	83 c4 10             	add    $0x10,%esp
+40000712:	e8 8d 0f 00 00       	call   400016a4 <syscall>
+40000717:	83 c4 10             	add    $0x10,%esp
             /* 0x10 */ 'Q', 'W', 'E', 'R', 'T', 'Z', 'U', 'I',
             /* 0x18 */ 'O', 'P', 252, '*','\n',  0 , 'A', 'S', //252 = ü TODO change to upper case
             /* 0x20 */ 'D', 'F', 'G', 'H', 'J', 'K', 'L', 246, //246 = ö
-4000071b:	c9                   	leave  
-4000071c:	c3                   	ret    
+4000071a:	c9                   	leave  
+4000071b:	c3                   	ret    
 
-4000071d <pexists>:
+4000071c <pexists>:
          60,  61,  62,  63,  64,  65,  66,  67,  68,  69,
          70,  71,  72,  73,  74,  75,  76,  77,  78,  79,
          80,  81,  82,  84,  00,  00,  86,  87,  88,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
-4000071d:	55                   	push   %ebp
-4000071e:	89 e5                	mov    %esp,%ebp
-40000720:	83 ec 34             	sub    $0x34,%esp
+4000071c:	55                   	push   %ebp
+4000071d:	89 e5                	mov    %esp,%ebp
+4000071f:	83 ec 34             	sub    $0x34,%esp
 
     // Extended0-Scancodes (werden mit e0 eingeleitet)
     {
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  96,  97,
-40000723:	8b 45 08             	mov    0x8(%ebp),%eax
-40000726:	c7 45 e0 02 00 00 00 	movl   $0x2,-0x20(%ebp)
-4000072d:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+40000722:	8b 45 08             	mov    0x8(%ebp),%eax
+40000725:	c7 45 e0 02 00 00 00 	movl   $0x2,-0x20(%ebp)
+4000072c:	89 45 e4             	mov    %eax,-0x1c(%ebp)
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
-40000730:	8d 45 e0             	lea    -0x20(%ebp),%eax
-40000733:	50                   	push   %eax
+4000072f:	8d 45 e0             	lea    -0x20(%ebp),%eax
+40000732:	50                   	push   %eax
 
     // Extended0-Scancodes (werden mit e0 eingeleitet)
     {
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  96,  97,
-40000734:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
-4000073b:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
-40000742:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
-40000749:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+40000733:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+4000073a:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+40000741:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+40000748:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
-40000750:	e8 4f 0f 00 00       	call   400016a4 <syscall>
+4000074f:	e8 50 0f 00 00       	call   400016a4 <syscall>
          00,  00,  00,  99,  00,  00, 100,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00, 102, 103, 104,  00, 105,  00, 106,  00, 107,
-40000755:	8b 45 e0             	mov    -0x20(%ebp),%eax
-40000758:	c9                   	leave  
-40000759:	c3                   	ret    
+40000754:	8b 45 e0             	mov    -0x20(%ebp),%eax
+40000757:	c9                   	leave  
+40000758:	c3                   	ret    
 
-4000075a <register_irq_handler>:
+40000759 <register_irq_handler>:
             /* 0x70 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x78 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
         },
         {   /* 1 Table: With shift */
             /* 0x00 */  0 , '^', '!', '"', 000, '$', '%', '&', //000 = § TODO find out ISO-8859-1 code
             /* 0x08 */ '/', '(', ')', '=', '?', '`',  8 ,  9 ,
-4000075a:	55                   	push   %ebp
-4000075b:	89 e5                	mov    %esp,%ebp
-4000075d:	53                   	push   %ebx
-4000075e:	83 ec 30             	sub    $0x30,%esp
+40000759:	55                   	push   %ebp
+4000075a:	89 e5                	mov    %esp,%ebp
+4000075c:	53                   	push   %ebx
+4000075d:	83 ec 30             	sub    $0x30,%esp
             /* 0x38 */  0 , ' ',  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x40 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 , '7',
             /* 0x48 */ '8', '9', '-', '4', '5', '6', '+', '1',
             /* 0x50 */ '2', '3', '0', '.',  0 ,  0 ,  0 ,  0 ,
             /* 0x58 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x60 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
-40000761:	8d 45 e0             	lea    -0x20(%ebp),%eax
+40000760:	8d 45 e0             	lea    -0x20(%ebp),%eax
             /* 0x70 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x78 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
         },
         {   /* 1 Table: With shift */
             /* 0x00 */  0 , '^', '!', '"', 000, '$', '%', '&', //000 = § TODO find out ISO-8859-1 code
             /* 0x08 */ '/', '(', ')', '=', '?', '`',  8 ,  9 ,
-40000764:	8b 5d 08             	mov    0x8(%ebp),%ebx
+40000763:	8b 5d 08             	mov    0x8(%ebp),%ebx
             /* 0x38 */  0 , ' ',  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x40 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 , '7',
             /* 0x48 */ '8', '9', '-', '4', '5', '6', '+', '1',
             /* 0x50 */ '2', '3', '0', '.',  0 ,  0 ,  0 ,  0 ,
             /* 0x58 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x60 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
-40000767:	50                   	push   %eax
+40000766:	50                   	push   %eax
             /* 0x28 */ 228, '#',  0 , '<', 'y', 'x', 'c', 'v', //228 = ä
             /* 0x30 */ 'b', 'n', 'm', ',', '.', '-',  0 , '*',
             /* 0x38 */  0 , ' ',  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x40 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 , '7',
             /* 0x48 */ '8', '9', '-', '4', '5', '6', '+', '1',
             /* 0x50 */ '2', '3', '0', '.',  0 ,  0 ,  0 ,  0 ,
-40000768:	c7 45 e0 28 00 00 00 	movl   $0x28,-0x20(%ebp)
-4000076f:	89 5d e4             	mov    %ebx,-0x1c(%ebp)
-40000772:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
-40000779:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
-40000780:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
-40000787:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+40000767:	c7 45 e0 28 00 00 00 	movl   $0x28,-0x20(%ebp)
+4000076e:	89 5d e4             	mov    %ebx,-0x1c(%ebp)
+40000771:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+40000778:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+4000077f:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+40000786:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
             /* 0x58 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x60 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
-4000078e:	e8 11 0f 00 00       	call   400016a4 <syscall>
+4000078d:	e8 12 0f 00 00       	call   400016a4 <syscall>
             /* 0x68 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x70 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
-40000793:	83 c4 10             	add    $0x10,%esp
-40000796:	31 c0                	xor    %eax,%eax
-40000798:	83 7d e0 00          	cmpl   $0x0,-0x20(%ebp)
-4000079c:	74 0f                	je     400007ad <register_irq_handler+0x53>
+40000792:	83 c4 10             	add    $0x10,%esp
+40000795:	31 c0                	xor    %eax,%eax
+40000797:	83 7d e0 00          	cmpl   $0x0,-0x20(%ebp)
+4000079b:	74 0f                	je     400007ac <register_irq_handler+0x53>
         },
         {   /* 1 Table: With shift */
             /* 0x00 */  0 , '^', '!', '"', 000, '$', '%', '&', //000 = § TODO find out ISO-8859-1 code
             /* 0x08 */ '/', '(', ')', '=', '?', '`',  8 ,  9 ,
             /* 0x10 */ 'Q', 'W', 'E', 'R', 'T', 'Z', 'U', 'I',
             /* 0x18 */ 'O', 'P', 252, '*','\n',  0 , 'A', 'S', //252 = ü TODO change to upper case
-4000079e:	8b 45 0c             	mov    0xc(%ebp),%eax
-400007a1:	89 04 9d 14 40 00 40 	mov    %eax,0x40004014(,%ebx,4)
-400007a8:	b8 01 00 00 00       	mov    $0x1,%eax
+4000079d:	8b 45 0c             	mov    0xc(%ebp),%eax
+400007a0:	89 04 9d 14 40 00 40 	mov    %eax,0x40004014(,%ebx,4)
+400007a7:	b8 01 00 00 00       	mov    $0x1,%eax
             /* 0x20 */ 'D', 'F', 'G', 'H', 'J', 'K', 'L', 246, //246 = ö
             /* 0x28 */ 228,'\'',  0 , '>', 'Y', 'X', 'C', 'V', //228 = ä
             /* 0x30 */ 'B', 'N', 'M', ';', ':', '_',  0 , '*',
             /* 0x38 */  0 , ' ',  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
-400007ad:	8b 5d fc             	mov    -0x4(%ebp),%ebx
-400007b0:	c9                   	leave  
-400007b1:	c3                   	ret    
+400007ac:	8b 5d fc             	mov    -0x4(%ebp),%ebx
+400007af:	c9                   	leave  
+400007b0:	c3                   	ret    
 
-400007b2 <fetch_rpc_data>:
+400007b1 <fetch_rpc_data>:
          00,  00,  00,  00,  00,  00,  00,  00,  96,  97,
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  99,  00,  00, 100,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00, 102, 103, 104,  00, 105,  00, 106,  00, 107,
-400007b2:	55                   	push   %ebp
-400007b3:	89 e5                	mov    %esp,%ebp
-400007b5:	83 ec 34             	sub    $0x34,%esp
+400007b1:	55                   	push   %ebp
+400007b2:	89 e5                	mov    %esp,%ebp
+400007b4:	83 ec 34             	sub    $0x34,%esp
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00
     },
 };
 
-400007b8:	8b 45 08             	mov    0x8(%ebp),%eax
-400007bb:	c7 45 e0 21 00 00 00 	movl   $0x21,-0x20(%ebp)
-400007c2:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+400007b7:	8b 45 08             	mov    0x8(%ebp),%eax
+400007ba:	c7 45 e0 21 00 00 00 	movl   $0x21,-0x20(%ebp)
+400007c1:	89 45 e4             	mov    %eax,-0x1c(%ebp)
 static char kc_to_char[][128] = {
         {   /* 0 Table: No special key */
-400007c5:	8d 45 e0             	lea    -0x20(%ebp),%eax
-400007c8:	50                   	push   %eax
+400007c4:	8d 45 e0             	lea    -0x20(%ebp),%eax
+400007c7:	50                   	push   %eax
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00
     },
 };
 
-400007c9:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
-400007d0:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
-400007d7:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
-400007de:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+400007c8:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+400007cf:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+400007d6:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+400007dd:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
 static char kc_to_char[][128] = {
         {   /* 0 Table: No special key */
-400007e5:	e8 ba 0e 00 00       	call   400016a4 <syscall>
-400007ea:	83 c4 10             	add    $0x10,%esp
+400007e4:	e8 bb 0e 00 00       	call   400016a4 <syscall>
+400007e9:	83 c4 10             	add    $0x10,%esp
             /* 0x00 */  0 ,  0 , '1', '2', '3', '4', '5', '6',
-400007ed:	c9                   	leave  
-400007ee:	c3                   	ret    
+400007ec:	c9                   	leave  
+400007ed:	c3                   	ret    
 
-400007ef <call_rpc>:
+400007ee <call_rpc>:
          40,  41,  42,  43,  44,  45,  46,  47,  48,  49,
          50,  51,  52,  53,  54,  55,  56,  57,  58,  59,
          60,  61,  62,  63,  64,  65,  66,  67,  68,  69,
          70,  71,  72,  73,  74,  75,  76,  77,  78,  79,
          80,  81,  82,  84,  00,  00,  86,  87,  88,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
-400007ef:	55                   	push   %ebp
-400007f0:	89 e5                	mov    %esp,%ebp
-400007f2:	83 ec 34             	sub    $0x34,%esp
+400007ee:	55                   	push   %ebp
+400007ef:	89 e5                	mov    %esp,%ebp
+400007f1:	83 ec 34             	sub    $0x34,%esp
          00,  00,  00,  00,  00,  00,  00,  00
     },
 
     // Extended0-Scancodes (werden mit e0 eingeleitet)
     {
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
-400007f5:	8b 45 08             	mov    0x8(%ebp),%eax
-400007f8:	c7 45 e0 1f 00 00 00 	movl   $0x1f,-0x20(%ebp)
-400007ff:	89 45 e4             	mov    %eax,-0x1c(%ebp)
-40000802:	8b 45 0c             	mov    0xc(%ebp),%eax
-40000805:	89 45 e8             	mov    %eax,-0x18(%ebp)
-40000808:	8b 45 10             	mov    0x10(%ebp),%eax
-4000080b:	89 45 ec             	mov    %eax,-0x14(%ebp)
-4000080e:	8b 45 14             	mov    0x14(%ebp),%eax
-40000811:	89 45 f0             	mov    %eax,-0x10(%ebp)
+400007f4:	8b 45 08             	mov    0x8(%ebp),%eax
+400007f7:	c7 45 e0 1f 00 00 00 	movl   $0x1f,-0x20(%ebp)
+400007fe:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+40000801:	8b 45 0c             	mov    0xc(%ebp),%eax
+40000804:	89 45 e8             	mov    %eax,-0x18(%ebp)
+40000807:	8b 45 10             	mov    0x10(%ebp),%eax
+4000080a:	89 45 ec             	mov    %eax,-0x14(%ebp)
+4000080d:	8b 45 14             	mov    0x14(%ebp),%eax
+40000810:	89 45 f0             	mov    %eax,-0x10(%ebp)
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  96,  97,
-40000814:	8d 45 e0             	lea    -0x20(%ebp),%eax
-40000817:	50                   	push   %eax
+40000813:	8d 45 e0             	lea    -0x20(%ebp),%eax
+40000816:	50                   	push   %eax
          00,  00,  00,  00,  00,  00,  00,  00
     },
 
     // Extended0-Scancodes (werden mit e0 eingeleitet)
     {
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
-40000818:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+40000817:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  96,  97,
-4000081f:	e8 80 0e 00 00       	call   400016a4 <syscall>
+4000081e:	e8 81 0e 00 00       	call   400016a4 <syscall>
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  99,  00,  00, 100,  00,  00,  00,
-40000824:	8b 45 e0             	mov    -0x20(%ebp),%eax
-40000827:	c9                   	leave  
-40000828:	c3                   	ret    
+40000823:	8b 45 e0             	mov    -0x20(%ebp),%eax
+40000826:	c9                   	leave  
+40000827:	c3                   	ret    
 
-40000829 <set_rpc_handler>:
+40000828 <set_rpc_handler>:
 uint32_t key_flags[256];
 
 HANDLE charout = 0;
 
 static uint8_t translate_scancode(int set, uint16_t scancode)
 {
-40000829:	55                   	push   %ebp
-4000082a:	89 e5                	mov    %esp,%ebp
-4000082c:	57                   	push   %edi
-4000082d:	56                   	push   %esi
+40000828:	55                   	push   %ebp
+40000829:	89 e5                	mov    %esp,%ebp
+4000082b:	57                   	push   %edi
+4000082c:	56                   	push   %esi
         case 0:
             keycode = sc_to_kc[0][scancode];
             break;
 
         // e0-Scancodes
         case 1:
-4000082e:	be 10 31 00 40       	mov    $0x40003110,%esi
+4000082d:	be 10 31 00 40       	mov    $0x40003110,%esi
 uint32_t key_flags[256];
 
 HANDLE charout = 0;
 
 static uint8_t translate_scancode(int set, uint16_t scancode)
 {
-40000833:	83 ec 24             	sub    $0x24,%esp
+40000832:	83 ec 24             	sub    $0x24,%esp
         case 0:
             keycode = sc_to_kc[0][scancode];
             break;
 
         // e0-Scancodes
         case 1:
-40000836:	8d 7d e0             	lea    -0x20(%ebp),%edi
+40000835:	8d 7d e0             	lea    -0x20(%ebp),%edi
 
 HANDLE charout = 0;
 
 static uint8_t translate_scancode(int set, uint16_t scancode)
 {
     uint8_t keycode = 0;
-40000839:	68 00 02 00 00       	push   $0x200
-4000083e:	6a 00                	push   $0x0
-40000840:	68 14 40 00 40       	push   $0x40004014
-40000845:	e8 c2 07 00 00       	call   4000100c <memset>
+40000838:	68 00 02 00 00       	push   $0x200
+4000083d:	6a 00                	push   $0x0
+4000083f:	68 14 40 00 40       	push   $0x40004014
+40000844:	e8 c3 07 00 00       	call   4000100c <memset>
         case 0:
             keycode = sc_to_kc[0][scancode];
             break;
 
         // e0-Scancodes
         case 1:
-4000084a:	b9 06 00 00 00       	mov    $0x6,%ecx
+40000849:	b9 06 00 00 00       	mov    $0x6,%ecx
             keycode = sc_to_kc[1][scancode];
             break;
-4000084f:	8d 45 e0             	lea    -0x20(%ebp),%eax
+4000084e:	8d 45 e0             	lea    -0x20(%ebp),%eax
         case 0:
             keycode = sc_to_kc[0][scancode];
             break;
 
         // e0-Scancodes
         case 1:
-40000852:	f3 a5                	rep movsl %ds:(%esi),%es:(%edi)
+40000851:	f3 a5                	rep movsl %ds:(%esi),%es:(%edi)
             keycode = sc_to_kc[1][scancode];
             break;
-40000854:	89 04 24             	mov    %eax,(%esp)
-40000857:	e8 48 0e 00 00       	call   400016a4 <syscall>
-4000085c:	83 c4 10             	add    $0x10,%esp
+40000853:	89 04 24             	mov    %eax,(%esp)
+40000856:	e8 49 0e 00 00       	call   400016a4 <syscall>
+4000085b:	83 c4 10             	add    $0x10,%esp
 
-4000085f:	8d 65 f8             	lea    -0x8(%ebp),%esp
-40000862:	5e                   	pop    %esi
-40000863:	5f                   	pop    %edi
-40000864:	5d                   	pop    %ebp
-40000865:	c3                   	ret    
+4000085e:	8d 65 f8             	lea    -0x8(%ebp),%esp
+40000861:	5e                   	pop    %esi
+40000862:	5f                   	pop    %edi
+40000863:	5d                   	pop    %ebp
+40000864:	c3                   	ret    
 
-40000866 <_start>:
+40000865 <_start>:
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  99,  00,  00, 100,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00, 102, 103, 104,  00, 105,  00, 106,  00, 107,
         108, 109, 110, 111,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
-40000866:	55                   	push   %ebp
-40000867:	89 e5                	mov    %esp,%ebp
-40000869:	56                   	push   %esi
-4000086a:	53                   	push   %ebx
+40000865:	55                   	push   %ebp
+40000866:	89 e5                	mov    %esp,%ebp
+40000868:	56                   	push   %esi
+40000869:	53                   	push   %ebx
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00
     },
 };
-4000086b:	31 db                	xor    %ebx,%ebx
+4000086a:	31 db                	xor    %ebx,%ebx
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  99,  00,  00, 100,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00, 102, 103, 104,  00, 105,  00, 106,  00, 107,
         108, 109, 110, 111,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
-4000086d:	83 ec 2c             	sub    $0x2c,%esp
+4000086c:	83 ec 2c             	sub    $0x2c,%esp
          10,  11,  12,  13,  14,  15,  16,  17,  18,  19,
          20,  21,  22,  23,  24,  25,  26,  27,  28,  29,
          30,  31,  32,  33,  34,  35,  36,  37,  38,  39,
          40,  41,  42,  43,  44,  45,  46,  47,  48,  49,
          50,  51,  52,  53,  54,  55,  56,  57,  58,  59,
          60,  61,  62,  63,  64,  65,  66,  67,  68,  69,
-40000870:	8d 45 e0             	lea    -0x20(%ebp),%eax
+4000086f:	8d 45 e0             	lea    -0x20(%ebp),%eax
     {
           0,   1,   2,   3,   4,   5,   6,   7,   8,   9,
          10,  11,  12,  13,  14,  15,  16,  17,  18,  19,
          20,  21,  22,  23,  24,  25,  26,  27,  28,  29,
          30,  31,  32,  33,  34,  35,  36,  37,  38,  39,
          40,  41,  42,  43,  44,  45,  46,  47,  48,  49,
-40000873:	c7 45 e0 04 00 00 00 	movl   $0x4,-0x20(%ebp)
-4000087a:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
+40000872:	c7 45 e0 04 00 00 00 	movl   $0x4,-0x20(%ebp)
+40000879:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
          50,  51,  52,  53,  54,  55,  56,  57,  58,  59,
          60,  61,  62,  63,  64,  65,  66,  67,  68,  69,
-40000881:	50                   	push   %eax
+40000880:	50                   	push   %eax
     {
           0,   1,   2,   3,   4,   5,   6,   7,   8,   9,
          10,  11,  12,  13,  14,  15,  16,  17,  18,  19,
          20,  21,  22,  23,  24,  25,  26,  27,  28,  29,
          30,  31,  32,  33,  34,  35,  36,  37,  38,  39,
          40,  41,  42,  43,  44,  45,  46,  47,  48,  49,
-40000882:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
-40000889:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
-40000890:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
-40000897:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+40000881:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+40000888:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+4000088f:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+40000896:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
          50,  51,  52,  53,  54,  55,  56,  57,  58,  59,
          60,  61,  62,  63,  64,  65,  66,  67,  68,  69,
-4000089e:	e8 01 0e 00 00       	call   400016a4 <syscall>
+4000089d:	e8 02 0e 00 00       	call   400016a4 <syscall>
          70,  71,  72,  73,  74,  75,  76,  77,  78,  79,
          80,  81,  82,  84,  00,  00,  86,  87,  88,  00,
-400008a3:	8b 75 e0             	mov    -0x20(%ebp),%esi
+400008a2:	8b 75 e0             	mov    -0x20(%ebp),%esi
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00
     },
 };
-400008a6:	83 c4 10             	add    $0x10,%esp
-400008a9:	85 f6                	test   %esi,%esi
-400008ab:	75 05                	jne    400008b2 <_start+0x4c>
-400008ad:	89 f3                	mov    %esi,%ebx
-400008af:	eb 07                	jmp    400008b8 <_start+0x52>
+400008a5:	83 c4 10             	add    $0x10,%esp
+400008a8:	85 f6                	test   %esi,%esi
+400008aa:	75 05                	jne    400008b1 <_start+0x4c>
+400008ac:	89 f3                	mov    %esi,%ebx
+400008ae:	eb 07                	jmp    400008b7 <_start+0x52>
 
 static char kc_to_char[][128] = {
-400008b1:	43                   	inc    %ebx
+400008b0:	43                   	inc    %ebx
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00,  00,  00,
          00,  00,  00,  00,  00,  00,  00,  00
     },
 };
 
-400008b2:	83 3c 9e 00          	cmpl   $0x0,(%esi,%ebx,4)
-400008b6:	75 f9                	jne    400008b1 <_start+0x4b>
+400008b1:	83 3c 9e 00          	cmpl   $0x0,(%esi,%ebx,4)
+400008b5:	75 f9                	jne    400008b0 <_start+0x4b>
 static char kc_to_char[][128] = {
         {   /* 0 Table: No special key */
             /* 0x00 */  0 ,  0 , '1', '2', '3', '4', '5', '6',
             /* 0x08 */ '7', '8', '9', '0', '-', '`',  8 ,  9 ,
             /* 0x10 */ 'q', 'w', 'e', 'r', 't', 'z', 'u', 'i',
-400008b8:	e8 6c ff ff ff       	call   40000829 <set_rpc_handler>
+400008b7:	e8 6c ff ff ff       	call   40000828 <set_rpc_handler>
             /* 0x18 */ 'o', 'p', 252, '+','\n',  0 , 'a', 's', //252 = ü
             /* 0x20 */ 'd', 'f', 'g', 'h', 'j', 'k', 'l', 246, //246 = ö
+400008bc:	51                   	push   %ecx
 400008bd:	51                   	push   %ecx
-400008be:	51                   	push   %ecx
-400008bf:	56                   	push   %esi
-400008c0:	53                   	push   %ebx
-400008c1:	e8 62 fa ff ff       	call   40000328 <main>
+400008be:	56                   	push   %esi
+400008bf:	53                   	push   %ebx
+400008c0:	e8 63 fa ff ff       	call   40000328 <main>
             /* 0x28 */ 228, '#',  0 , '<', 'y', 'x', 'c', 'v', //228 = ä
             /* 0x30 */ 'b', 'n', 'm', ',', '.', '-',  0 , '*',
-400008c6:	89 04 24             	mov    %eax,(%esp)
-400008c9:	e8 cb fd ff ff       	call   40000699 <exit>
-400008ce:	83 c4 10             	add    $0x10,%esp
+400008c5:	89 04 24             	mov    %eax,(%esp)
+400008c8:	e8 cb fd ff ff       	call   40000698 <exit>
+400008cd:	83 c4 10             	add    $0x10,%esp
             /* 0x38 */  0 , ' ',  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
-400008d1:	8d 65 f8             	lea    -0x8(%ebp),%esp
-400008d4:	5b                   	pop    %ebx
-400008d5:	5e                   	pop    %esi
-400008d6:	5d                   	pop    %ebp
-400008d7:	c3                   	ret    
+400008d0:	8d 65 f8             	lea    -0x8(%ebp),%esp
+400008d3:	5b                   	pop    %ebx
+400008d4:	5e                   	pop    %esi
+400008d5:	5d                   	pop    %ebp
+400008d6:	c3                   	ret    
 
-400008d8 <_handle_rpc>:
+400008d7 <_handle_rpc>:
             /* 0x20 */ 'D', 'F', 'G', 'H', 'J', 'K', 'L', 246, //246 = ö
             /* 0x28 */ 228,'\'',  0 , '>', 'Y', 'X', 'C', 'V', //228 = ä
             /* 0x30 */ 'B', 'N', 'M', ';', ':', '_',  0 , '*',
             /* 0x38 */  0 , ' ',  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x40 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 , '7',
             /* 0x48 */ '8', '9', '-', '4', '5', '6', '+', '1',
-400008d8:	55                   	push   %ebp
-400008d9:	89 e5                	mov    %esp,%ebp
-400008db:	56                   	push   %esi
-400008dc:	53                   	push   %ebx
-400008dd:	83 ec 2c             	sub    $0x2c,%esp
+400008d7:	55                   	push   %ebp
+400008d8:	89 e5                	mov    %esp,%ebp
+400008da:	56                   	push   %esi
+400008db:	53                   	push   %ebx
+400008dc:	83 ec 2c             	sub    $0x2c,%esp
             /* 0x50 */ '2', '3', '0', '.',  0 ,  0 ,  0 ,  0 ,
-400008e0:	ff 75 10             	pushl  0x10(%ebp)
+400008df:	ff 75 10             	pushl  0x10(%ebp)
             /* 0x20 */ 'D', 'F', 'G', 'H', 'J', 'K', 'L', 246, //246 = ö
             /* 0x28 */ 228,'\'',  0 , '>', 'Y', 'X', 'C', 'V', //228 = ä
             /* 0x30 */ 'B', 'N', 'M', ';', ':', '_',  0 , '*',
             /* 0x38 */  0 , ' ',  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x40 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 , '7',
             /* 0x48 */ '8', '9', '-', '4', '5', '6', '+', '1',
-400008e3:	8b 75 0c             	mov    0xc(%ebp),%esi
+400008e2:	8b 75 0c             	mov    0xc(%ebp),%esi
             /* 0x50 */ '2', '3', '0', '.',  0 ,  0 ,  0 ,  0 ,
-400008e6:	e8 ba 0a 00 00       	call   400013a5 <malloc>
+400008e5:	e8 bb 0a 00 00       	call   400013a5 <malloc>
             /* 0x58 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
-400008eb:	89 04 24             	mov    %eax,(%esp)
+400008ea:	89 04 24             	mov    %eax,(%esp)
             /* 0x28 */ 228,'\'',  0 , '>', 'Y', 'X', 'C', 'V', //228 = ä
             /* 0x30 */ 'B', 'N', 'M', ';', ':', '_',  0 , '*',
             /* 0x38 */  0 , ' ',  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x40 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 , '7',
             /* 0x48 */ '8', '9', '-', '4', '5', '6', '+', '1',
             /* 0x50 */ '2', '3', '0', '.',  0 ,  0 ,  0 ,  0 ,
-400008ee:	89 c3                	mov    %eax,%ebx
+400008ed:	89 c3                	mov    %eax,%ebx
             /* 0x58 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
-400008f0:	e8 bd fe ff ff       	call   400007b2 <fetch_rpc_data>
+400008ef:	e8 bd fe ff ff       	call   400007b1 <fetch_rpc_data>
             /* 0x60 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
             /* 0x68 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
-400008f5:	83 c4 10             	add    $0x10,%esp
-400008f8:	83 7d 08 00          	cmpl   $0x0,0x8(%ebp)
-400008fc:	75 4b                	jne    40000949 <_handle_rpc+0x71>
+400008f4:	83 c4 10             	add    $0x10,%esp
+400008f7:	83 7d 08 00          	cmpl   $0x0,0x8(%ebp)
+400008fb:	75 4b                	jne    40000948 <_handle_rpc+0x71>
             /* 0x70 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
-400008fe:	8b 04 b5 14 40 00 40 	mov    0x40004014(,%esi,4),%eax
-40000905:	85 c0                	test   %eax,%eax
-40000907:	74 40                	je     40000949 <_handle_rpc+0x71>
+400008fd:	8b 04 b5 14 40 00 40 	mov    0x40004014(,%esi,4),%eax
+40000904:	85 c0                	test   %eax,%eax
+40000906:	74 40                	je     40000948 <_handle_rpc+0x71>
             /* 0x78 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
-40000909:	83 ec 0c             	sub    $0xc,%esp
-4000090c:	56                   	push   %esi
-4000090d:	ff d0                	call   *%eax
+40000908:	83 ec 0c             	sub    $0xc,%esp
+4000090b:	56                   	push   %esi
+4000090c:	ff d0                	call   *%eax
     {
           0,   1,   2,   3,   4,   5,   6,   7,   8,   9,
          10,  11,  12,  13,  14,  15,  16,  17,  18,  19,
          20,  21,  22,  23,  24,  25,  26,  27,  28,  29,
          30,  31,  32,  33,  34,  35,  36,  37,  38,  39,
          40,  41,  42,  43,  44,  45,  46,  47,  48,  49,
-4000090f:	8d 45 e0             	lea    -0x20(%ebp),%eax
+4000090e:	8d 45 e0             	lea    -0x20(%ebp),%eax
 static uint8_t sc_to_kc[][128] = {
     // Normale Scancodes
     {
           0,   1,   2,   3,   4,   5,   6,   7,   8,   9,
          10,  11,  12,  13,  14,  15,  16,  17,  18,  19,
          20,  21,  22,  23,  24,  25,  26,  27,  28,  29,
-40000912:	c7 45 e0 1e 00 00 00 	movl   $0x1e,-0x20(%ebp)
+40000911:	c7 45 e0 1e 00 00 00 	movl   $0x1e,-0x20(%ebp)
          30,  31,  32,  33,  34,  35,  36,  37,  38,  39,
          40,  41,  42,  43,  44,  45,  46,  47,  48,  49,
-40000919:	89 04 24             	mov    %eax,(%esp)
+40000918:	89 04 24             	mov    %eax,(%esp)
 static uint8_t sc_to_kc[][128] = {
     // Normale Scancodes
     {
           0,   1,   2,   3,   4,   5,   6,   7,   8,   9,
          10,  11,  12,  13,  14,  15,  16,  17,  18,  19,
          20,  21,  22,  23,  24,  25,  26,  27,  28,  29,
-4000091c:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
-40000923:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
-4000092a:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
-40000931:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
-40000938:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+4000091b:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
+40000922:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+40000929:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+40000930:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+40000937:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
          30,  31,  32,  33,  34,  35,  36,  37,  38,  39,
          40,  41,  42,  43,  44,  45,  46,  47,  48,  49,
-4000093f:	e8 60 0d 00 00       	call   400016a4 <syscall>
-40000944:	83 c4 10             	add    $0x10,%esp
-40000947:	eb fe                	jmp    40000947 <_handle_rpc+0x6f>
+4000093e:	e8 61 0d 00 00       	call   400016a4 <syscall>
+40000943:	83 c4 10             	add    $0x10,%esp
+40000946:	eb fe                	jmp    40000946 <_handle_rpc+0x6f>
             /* 0x78 */  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
         }
 };
 
 #define KF_PRESSED (1 << 0)
 
-40000949:	83 ec 0c             	sub    $0xc,%esp
-4000094c:	68 f5 31 00 40       	push   $0x400031f5
-40000951:	e8 0a 04 00 00       	call   40000d60 <printf>
+40000948:	83 ec 0c             	sub    $0xc,%esp
+4000094b:	68 f5 31 00 40       	push   $0x400031f5
+40000950:	e8 0b 04 00 00       	call   40000d60 <printf>
 uint32_t key_flags[256];
 
-40000956:	89 1c 24             	mov    %ebx,(%esp)
-40000959:	e8 fe 08 00 00       	call   4000125c <free>
+40000955:	89 1c 24             	mov    %ebx,(%esp)
+40000958:	e8 ff 08 00 00       	call   4000125c <free>
     {
           0,   1,   2,   3,   4,   5,   6,   7,   8,   9,
          10,  11,  12,  13,  14,  15,  16,  17,  18,  19,
          20,  21,  22,  23,  24,  25,  26,  27,  28,  29,
          30,  31,  32,  33,  34,  35,  36,  37,  38,  39,
          40,  41,  42,  43,  44,  45,  46,  47,  48,  49,
-4000095e:	8d 45 e0             	lea    -0x20(%ebp),%eax
+4000095d:	8d 45 e0             	lea    -0x20(%ebp),%eax
 static uint8_t sc_to_kc[][128] = {
     // Normale Scancodes
     {
           0,   1,   2,   3,   4,   5,   6,   7,   8,   9,
          10,  11,  12,  13,  14,  15,  16,  17,  18,  19,
          20,  21,  22,  23,  24,  25,  26,  27,  28,  29,
-40000961:	c7 45 e0 1e 00 00 00 	movl   $0x1e,-0x20(%ebp)
+40000960:	c7 45 e0 1e 00 00 00 	movl   $0x1e,-0x20(%ebp)
          30,  31,  32,  33,  34,  35,  36,  37,  38,  39,
          40,  41,  42,  43,  44,  45,  46,  47,  48,  49,
-40000968:	89 04 24             	mov    %eax,(%esp)
+40000967:	89 04 24             	mov    %eax,(%esp)
 static uint8_t sc_to_kc[][128] = {
     // Normale Scancodes
     {
           0,   1,   2,   3,   4,   5,   6,   7,   8,   9,
          10,  11,  12,  13,  14,  15,  16,  17,  18,  19,
          20,  21,  22,  23,  24,  25,  26,  27,  28,  29,
-4000096b:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
-40000972:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
-40000979:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
-40000980:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
-40000987:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+4000096a:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
+40000971:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+40000978:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+4000097f:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+40000986:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
          30,  31,  32,  33,  34,  35,  36,  37,  38,  39,
          40,  41,  42,  43,  44,  45,  46,  47,  48,  49,
-4000098e:	e8 11 0d 00 00       	call   400016a4 <syscall>
-40000993:	83 c4 10             	add    $0x10,%esp
-40000996:	eb fe                	jmp    40000996 <_handle_rpc+0xbe>
+4000098d:	e8 12 0d 00 00       	call   400016a4 <syscall>
+40000992:	83 c4 10             	add    $0x10,%esp
+40000995:	eb fe                	jmp    40000995 <_handle_rpc+0xbe>
+	...
 
 40000998 <resolveHandle>:
          00,  00,  00,  00,  00,  00,  00,  00,  96,  97,
@@ -2158,7 +2160,7 @@ static void send_command(uint8_t command)
 void irq_handler(uint32_t irq) {
     uint8_t scancode;
     uint8_t keycode = 0;
-40000bc5:	e8 15 fb ff ff       	call   400006df <yield>
+40000bc5:	e8 14 fb ff ff       	call   400006de <yield>
     return kc_to_char[index][keycode];
 }
 
@@ -2562,7 +2564,7 @@ void irq_handler(uint32_t irq) {
         }
 
         keycode = translate_scancode(1, scancode);
-40000ec7:	e8 13 f8 ff ff       	call   400006df <yield>
+40000ec7:	e8 12 f8 ff ff       	call   400006de <yield>
     // es kein e0 oder e1 fuer einen Extended-scancode ist
     if ((scancode & 0x80) &&
         (e1_code || (scancode != 0xE1)) &&

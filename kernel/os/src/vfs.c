@@ -176,8 +176,8 @@ static int vfs_create_path(char* path) {
     return created;
 }
 
-char* vfs_get_child_of_exec_path(int index) {
-	struct res_node* fparent = vfs_get_node(get_current_task()->execPath);
+char* vfs_get_child_of_path(char* path, int index) {
+	struct res_node* fparent = vfs_get_node(path);
 	if(fparent != 0) {
 		if(fparent->res_type != RES_SUBDIR) return 0;
 

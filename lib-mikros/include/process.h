@@ -14,7 +14,7 @@ uint32_t pexists(int pid);
 void     yield();
 void     getExecPath(char* dest);
 int      changeExecPath(char* path);
-char*    getExecPathChild(uint32_t index, char* strbuf);
+char*    getPathChild(uint32_t index, char* strbuf, char* path);
 void     cd(char* path);
 int      exec(char* path, char** args, int subtask);
 int      dexec(char* path, char** args);

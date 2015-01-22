@@ -3,7 +3,7 @@
 ../../initrfs/ibin/ttytovga
 architecture: i386, flags 0x00000112:
 EXEC_P, HAS_SYMS, D_PAGED
-start address 0x40000656
+start address 0x40000655
 
 Program Header:
     LOAD off    0x00001000 vaddr 0x40000000 paddr 0x40000000 align 2**12
@@ -23,11 +23,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   4 .bss          00000228  40004000  40004000  00004236  2**2
                   ALLOC
-  5 .stab         00004c5c  00000000  00000000  00004238  2**2
+  5 .stab         00004c74  00000000  00000000  00004238  2**2
                   CONTENTS, READONLY, DEBUGGING
-  6 .comment      0000007e  00000000  00000000  00008e94  2**0
+  6 .comment      0000007e  00000000  00000000  00008eac  2**0
                   CONTENTS, READONLY
-  7 .stabstr      000019e2  00000000  00000000  00008f12  2**0
+  7 .stabstr      000019de  00000000  00000000  00008f2a  2**0
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 40000000 l    d  .text	00000000 .text
@@ -44,8 +44,8 @@ SYMBOL TABLE:
 40002000 l     O .data	00000001 color
 00000000 l    df *ABS*	00000000 process.c
 40004010 l     O .bss	00000200 irq_handlers
-40003094 l     O .rodata	00000018 C.7.1019
-400006c8 l     F .text	000000c0 _handle_rpc
+40003094 l     O .rodata	00000018 C.7.1020
+400006c7 l     F .text	000000c0 _handle_rpc
 00000000 l    df *ABS*	00000000 stdio.c
 40000788 l     F .text	00000047 resolveHandle
 40000c38 l     F .text	0000004a printrwerror
@@ -55,33 +55,32 @@ SYMBOL TABLE:
 4000112c l     F .text	00000069 pop_unused_node
 00000000 l    df *ABS*	00000000 vmmcall.c
 00000000 l    df *ABS*	00000000 syscall.c
-4000044c g     F .text	0000003d getExecPath
+4000044b g     F .text	0000003d getExecPath
 40000b3c g     F .text	00000014 putchar
 40000ee9 g     F .text	00000033 strcpy
-400004cf g     F .text	0000003e yield
+400004ce g     F .text	0000003e yield
 40000b50 g     F .text	000000e8 printf
 400013dc g     F .text	00000050 syscall
 40000d4d g     F .text	00000042 fgets
 40000d41 g     F .text	0000000c getc
 40000e18 g     F .text	00000026 memcpy
 40000a73 g     F .text	00000012 puts
-4000050d g     F .text	0000003d pexists
+4000050c g     F .text	0000003d pexists
 40001195 g     F .text	000000f8 malloc
-400005a2 g     F .text	0000003d fetch_rpc_data
+400005a1 g     F .text	0000003d fetch_rpc_data
 40000f1c g     F .text	000000a5 strtoknc
-400003e2 g     F .text	0000003d changeExecPath
+400003e1 g     F .text	0000003d changeExecPath
 40004220 g     O .bss	00000004 first_free
 4000036f g     F .text	00000037 dexec
 40000000 g     F .text	00000050 sendCommand
 40000922 g     F .text	00000012 setstdout
 400012ed g     F .text	00000034 calloc
-400003a6 g     F .text	0000003c getExecPathChild
 40004000 g     O .bss	00000006 vgac
 4000139f g     F .text	0000003d vmm_alloc_cont
 400002fd g     F .text	0000003b exec
-40000656 g     F .text	00000072 _start
+40000655 g     F .text	00000072 _start
 4000128d g     F .text	00000060 realloc
-40000619 g     F .text	0000003d set_rpc_handler
+40000618 g     F .text	0000003d set_rpc_handler
 40000ffa g     F .text	00000052 strtok
 40000e3e g     F .text	00000047 memcmp
 40000338 g     F .text	00000037 sexec
@@ -99,15 +98,16 @@ SYMBOL TABLE:
 40000e85 g     F .text	00000049 strcmp
 40004224 g     O .bss	00000004 vgaController
 40000d07 g     F .text	0000002b fgetc
+400003a6 g     F .text	0000003b getPathChild
 40004210 g     O .bss	00000004 sp
-4000041f g     F .text	0000002d cd
+4000041e g     F .text	0000002d cd
 4000421c g     O .bss	00000004 first_used
 40000ac4 g     F .text	00000065 fputc
 40000972 g     F .text	00000093 fwrite
 40000910 g     F .text	00000012 setstdin
 40000fc1 g     F .text	00000039 strclone
-40000489 g     F .text	00000046 exit
-4000054a g     F .text	00000058 register_irq_handler
+40000488 g     F .text	00000046 exit
+40000549 g     F .text	00000058 register_irq_handler
 400008c2 g     F .text	0000003c fopenpmhandle
 40001362 g     F .text	0000003d vmm_free
 4000028c g     F .text	00000071 printFilesystemError
@@ -115,7 +115,7 @@ SYMBOL TABLE:
 40000934 g     F .text	0000003e getLastVFSErr
 40000a05 g     F .text	0000006e fputs
 400007cf g     F .text	0000003d fmkfifo
-400005df g     F .text	0000003a call_rpc
+400005de g     F .text	0000003a call_rpc
 400008fe g     F .text	00000012 setstderr
 40001324 g     F .text	0000003e print_memstat
 4000104c g     F .text	000000e0 free
@@ -545,7 +545,7 @@ int main(int argc, char* args[])
 400003a4:	5d                   	pop    %ebp
 400003a5:	c3                   	ret    
 
-400003a6 <getExecPathChild>:
+400003a6 <getPathChild>:
 400003a6:	55                   	push   %ebp
 400003a7:	89 e5                	mov    %esp,%ebp
 400003a9:	83 ec 34             	sub    $0x34,%esp
@@ -554,704 +554,706 @@ int main(int argc, char* args[])
 400003b6:	89 45 e4             	mov    %eax,-0x1c(%ebp)
 400003b9:	8b 45 0c             	mov    0xc(%ebp),%eax
 400003bc:	89 45 e8             	mov    %eax,-0x18(%ebp)
-400003bf:	8d 45 e0             	lea    -0x20(%ebp),%eax
-400003c2:	50                   	push   %eax
-400003c3:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
-400003ca:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
-400003d1:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
-400003d8:	e8 ff 0f 00 00       	call   400013dc <syscall>
-400003dd:	8b 45 e0             	mov    -0x20(%ebp),%eax
-400003e0:	c9                   	leave  
-400003e1:	c3                   	ret    
+400003bf:	8b 45 10             	mov    0x10(%ebp),%eax
+400003c2:	89 45 ec             	mov    %eax,-0x14(%ebp)
+400003c5:	8d 45 e0             	lea    -0x20(%ebp),%eax
+400003c8:	50                   	push   %eax
+400003c9:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+400003d0:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+400003d7:	e8 00 10 00 00       	call   400013dc <syscall>
+400003dc:	8b 45 e0             	mov    -0x20(%ebp),%eax
+400003df:	c9                   	leave  
+400003e0:	c3                   	ret    
 
-400003e2 <changeExecPath>:
+400003e1 <changeExecPath>:
         sndChr[0] = ochar;
         sndChr[1] = color;
 
         sendCommand(CMD_SET, x + y * 80, send);
 
         if(nchar != 0) {
-400003e2:	55                   	push   %ebp
-400003e3:	89 e5                	mov    %esp,%ebp
-400003e5:	83 ec 34             	sub    $0x34,%esp
+400003e1:	55                   	push   %ebp
+400003e2:	89 e5                	mov    %esp,%ebp
+400003e4:	83 ec 34             	sub    $0x34,%esp
     }
 
     return 0;
 }
-400003e8:	8b 45 08             	mov    0x8(%ebp),%eax
-400003eb:	c7 45 e0 07 00 00 00 	movl   $0x7,-0x20(%ebp)
-400003f2:	89 45 e4             	mov    %eax,-0x1c(%ebp)
-400003f5:	8d 45 e0             	lea    -0x20(%ebp),%eax
-400003f8:	50                   	push   %eax
+400003e7:	8b 45 08             	mov    0x8(%ebp),%eax
+400003ea:	c7 45 e0 07 00 00 00 	movl   $0x7,-0x20(%ebp)
+400003f1:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+400003f4:	8d 45 e0             	lea    -0x20(%ebp),%eax
+400003f7:	50                   	push   %eax
     }
 
     return 0;
 }
-400003f9:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
-40000400:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
-40000407:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
-4000040e:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
-40000415:	e8 c2 0f 00 00       	call   400013dc <syscall>
-4000041a:	8b 45 e0             	mov    -0x20(%ebp),%eax
-4000041d:	c9                   	leave  
-4000041e:	c3                   	ret    
+400003f8:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+400003ff:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+40000406:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+4000040d:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+40000414:	e8 c3 0f 00 00       	call   400013dc <syscall>
+40000419:	8b 45 e0             	mov    -0x20(%ebp),%eax
+4000041c:	c9                   	leave  
+4000041d:	c3                   	ret    
 
-4000041f <cd>:
-4000041f:	55                   	push   %ebp
-40000420:	89 e5                	mov    %esp,%ebp
-40000422:	53                   	push   %ebx
-40000423:	83 ec 10             	sub    $0x10,%esp
-40000426:	8b 5d 08             	mov    0x8(%ebp),%ebx
-40000429:	53                   	push   %ebx
-4000042a:	e8 b3 ff ff ff       	call   400003e2 <changeExecPath>
-4000042f:	83 c4 10             	add    $0x10,%esp
-40000432:	85 c0                	test   %eax,%eax
-40000434:	75 11                	jne    40000447 <cd+0x28>
-40000436:	e8 f9 04 00 00       	call   40000934 <getLastVFSErr>
+4000041e <cd>:
+4000041e:	55                   	push   %ebp
+4000041f:	89 e5                	mov    %esp,%ebp
+40000421:	53                   	push   %ebx
+40000422:	83 ec 10             	sub    $0x10,%esp
+40000425:	8b 5d 08             	mov    0x8(%ebp),%ebx
+40000428:	53                   	push   %ebx
+40000429:	e8 b3 ff ff ff       	call   400003e1 <changeExecPath>
+4000042e:	83 c4 10             	add    $0x10,%esp
+40000431:	85 c0                	test   %eax,%eax
+40000433:	75 11                	jne    40000446 <cd+0x28>
+40000435:	e8 fa 04 00 00       	call   40000934 <getLastVFSErr>
+4000043a:	52                   	push   %edx
 4000043b:	52                   	push   %edx
-4000043c:	52                   	push   %edx
-4000043d:	50                   	push   %eax
-4000043e:	53                   	push   %ebx
-4000043f:	e8 48 fe ff ff       	call   4000028c <printFilesystemError>
-40000444:	83 c4 10             	add    $0x10,%esp
-40000447:	8b 5d fc             	mov    -0x4(%ebp),%ebx
-4000044a:	c9                   	leave  
-4000044b:	c3                   	ret    
+4000043c:	50                   	push   %eax
+4000043d:	53                   	push   %ebx
+4000043e:	e8 49 fe ff ff       	call   4000028c <printFilesystemError>
+40000443:	83 c4 10             	add    $0x10,%esp
+40000446:	8b 5d fc             	mov    -0x4(%ebp),%ebx
+40000449:	c9                   	leave  
+4000044a:	c3                   	ret    
 
-4000044c <getExecPath>:
+4000044b <getExecPath>:
                 x = 79;
             }
             else
             {
                 x--;
             }
-4000044c:	55                   	push   %ebp
-4000044d:	89 e5                	mov    %esp,%ebp
-4000044f:	83 ec 34             	sub    $0x34,%esp
+4000044b:	55                   	push   %ebp
+4000044c:	89 e5                	mov    %esp,%ebp
+4000044e:	83 ec 34             	sub    $0x34,%esp
         }
 
         uint16_t send = 0;
         char* sndChr = (char*) &send;
 
         sndChr[0] = ochar;
-40000452:	8b 45 08             	mov    0x8(%ebp),%eax
-40000455:	c7 45 e0 06 00 00 00 	movl   $0x6,-0x20(%ebp)
-4000045c:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+40000451:	8b 45 08             	mov    0x8(%ebp),%eax
+40000454:	c7 45 e0 06 00 00 00 	movl   $0x6,-0x20(%ebp)
+4000045b:	89 45 e4             	mov    %eax,-0x1c(%ebp)
         sndChr[1] = color;
 
-4000045f:	8d 45 e0             	lea    -0x20(%ebp),%eax
-40000462:	50                   	push   %eax
+4000045e:	8d 45 e0             	lea    -0x20(%ebp),%eax
+40000461:	50                   	push   %eax
         }
 
         uint16_t send = 0;
         char* sndChr = (char*) &send;
 
         sndChr[0] = ochar;
-40000463:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
-4000046a:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
-40000471:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
-40000478:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+40000462:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+40000469:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+40000470:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+40000477:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
         sndChr[1] = color;
 
-4000047f:	e8 58 0f 00 00       	call   400013dc <syscall>
-40000484:	83 c4 10             	add    $0x10,%esp
+4000047e:	e8 59 0f 00 00       	call   400013dc <syscall>
+40000483:	83 c4 10             	add    $0x10,%esp
         sendCommand(CMD_SET, x + y * 80, send);
-40000487:	c9                   	leave  
-40000488:	c3                   	ret    
+40000486:	c9                   	leave  
+40000487:	c3                   	ret    
 
-40000489 <exit>:
+40000488 <exit>:
             sendCommand(CMD_SCROLL, 0, 0);
             y--;
         }
 
         if (nchar == '\n') {
             continue;
-40000489:	55                   	push   %ebp
-4000048a:	89 e5                	mov    %esp,%ebp
-4000048c:	83 ec 34             	sub    $0x34,%esp
+40000488:	55                   	push   %ebp
+40000489:	89 e5                	mov    %esp,%ebp
+4000048b:	83 ec 34             	sub    $0x34,%esp
         if(nchar == 0x11) { //0x11 = SETCLR
             fread(fifoInpt, &nchar, sizeof(char));
             color = nchar;
             continue;
         }
 
-4000048f:	8b 45 08             	mov    0x8(%ebp),%eax
-40000492:	c7 45 e0 01 00 00 00 	movl   $0x1,-0x20(%ebp)
-40000499:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+4000048e:	8b 45 08             	mov    0x8(%ebp),%eax
+40000491:	c7 45 e0 01 00 00 00 	movl   $0x1,-0x20(%ebp)
+40000498:	89 45 e4             	mov    %eax,-0x1c(%ebp)
         if(nchar == 8) { //8 = BACKSPACE
             if(x == 0) {
-4000049c:	8d 45 e0             	lea    -0x20(%ebp),%eax
+4000049b:	8d 45 e0             	lea    -0x20(%ebp),%eax
         if(nchar == 0x11) { //0x11 = SETCLR
             fread(fifoInpt, &nchar, sizeof(char));
             color = nchar;
             continue;
         }
 
-4000049f:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
-400004a6:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
-400004ad:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
-400004b4:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+4000049e:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+400004a5:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+400004ac:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+400004b3:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
         if(nchar == 8) { //8 = BACKSPACE
             if(x == 0) {
-400004bb:	50                   	push   %eax
-400004bc:	e8 1b 0f 00 00       	call   400013dc <syscall>
+400004ba:	50                   	push   %eax
+400004bb:	e8 1c 0f 00 00       	call   400013dc <syscall>
                 y--;
                 x = 79;
             }
-400004c1:	c7 04 24 72 31 00 40 	movl   $0x40003172,(%esp)
-400004c8:	e8 83 06 00 00       	call   40000b50 <printf>
-400004cd:	eb f2                	jmp    400004c1 <exit+0x38>
+400004c0:	c7 04 24 72 31 00 40 	movl   $0x40003172,(%esp)
+400004c7:	e8 84 06 00 00       	call   40000b50 <printf>
+400004cc:	eb f2                	jmp    400004c0 <exit+0x38>
 
-400004cf <yield>:
+400004ce <yield>:
     fclose(initCtrl);
 
     char nchar = '\0';
     char ochar = '\0';
 
     while(1) {
-400004cf:	55                   	push   %ebp
-400004d0:	89 e5                	mov    %esp,%ebp
-400004d2:	83 ec 34             	sub    $0x34,%esp
+400004ce:	55                   	push   %ebp
+400004cf:	89 e5                	mov    %esp,%ebp
+400004d1:	83 ec 34             	sub    $0x34,%esp
             x = 0;
             y++;
         }
 
         if (y > 24) {
             sendCommand(CMD_SCROLL, 0, 0);
-400004d5:	8d 45 e0             	lea    -0x20(%ebp),%eax
+400004d4:	8d 45 e0             	lea    -0x20(%ebp),%eax
 
         if ((nchar == '\n') || (x > 79)) {
             x = 0;
             y++;
         }
 
-400004d8:	c7 45 e0 05 00 00 00 	movl   $0x5,-0x20(%ebp)
+400004d7:	c7 45 e0 05 00 00 00 	movl   $0x5,-0x20(%ebp)
         if (y > 24) {
             sendCommand(CMD_SCROLL, 0, 0);
-400004df:	50                   	push   %eax
+400004de:	50                   	push   %eax
 
         if ((nchar == '\n') || (x > 79)) {
             x = 0;
             y++;
         }
 
-400004e0:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
-400004e7:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
-400004ee:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
-400004f5:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
-400004fc:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+400004df:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
+400004e6:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+400004ed:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+400004f4:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+400004fb:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
         if (y > 24) {
             sendCommand(CMD_SCROLL, 0, 0);
-40000503:	e8 d4 0e 00 00       	call   400013dc <syscall>
-40000508:	83 c4 10             	add    $0x10,%esp
+40000502:	e8 d5 0e 00 00       	call   400013dc <syscall>
+40000507:	83 c4 10             	add    $0x10,%esp
             y--;
         }
 
-4000050b:	c9                   	leave  
-4000050c:	c3                   	ret    
+4000050a:	c9                   	leave  
+4000050b:	c3                   	ret    
 
-4000050d <pexists>:
+4000050c <pexists>:
 static int  x     = 0;
 static int  y     = 0;
 static char color = 0x07;
 
 struct vga_command vgac = { .command = 0, .offset = 0, .value = 0 };
 
-4000050d:	55                   	push   %ebp
-4000050e:	89 e5                	mov    %esp,%ebp
-40000510:	83 ec 34             	sub    $0x34,%esp
+4000050c:	55                   	push   %ebp
+4000050d:	89 e5                	mov    %esp,%ebp
+4000050f:	83 ec 34             	sub    $0x34,%esp
 void sendCommand(uint16_t c, uint16_t o, uint16_t v) {
     vgac.command = c;
     vgac.offset = o;
     vgac.value = v;
 
     fwrite(vgaController, &vgac, sizeof(struct vga_command));
-40000513:	8b 45 08             	mov    0x8(%ebp),%eax
-40000516:	c7 45 e0 02 00 00 00 	movl   $0x2,-0x20(%ebp)
-4000051d:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+40000512:	8b 45 08             	mov    0x8(%ebp),%eax
+40000515:	c7 45 e0 02 00 00 00 	movl   $0x2,-0x20(%ebp)
+4000051c:	89 45 e4             	mov    %eax,-0x1c(%ebp)
 }
 
-40000520:	8d 45 e0             	lea    -0x20(%ebp),%eax
-40000523:	50                   	push   %eax
+4000051f:	8d 45 e0             	lea    -0x20(%ebp),%eax
+40000522:	50                   	push   %eax
 void sendCommand(uint16_t c, uint16_t o, uint16_t v) {
     vgac.command = c;
     vgac.offset = o;
     vgac.value = v;
 
     fwrite(vgaController, &vgac, sizeof(struct vga_command));
-40000524:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
-4000052b:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
-40000532:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
-40000539:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+40000523:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+4000052a:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+40000531:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+40000538:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
 }
 
-40000540:	e8 97 0e 00 00       	call   400013dc <syscall>
+4000053f:	e8 98 0e 00 00       	call   400013dc <syscall>
 int main(int argc, char* args[])
 {
     vgaController   = fopen("/dev/vga", FM_WRITE);
-40000545:	8b 45 e0             	mov    -0x20(%ebp),%eax
-40000548:	c9                   	leave  
-40000549:	c3                   	ret    
+40000544:	8b 45 e0             	mov    -0x20(%ebp),%eax
+40000547:	c9                   	leave  
+40000548:	c3                   	ret    
 
-4000054a <register_irq_handler>:
+40000549 <register_irq_handler>:
             x = 0;
             y++;
         }
 
         if (y > 24) {
             sendCommand(CMD_SCROLL, 0, 0);
-4000054a:	55                   	push   %ebp
-4000054b:	89 e5                	mov    %esp,%ebp
-4000054d:	53                   	push   %ebx
-4000054e:	83 ec 30             	sub    $0x30,%esp
+40000549:	55                   	push   %ebp
+4000054a:	89 e5                	mov    %esp,%ebp
+4000054c:	53                   	push   %ebx
+4000054d:	83 ec 30             	sub    $0x30,%esp
     char ochar = '\0';
 
     while(1) {
         fread(fifoInpt, &nchar, sizeof(char));
         ochar = nchar;
 
-40000551:	8d 45 e0             	lea    -0x20(%ebp),%eax
+40000550:	8d 45 e0             	lea    -0x20(%ebp),%eax
             x = 0;
             y++;
         }
 
         if (y > 24) {
             sendCommand(CMD_SCROLL, 0, 0);
-40000554:	8b 5d 08             	mov    0x8(%ebp),%ebx
+40000553:	8b 5d 08             	mov    0x8(%ebp),%ebx
     char ochar = '\0';
 
     while(1) {
         fread(fifoInpt, &nchar, sizeof(char));
         ochar = nchar;
 
-40000557:	50                   	push   %eax
+40000556:	50                   	push   %eax
 
     char nchar = '\0';
     char ochar = '\0';
 
     while(1) {
         fread(fifoInpt, &nchar, sizeof(char));
-40000558:	c7 45 e0 28 00 00 00 	movl   $0x28,-0x20(%ebp)
-4000055f:	89 5d e4             	mov    %ebx,-0x1c(%ebp)
-40000562:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
-40000569:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
-40000570:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
-40000577:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+40000557:	c7 45 e0 28 00 00 00 	movl   $0x28,-0x20(%ebp)
+4000055e:	89 5d e4             	mov    %ebx,-0x1c(%ebp)
+40000561:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+40000568:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+4000056f:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+40000576:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
         ochar = nchar;
 
-4000057e:	e8 59 0e 00 00       	call   400013dc <syscall>
+4000057d:	e8 5a 0e 00 00       	call   400013dc <syscall>
         if ((nchar == '\n') || (x > 79)) {
             x = 0;
-40000583:	83 c4 10             	add    $0x10,%esp
-40000586:	31 c0                	xor    %eax,%eax
-40000588:	83 7d e0 00          	cmpl   $0x0,-0x20(%ebp)
-4000058c:	74 0f                	je     4000059d <register_irq_handler+0x53>
+40000582:	83 c4 10             	add    $0x10,%esp
+40000585:	31 c0                	xor    %eax,%eax
+40000587:	83 7d e0 00          	cmpl   $0x0,-0x20(%ebp)
+4000058b:	74 0f                	je     4000059c <register_irq_handler+0x53>
         }
 
         if (y > 24) {
             sendCommand(CMD_SCROLL, 0, 0);
             y--;
         }
-4000058e:	8b 45 0c             	mov    0xc(%ebp),%eax
-40000591:	89 04 9d 10 40 00 40 	mov    %eax,0x40004010(,%ebx,4)
-40000598:	b8 01 00 00 00       	mov    $0x1,%eax
+4000058d:	8b 45 0c             	mov    0xc(%ebp),%eax
+40000590:	89 04 9d 10 40 00 40 	mov    %eax,0x40004010(,%ebx,4)
+40000597:	b8 01 00 00 00       	mov    $0x1,%eax
 
         if (nchar == '\n') {
             continue;
         }
-4000059d:	8b 5d fc             	mov    -0x4(%ebp),%ebx
-400005a0:	c9                   	leave  
-400005a1:	c3                   	ret    
+4000059c:	8b 5d fc             	mov    -0x4(%ebp),%ebx
+4000059f:	c9                   	leave  
+400005a0:	c3                   	ret    
 
-400005a2 <fetch_rpc_data>:
+400005a1 <fetch_rpc_data>:
     fwrite(vgaController, &vgac, sizeof(struct vga_command));
 }
 
 int main(int argc, char* args[])
 {
     vgaController   = fopen("/dev/vga", FM_WRITE);
-400005a2:	55                   	push   %ebp
-400005a3:	89 e5                	mov    %esp,%ebp
-400005a5:	83 ec 34             	sub    $0x34,%esp
+400005a1:	55                   	push   %ebp
+400005a2:	89 e5                	mov    %esp,%ebp
+400005a4:	83 ec 34             	sub    $0x34,%esp
     printf("vgaController: %x\n", vgaController);
     printf("fifoInpt: %x\n", fifoInpt);
 
     setstdout("/dev/tty0");
     setstderr("/dev/tty0");
 
-400005a8:	8b 45 08             	mov    0x8(%ebp),%eax
-400005ab:	c7 45 e0 21 00 00 00 	movl   $0x21,-0x20(%ebp)
-400005b2:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+400005a7:	8b 45 08             	mov    0x8(%ebp),%eax
+400005aa:	c7 45 e0 21 00 00 00 	movl   $0x21,-0x20(%ebp)
+400005b1:	89 45 e4             	mov    %eax,-0x1c(%ebp)
     printf("[ttytovga] Switched to TTY to VGA (userspace terminal)\n");
 
-400005b5:	8d 45 e0             	lea    -0x20(%ebp),%eax
-400005b8:	50                   	push   %eax
+400005b4:	8d 45 e0             	lea    -0x20(%ebp),%eax
+400005b7:	50                   	push   %eax
     printf("vgaController: %x\n", vgaController);
     printf("fifoInpt: %x\n", fifoInpt);
 
     setstdout("/dev/tty0");
     setstderr("/dev/tty0");
 
-400005b9:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
-400005c0:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
-400005c7:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
-400005ce:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+400005b8:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+400005bf:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+400005c6:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+400005cd:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
     printf("[ttytovga] Switched to TTY to VGA (userspace terminal)\n");
 
-400005d5:	e8 02 0e 00 00       	call   400013dc <syscall>
-400005da:	83 c4 10             	add    $0x10,%esp
+400005d4:	e8 03 0e 00 00       	call   400013dc <syscall>
+400005d9:	83 c4 10             	add    $0x10,%esp
     sendCommand(CMD_CLEAR, 0, 0);
-400005dd:	c9                   	leave  
-400005de:	c3                   	ret    
+400005dc:	c9                   	leave  
+400005dd:	c3                   	ret    
 
-400005df <call_rpc>:
+400005de <call_rpc>:
 };
 
 static int  x     = 0;
 static int  y     = 0;
 static char color = 0x07;
 
-400005df:	55                   	push   %ebp
-400005e0:	89 e5                	mov    %esp,%ebp
-400005e2:	83 ec 34             	sub    $0x34,%esp
+400005de:	55                   	push   %ebp
+400005df:	89 e5                	mov    %esp,%ebp
+400005e1:	83 ec 34             	sub    $0x34,%esp
 HANDLE vgaController;
 
 void sendCommand(uint16_t c, uint16_t o, uint16_t v) {
     vgac.command = c;
     vgac.offset = o;
     vgac.value = v;
-400005e5:	8b 45 08             	mov    0x8(%ebp),%eax
-400005e8:	c7 45 e0 1f 00 00 00 	movl   $0x1f,-0x20(%ebp)
-400005ef:	89 45 e4             	mov    %eax,-0x1c(%ebp)
-400005f2:	8b 45 0c             	mov    0xc(%ebp),%eax
-400005f5:	89 45 e8             	mov    %eax,-0x18(%ebp)
-400005f8:	8b 45 10             	mov    0x10(%ebp),%eax
-400005fb:	89 45 ec             	mov    %eax,-0x14(%ebp)
-400005fe:	8b 45 14             	mov    0x14(%ebp),%eax
-40000601:	89 45 f0             	mov    %eax,-0x10(%ebp)
+400005e4:	8b 45 08             	mov    0x8(%ebp),%eax
+400005e7:	c7 45 e0 1f 00 00 00 	movl   $0x1f,-0x20(%ebp)
+400005ee:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+400005f1:	8b 45 0c             	mov    0xc(%ebp),%eax
+400005f4:	89 45 e8             	mov    %eax,-0x18(%ebp)
+400005f7:	8b 45 10             	mov    0x10(%ebp),%eax
+400005fa:	89 45 ec             	mov    %eax,-0x14(%ebp)
+400005fd:	8b 45 14             	mov    0x14(%ebp),%eax
+40000600:	89 45 f0             	mov    %eax,-0x10(%ebp)
 
     fwrite(vgaController, &vgac, sizeof(struct vga_command));
-40000604:	8d 45 e0             	lea    -0x20(%ebp),%eax
-40000607:	50                   	push   %eax
+40000603:	8d 45 e0             	lea    -0x20(%ebp),%eax
+40000606:	50                   	push   %eax
 HANDLE vgaController;
 
 void sendCommand(uint16_t c, uint16_t o, uint16_t v) {
     vgac.command = c;
     vgac.offset = o;
     vgac.value = v;
-40000608:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+40000607:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
 
     fwrite(vgaController, &vgac, sizeof(struct vga_command));
-4000060f:	e8 c8 0d 00 00       	call   400013dc <syscall>
+4000060e:	e8 c9 0d 00 00       	call   400013dc <syscall>
 }
 
 int main(int argc, char* args[])
-40000614:	8b 45 e0             	mov    -0x20(%ebp),%eax
-40000617:	c9                   	leave  
-40000618:	c3                   	ret    
+40000613:	8b 45 e0             	mov    -0x20(%ebp),%eax
+40000616:	c9                   	leave  
+40000617:	c3                   	ret    
 
-40000619 <set_rpc_handler>:
+40000618 <set_rpc_handler>:
             {
                 x--;
             }
             ochar = ' ';
             nchar = 0;
         }
-40000619:	55                   	push   %ebp
-4000061a:	89 e5                	mov    %esp,%ebp
-4000061c:	57                   	push   %edi
-4000061d:	56                   	push   %esi
+40000618:	55                   	push   %ebp
+40000619:	89 e5                	mov    %esp,%ebp
+4000061b:	57                   	push   %edi
+4000061c:	56                   	push   %esi
         sndChr[0] = ochar;
         sndChr[1] = color;
 
         sendCommand(CMD_SET, x + y * 80, send);
 
         if(nchar != 0) {
-4000061e:	be 94 30 00 40       	mov    $0x40003094,%esi
+4000061d:	be 94 30 00 40       	mov    $0x40003094,%esi
             {
                 x--;
             }
             ochar = ' ';
             nchar = 0;
         }
-40000623:	83 ec 24             	sub    $0x24,%esp
+40000622:	83 ec 24             	sub    $0x24,%esp
         sndChr[0] = ochar;
         sndChr[1] = color;
 
         sendCommand(CMD_SET, x + y * 80, send);
 
         if(nchar != 0) {
-40000626:	8d 7d e0             	lea    -0x20(%ebp),%edi
+40000625:	8d 7d e0             	lea    -0x20(%ebp),%edi
                 x--;
             }
             ochar = ' ';
             nchar = 0;
         }
 
-40000629:	68 00 02 00 00       	push   $0x200
-4000062e:	6a 00                	push   $0x0
-40000630:	68 10 40 00 40       	push   $0x40004010
-40000635:	e8 c2 07 00 00       	call   40000dfc <memset>
+40000628:	68 00 02 00 00       	push   $0x200
+4000062d:	6a 00                	push   $0x0
+4000062f:	68 10 40 00 40       	push   $0x40004010
+40000634:	e8 c3 07 00 00       	call   40000dfc <memset>
         sndChr[0] = ochar;
         sndChr[1] = color;
 
         sendCommand(CMD_SET, x + y * 80, send);
 
         if(nchar != 0) {
-4000063a:	b9 06 00 00 00       	mov    $0x6,%ecx
+40000639:	b9 06 00 00 00       	mov    $0x6,%ecx
             x++;
         }
-4000063f:	8d 45 e0             	lea    -0x20(%ebp),%eax
+4000063e:	8d 45 e0             	lea    -0x20(%ebp),%eax
         sndChr[0] = ochar;
         sndChr[1] = color;
 
         sendCommand(CMD_SET, x + y * 80, send);
 
         if(nchar != 0) {
-40000642:	f3 a5                	rep movsl %ds:(%esi),%es:(%edi)
+40000641:	f3 a5                	rep movsl %ds:(%esi),%es:(%edi)
             x++;
         }
-40000644:	89 04 24             	mov    %eax,(%esp)
-40000647:	e8 90 0d 00 00       	call   400013dc <syscall>
-4000064c:	83 c4 10             	add    $0x10,%esp
+40000643:	89 04 24             	mov    %eax,(%esp)
+40000646:	e8 91 0d 00 00       	call   400013dc <syscall>
+4000064b:	83 c4 10             	add    $0x10,%esp
     }
-4000064f:	8d 65 f8             	lea    -0x8(%ebp),%esp
-40000652:	5e                   	pop    %esi
-40000653:	5f                   	pop    %edi
-40000654:	5d                   	pop    %ebp
-40000655:	c3                   	ret    
+4000064e:	8d 65 f8             	lea    -0x8(%ebp),%esp
+40000651:	5e                   	pop    %esi
+40000652:	5f                   	pop    %edi
+40000653:	5d                   	pop    %ebp
+40000654:	c3                   	ret    
 
-40000656 <_start>:
+40000655 <_start>:
     syscall(&state);
 
     return state.eax;
 }
 
 void _start() {
-40000656:	55                   	push   %ebp
-40000657:	89 e5                	mov    %esp,%ebp
-40000659:	56                   	push   %esi
-4000065a:	53                   	push   %ebx
+40000655:	55                   	push   %ebp
+40000656:	89 e5                	mov    %esp,%ebp
+40000658:	56                   	push   %esi
+40000659:	53                   	push   %ebx
   char** args = (char**) getargs();
 
   int argc = 0;
 
   if(args != 0) {
-4000065b:	31 db                	xor    %ebx,%ebx
+4000065a:	31 db                	xor    %ebx,%ebx
     syscall(&state);
 
     return state.eax;
 }
 
 void _start() {
-4000065d:	83 ec 2c             	sub    $0x2c,%esp
+4000065c:	83 ec 2c             	sub    $0x2c,%esp
       .edx = 0,
       .esi = 0,
       .edi = 0
     };
 
     syscall(&state);
-40000660:	8d 45 e0             	lea    -0x20(%ebp),%eax
+4000065f:	8d 45 e0             	lea    -0x20(%ebp),%eax
       .ebx = 0,
       .ecx = 0,
       .edx = 0,
       .esi = 0,
       .edi = 0
     };
-40000663:	c7 45 e0 04 00 00 00 	movl   $0x4,-0x20(%ebp)
-4000066a:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
+40000662:	c7 45 e0 04 00 00 00 	movl   $0x4,-0x20(%ebp)
+40000669:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
 
     syscall(&state);
-40000671:	50                   	push   %eax
+40000670:	50                   	push   %eax
       .ebx = 0,
       .ecx = 0,
       .edx = 0,
       .esi = 0,
       .edi = 0
     };
-40000672:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
-40000679:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
-40000680:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
-40000687:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+40000671:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+40000678:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+4000067f:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+40000686:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
 
     syscall(&state);
-4000068e:	e8 49 0d 00 00       	call   400013dc <syscall>
+4000068d:	e8 4a 0d 00 00       	call   400013dc <syscall>
 
     return state.eax;
-40000693:	8b 75 e0             	mov    -0x20(%ebp),%esi
+40000692:	8b 75 e0             	mov    -0x20(%ebp),%esi
 void _start() {
   char** args = (char**) getargs();
 
   int argc = 0;
 
   if(args != 0) {
-40000696:	83 c4 10             	add    $0x10,%esp
-40000699:	85 f6                	test   %esi,%esi
-4000069b:	75 05                	jne    400006a2 <_start+0x4c>
-4000069d:	89 f3                	mov    %esi,%ebx
-4000069f:	eb 07                	jmp    400006a8 <_start+0x52>
+40000695:	83 c4 10             	add    $0x10,%esp
+40000698:	85 f6                	test   %esi,%esi
+4000069a:	75 05                	jne    400006a1 <_start+0x4c>
+4000069c:	89 f3                	mov    %esi,%ebx
+4000069e:	eb 07                	jmp    400006a7 <_start+0x52>
       while(args[argc] != 0) {
           argc++;
-400006a1:	43                   	inc    %ebx
+400006a0:	43                   	inc    %ebx
   char** args = (char**) getargs();
 
   int argc = 0;
 
   if(args != 0) {
       while(args[argc] != 0) {
-400006a2:	83 3c 9e 00          	cmpl   $0x0,(%esi,%ebx,4)
-400006a6:	75 f9                	jne    400006a1 <_start+0x4b>
+400006a1:	83 3c 9e 00          	cmpl   $0x0,(%esi,%ebx,4)
+400006a5:	75 f9                	jne    400006a0 <_start+0x4b>
           argc++;
       }
   }
 
   set_rpc_handler();
-400006a8:	e8 6c ff ff ff       	call   40000619 <set_rpc_handler>
+400006a7:	e8 6c ff ff ff       	call   40000618 <set_rpc_handler>
 
   int result = main(argc, args);
+400006ac:	51                   	push   %ecx
 400006ad:	51                   	push   %ecx
-400006ae:	51                   	push   %ecx
-400006af:	56                   	push   %esi
-400006b0:	53                   	push   %ebx
-400006b1:	e8 9a f9 ff ff       	call   40000050 <main>
+400006ae:	56                   	push   %esi
+400006af:	53                   	push   %ebx
+400006b0:	e8 9b f9 ff ff       	call   40000050 <main>
 
   exit(result);
-400006b6:	89 04 24             	mov    %eax,(%esp)
-400006b9:	e8 cb fd ff ff       	call   40000489 <exit>
-400006be:	83 c4 10             	add    $0x10,%esp
+400006b5:	89 04 24             	mov    %eax,(%esp)
+400006b8:	e8 cb fd ff ff       	call   40000488 <exit>
+400006bd:	83 c4 10             	add    $0x10,%esp
 }
-400006c1:	8d 65 f8             	lea    -0x8(%ebp),%esp
-400006c4:	5b                   	pop    %ebx
-400006c5:	5e                   	pop    %esi
-400006c6:	5d                   	pop    %ebp
-400006c7:	c3                   	ret    
+400006c0:	8d 65 f8             	lea    -0x8(%ebp),%esp
+400006c3:	5b                   	pop    %ebx
+400006c4:	5e                   	pop    %esi
+400006c5:	5d                   	pop    %ebp
+400006c6:	c3                   	ret    
 
-400006c8 <_handle_rpc>:
-}
-
-void exit(int returncode) {
-    struct regstate state = {
-        .eax = 1,
-        .ebx = returncode,
-400006c8:	55                   	push   %ebp
-400006c9:	89 e5                	mov    %esp,%ebp
-400006cb:	56                   	push   %esi
-400006cc:	53                   	push   %ebx
-400006cd:	83 ec 2c             	sub    $0x2c,%esp
-        .ecx = 0,
-400006d0:	ff 75 10             	pushl  0x10(%ebp)
+400006c7 <_handle_rpc>:
 }
 
 void exit(int returncode) {
     struct regstate state = {
         .eax = 1,
         .ebx = returncode,
-400006d3:	8b 75 0c             	mov    0xc(%ebp),%esi
+400006c7:	55                   	push   %ebp
+400006c8:	89 e5                	mov    %esp,%ebp
+400006ca:	56                   	push   %esi
+400006cb:	53                   	push   %ebx
+400006cc:	83 ec 2c             	sub    $0x2c,%esp
         .ecx = 0,
-400006d6:	e8 ba 0a 00 00       	call   40001195 <malloc>
+400006cf:	ff 75 10             	pushl  0x10(%ebp)
+}
+
+void exit(int returncode) {
+    struct regstate state = {
+        .eax = 1,
+        .ebx = returncode,
+400006d2:	8b 75 0c             	mov    0xc(%ebp),%esi
+        .ecx = 0,
+400006d5:	e8 bb 0a 00 00       	call   40001195 <malloc>
         .edx = 0,
-400006db:	89 04 24             	mov    %eax,(%esp)
+400006da:	89 04 24             	mov    %eax,(%esp)
 
 void exit(int returncode) {
     struct regstate state = {
         .eax = 1,
         .ebx = returncode,
         .ecx = 0,
-400006de:	89 c3                	mov    %eax,%ebx
+400006dd:	89 c3                	mov    %eax,%ebx
         .edx = 0,
-400006e0:	e8 bd fe ff ff       	call   400005a2 <fetch_rpc_data>
+400006df:	e8 bd fe ff ff       	call   400005a1 <fetch_rpc_data>
         .esi = 0,
         .edi = 0
-400006e5:	83 c4 10             	add    $0x10,%esp
-400006e8:	83 7d 08 00          	cmpl   $0x0,0x8(%ebp)
-400006ec:	75 4b                	jne    40000739 <_handle_rpc+0x71>
+400006e4:	83 c4 10             	add    $0x10,%esp
+400006e7:	83 7d 08 00          	cmpl   $0x0,0x8(%ebp)
+400006eb:	75 4b                	jne    40000738 <_handle_rpc+0x71>
     };
-400006ee:	8b 04 b5 10 40 00 40 	mov    0x40004010(,%esi,4),%eax
-400006f5:	85 c0                	test   %eax,%eax
-400006f7:	74 40                	je     40000739 <_handle_rpc+0x71>
+400006ed:	8b 04 b5 10 40 00 40 	mov    0x40004010(,%esi,4),%eax
+400006f4:	85 c0                	test   %eax,%eax
+400006f6:	74 40                	je     40000738 <_handle_rpc+0x71>
 
-400006f9:	83 ec 0c             	sub    $0xc,%esp
-400006fc:	56                   	push   %esi
-400006fd:	ff d0                	call   *%eax
+400006f8:	83 ec 0c             	sub    $0xc,%esp
+400006fb:	56                   	push   %esi
+400006fc:	ff d0                	call   *%eax
       .ebx = 0,
       .ecx = 0,
       .edx = 0,
       .esi = 0,
       .edi = 0
     };
-400006ff:	8d 45 e0             	lea    -0x20(%ebp),%eax
+400006fe:	8d 45 e0             	lea    -0x20(%ebp),%eax
     struct regstate state = {
       .eax = 4,
       .ebx = 0,
       .ecx = 0,
       .edx = 0,
       .esi = 0,
-40000702:	c7 45 e0 1e 00 00 00 	movl   $0x1e,-0x20(%ebp)
+40000701:	c7 45 e0 1e 00 00 00 	movl   $0x1e,-0x20(%ebp)
       .edi = 0
     };
-40000709:	89 04 24             	mov    %eax,(%esp)
+40000708:	89 04 24             	mov    %eax,(%esp)
     struct regstate state = {
       .eax = 4,
       .ebx = 0,
       .ecx = 0,
       .edx = 0,
       .esi = 0,
-4000070c:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
-40000713:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
-4000071a:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
-40000721:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
-40000728:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+4000070b:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
+40000712:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+40000719:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+40000720:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+40000727:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
       .edi = 0
     };
-4000072f:	e8 a8 0c 00 00       	call   400013dc <syscall>
-40000734:	83 c4 10             	add    $0x10,%esp
-40000737:	eb fe                	jmp    40000737 <_handle_rpc+0x6f>
+4000072e:	e8 a9 0c 00 00       	call   400013dc <syscall>
+40000733:	83 c4 10             	add    $0x10,%esp
+40000736:	eb fe                	jmp    40000736 <_handle_rpc+0x6f>
 
     syscall(&state);
 
     while(1) {
       printf("error\n");
     }
-40000739:	83 ec 0c             	sub    $0xc,%esp
-4000073c:	68 79 31 00 40       	push   $0x40003179
-40000741:	e8 0a 04 00 00       	call   40000b50 <printf>
+40000738:	83 ec 0c             	sub    $0xc,%esp
+4000073b:	68 79 31 00 40       	push   $0x40003179
+40000740:	e8 0b 04 00 00       	call   40000b50 <printf>
 }
 
-40000746:	89 1c 24             	mov    %ebx,(%esp)
-40000749:	e8 fe 08 00 00       	call   4000104c <free>
+40000745:	89 1c 24             	mov    %ebx,(%esp)
+40000748:	e8 ff 08 00 00       	call   4000104c <free>
       .ebx = 0,
       .ecx = 0,
       .edx = 0,
       .esi = 0,
       .edi = 0
     };
-4000074e:	8d 45 e0             	lea    -0x20(%ebp),%eax
+4000074d:	8d 45 e0             	lea    -0x20(%ebp),%eax
     struct regstate state = {
       .eax = 4,
       .ebx = 0,
       .ecx = 0,
       .edx = 0,
       .esi = 0,
-40000751:	c7 45 e0 1e 00 00 00 	movl   $0x1e,-0x20(%ebp)
+40000750:	c7 45 e0 1e 00 00 00 	movl   $0x1e,-0x20(%ebp)
       .edi = 0
     };
-40000758:	89 04 24             	mov    %eax,(%esp)
+40000757:	89 04 24             	mov    %eax,(%esp)
     struct regstate state = {
       .eax = 4,
       .ebx = 0,
       .ecx = 0,
       .edx = 0,
       .esi = 0,
-4000075b:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
-40000762:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
-40000769:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
-40000770:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
-40000777:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+4000075a:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
+40000761:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
+40000768:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
+4000076f:	c7 45 f0 00 00 00 00 	movl   $0x0,-0x10(%ebp)
+40000776:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
       .edi = 0
     };
-4000077e:	e8 59 0c 00 00       	call   400013dc <syscall>
-40000783:	83 c4 10             	add    $0x10,%esp
-40000786:	eb fe                	jmp    40000786 <_handle_rpc+0xbe>
+4000077d:	e8 5a 0c 00 00       	call   400013dc <syscall>
+40000782:	83 c4 10             	add    $0x10,%esp
+40000785:	eb fe                	jmp    40000785 <_handle_rpc+0xbe>
+	...
 
 40000788 <resolveHandle>:
     };
@@ -1371,7 +1373,7 @@ void _start() {
         .eax = 17,
         .ebx = index,
         .ecx = (uint32_t)strbuf,
-        .edx = 0,
+        .edx = (uint32_t)path,
         .esi = 0,
 40000812:	8b 45 08             	mov    0x8(%ebp),%eax
 40000815:	c7 45 e0 10 00 00 00 	movl   $0x10,-0x20(%ebp)
@@ -1384,7 +1386,7 @@ void _start() {
         .eax = 17,
         .ebx = index,
         .ecx = (uint32_t)strbuf,
-        .edx = 0,
+        .edx = (uint32_t)path,
         .esi = 0,
 40000823:	c7 45 e8 00 00 00 00 	movl   $0x0,-0x18(%ebp)
 4000082a:	c7 45 ec 00 00 00 00 	movl   $0x0,-0x14(%ebp)
@@ -1695,7 +1697,7 @@ int exec(char* path, char** args, int asSubtask) {
 }
 
 int dexec(char* path, char** args) {
-400009b5:	e8 15 fb ff ff       	call   400004cf <yield>
+400009b5:	e8 14 fb ff ff       	call   400004ce <yield>
     if(!changeExecPath(path)) printFilesystemError(path, getLastVFSErr());
 }
 
@@ -2099,7 +2101,7 @@ void printFilesystemError(char* path, uint32_t code) {
         printf("%s: Specified path was invalid", path);
         break;
     case PE_CORRUPT_FILE:
-40000cb7:	e8 13 f8 ff ff       	call   400004cf <yield>
+40000cb7:	e8 12 f8 ff ff       	call   400004ce <yield>
 
     if(!res) {
         printFilesystemError(path, getLastVFSErr());
@@ -2739,7 +2741,7 @@ int changeExecPath(char* path) {
     return state.eax;
 }
 
-char* getExecPathChild(uint32_t index, char* strbuf) {
+char* getPathChild(uint32_t index, char* strbuf, char* path) {
     struct regstate state = {
 40000f70:	39 f9                	cmp    %edi,%ecx
 40000f72:	75 e9                	jne    40000f5d <strtoknc+0x41>
@@ -2747,7 +2749,7 @@ char* getExecPathChild(uint32_t index, char* strbuf) {
 40000f74:	a3 10 42 00 40       	mov    %eax,0x40004210
         .ebx = index,
         .ecx = (uint32_t)strbuf,
-        .edx = 0,
+        .edx = (uint32_t)path,
         .esi = 0,
         .edi = 0
     };
@@ -3380,7 +3382,7 @@ void cd(char* path) {
     return state.eax;
 }
 
-char* getExecPathChild(uint32_t index, char* strbuf) {
+char* getPathChild(uint32_t index, char* strbuf, char* path) {
     struct regstate state = {
 400011c4:	e8 63 ff ff ff       	call   4000112c <pop_unused_node>
         .eax = 17,
@@ -3391,7 +3393,7 @@ char* getExecPathChild(uint32_t index, char* strbuf) {
 400011ce:	29 f7                	sub    %esi,%edi
 }
 
-char* getExecPathChild(uint32_t index, char* strbuf) {
+char* getPathChild(uint32_t index, char* strbuf, char* path) {
     struct regstate state = {
         .eax = 17,
         .ebx = index,
@@ -3405,7 +3407,7 @@ char* getExecPathChild(uint32_t index, char* strbuf) {
 400011d3:	8b 15 20 42 00 40    	mov    0x40004220,%edx
 400011d9:	89 50 08             	mov    %edx,0x8(%eax)
 
-char* getExecPathChild(uint32_t index, char* strbuf) {
+char* getPathChild(uint32_t index, char* strbuf, char* path) {
     struct regstate state = {
         .eax = 17,
         .ebx = index,
@@ -3569,7 +3571,7 @@ int changeExecPath(char* path) {
     return state.eax;
 }
 
-char* getExecPathChild(uint32_t index, char* strbuf) {
+char* getPathChild(uint32_t index, char* strbuf, char* path) {
 40001268:	c1 e7 0c             	shl    $0xc,%edi
         .edx = 0,
         .esi = 0,
@@ -3584,7 +3586,7 @@ char* getExecPathChild(uint32_t index, char* strbuf) {
 40001273:	8b 55 e4             	mov    -0x1c(%ebp),%edx
 }
 
-char* getExecPathChild(uint32_t index, char* strbuf) {
+char* getPathChild(uint32_t index, char* strbuf, char* path) {
 40001276:	83 c4 10             	add    $0x10,%esp
         .edx = 0,
         .esi = 0,
@@ -3599,7 +3601,7 @@ char* getExecPathChild(uint32_t index, char* strbuf) {
 }
 4000127e:	89 30                	mov    %esi,(%eax)
 
-char* getExecPathChild(uint32_t index, char* strbuf) {
+char* getPathChild(uint32_t index, char* strbuf, char* path) {
 40001280:	39 f7                	cmp    %esi,%edi
 40001282:	0f 86 5b ff ff ff    	jbe    400011e3 <malloc+0x4e>
 40001288:	e9 37 ff ff ff       	jmp    400011c4 <malloc+0x2f>

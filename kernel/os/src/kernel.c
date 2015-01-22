@@ -174,9 +174,9 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 	}
 	    break;
 
-	case 17: /* getExecPathChild */
+	case 17: /* getPathChild */
 	{
-		char* path = vfs_get_child_of_exec_path(cpu->ebx);
+		char* path = vfs_get_child_of_path((char*)cpu->edx, cpu->ebx);
 
 		if(path != 0 && cpu->ecx != 0) {
 			strcpy((char*)cpu->ecx, path);

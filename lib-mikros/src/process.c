@@ -112,12 +112,12 @@ int changeExecPath(char* path) {
     return state.eax;
 }
 
-char* getExecPathChild(uint32_t index, char* strbuf) {
+char* getPathChild(uint32_t index, char* strbuf, char* path) {
     struct regstate state = {
         .eax = 17,
         .ebx = index,
         .ecx = (uint32_t)strbuf,
-        .edx = 0,
+        .edx = (uint32_t)path,
         .esi = 0,
         .edi = 0
     };
