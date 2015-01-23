@@ -237,22 +237,37 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 
 	    struct res_handle* oldhandle = 0;
 
+	    struct task* tsk = get_current_task();
+
+	    if(cpu->edx != 0) {
+	    	tsk = get_task_by_pid(cpu->edx);
+
+	    	if(!tsk) {
+		        cpu->eax = (uint32_t) -1;
+		        break;
+	    	}
+
+	    	if(tsk->childOf != get_current_task()) {
+	    		schedule_exception(cpu); //Task tried to manipulate other task!!!
+	    	}
+	    }
+
         switch(cpu->ebx) {
         case PMID_STDOUT:
-            oldhandle = get_current_task()->stdout;
-            get_current_task()->stdout = open;
+            oldhandle = tsk->stdout;
+            tsk->stdout = open;
             break;
         case PMID_STDIN:
-            oldhandle = get_current_task()->stdin;
-            get_current_task()->stdin = open;
+            oldhandle = tsk->stdin;
+            tsk->stdin = open;
             break;
         case PMID_STDERR:
-            oldhandle = get_current_task()->stderr;
-            get_current_task()->stderr = open;
+            oldhandle = tsk->stderr;
+            tsk->stderr = open;
             break;
         default:
-            oldhandle = get_current_task()->stdout;
-            get_current_task()->stdout = open;
+            oldhandle = tsk->stdout;
+            tsk->stdout = open;
             break;
         }
 
@@ -260,7 +275,7 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
             vfs_close(oldhandle);
         }
 
-        cpu->eax = 0;
+        cpu->eax = open;
 	}
 	    break;
 

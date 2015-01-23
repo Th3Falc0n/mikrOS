@@ -60,6 +60,7 @@ struct task {
 
     struct task* subOf;
     struct task* blockedBySub;
+    struct task* childOf;
 };
 
 struct hl_node {

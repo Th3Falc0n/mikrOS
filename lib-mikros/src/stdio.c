@@ -43,12 +43,12 @@ static HANDLE getstdout() { return getpmhandle(PMID_STDOUT); };
 static HANDLE getstdin() { return getpmhandle(PMID_STDIN); };
 static HANDLE getstderr() { return getpmhandle(PMID_STDERR); };
 
-int fopenpmhandle (uint32_t pmid, char* path) {
+int fopenpmhandle (uint32_t pmid, char* path, int pid) {
     struct regstate state = {
       .eax = 21,
       .ebx = pmid,
       .ecx = (uint32_t)path,
-      .edx = 0,
+      .edx = pid,
       .esi = 0,
       .edi = 0
     };
@@ -58,9 +58,13 @@ int fopenpmhandle (uint32_t pmid, char* path) {
     return (HANDLE)state.eax;
 }
 
-int setstdout(char* path) { return fopenpmhandle(PMID_STDOUT, path); };
-int setstdin (char* path) { return fopenpmhandle(PMID_STDIN , path); };
-int setstderr(char* path) { return fopenpmhandle(PMID_STDERR, path); };
+int setstdout(char* path) { return fopenpmhandle(PMID_STDOUT, path, 0); };
+int setstdin (char* path) { return fopenpmhandle(PMID_STDIN , path, 0); };
+int setstderr(char* path) { return fopenpmhandle(PMID_STDERR, path, 0); };
+
+int setpstdout(char* path, int pid) { return fopenpmhandle(PMID_STDOUT, path, pid); };
+int setpstdin (char* path, int pid) { return fopenpmhandle(PMID_STDIN , path, pid); };
+int setpstderr(char* path, int pid) { return fopenpmhandle(PMID_STDERR, path, pid); };
 
 HANDLE fopen(char* path, uint32_t mode) {
     struct regstate state = {

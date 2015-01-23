@@ -464,6 +464,8 @@ uint32_t vfs_exec(char* path, char* args[], char* execPath, char* stdin, char* s
     	task->subOf = get_current_task();
     }
 
+    task->childOf = get_current_task();
+
     free(modsrc);
 
     return task->PID;
