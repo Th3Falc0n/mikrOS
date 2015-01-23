@@ -1,4 +1,11 @@
 *.o
 *~
 .project/
+.settings/
 .project
+.cproject
+kernel/kernel
+initrfs.tar
+lib-mikros/lib-mikrOS.a
+initrfs/
+*.objdump
