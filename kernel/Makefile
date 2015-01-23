@@ -3,8 +3,8 @@ SRCS += $(shell find -name '*.c')
 SRCS += $(shell find -name '*.cpp')
 OBJS = $(addsuffix .o,$(basename $(SRCS)))
 
-CC = gcc -std=gnu99 -fno-leading-underscore
-LD = ld
+CC = i586-elf-gcc -std=gnu99 -fno-leading-underscore
+LD = i586-elf-ld
 
 ASFLAGS = -m32
 CFLAGS = -m32 -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Werror -g -fno-stack-protector -nostdinc -I ./os/include

@@ -1,7 +1,7 @@
 SRCS = $(shell find -name '*.c')
 OBJS = $(addsuffix .o,$(basename $(SRCS)))
 
-CC = gcc -std=gnu99 -fno-leading-underscore
+CC = i586-elf-gcc -std=gnu99 -fno-leading-underscore
 AR = ar
 
 ASFLAGS = -m32

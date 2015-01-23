@@ -1,6 +1,6 @@
 eclipse.preferences.version=1
 environment/project/preference.org.eclipse.cdt.managedbuilder.core.configurationDataProvider.393412892/PATH/delimiter=;
 environment/project/preference.org.eclipse.cdt.managedbuilder.core.configurationDataProvider.393412892/PATH/operation=replace
-environment/project/preference.org.eclipse.cdt.managedbuilder.core.configurationDataProvider.393412892/PATH/value=C\:\\MinGW\\msys\\1.0\\bin\\;C\:\\MinGW\\bin;C\:\\Program Files\\qemu
+environment/project/preference.org.eclipse.cdt.managedbuilder.core.configurationDataProvider.393412892/PATH/value=C\:\\crosstools\\bin;C\:\\MinGW\\msys\\1.0\\bin;${PATH}
 environment/project/preference.org.eclipse.cdt.managedbuilder.core.configurationDataProvider.393412892/append=true
 environment/project/preference.org.eclipse.cdt.managedbuilder.core.configurationDataProvider.393412892/appendContributed=true
