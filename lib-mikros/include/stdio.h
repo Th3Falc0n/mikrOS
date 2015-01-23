@@ -40,11 +40,15 @@ int      fclose (HANDLE handle);
 uint32_t fwrite (HANDLE handle, const void* src , uint32_t length);
 uint32_t fread  (HANDLE handle, void* dest, uint32_t length);
 
-int    fopenpmhandle (uint32_t pmid, char* path);
+int    fopenpmhandle (uint32_t pmid, char* path, int pid);
 
 int setstdout(char* path);
 int setstdin (char* path);
 int setstderr(char* path);
+
+int setpstdout(char* path, int pid);
+int setpstdin (char* path, int pid);
+int setpstderr(char* path, int pid);
 
 int putchar(char c);
 int puts(const char* cp);

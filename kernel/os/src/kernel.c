@@ -275,7 +275,7 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
             vfs_close(oldhandle);
         }
 
-        cpu->eax = open;
+        cpu->eax = (uint32_t)open;
 	}
 	    break;
 
