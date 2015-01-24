@@ -72,8 +72,7 @@ char* strclone(char* str) {
     return ret;
 }
 
-char* sp = NULL; /* the start position of the string */
-void* fr = NULL;
+static void* fr = NULL;
 
 char* strtok(char* str, const char* delimiters) {
     if(str != 0) { //TODO better but if you call strtok and after that strtoknc will still be a memory leak. -> Don't use strtoknc
@@ -85,6 +84,8 @@ char* strtok(char* str, const char* delimiters) {
     }
     return strtoknc(0, delimiters);
 }
+
+static char* sp = NULL; /* the start position of the string */
 
 char* strtoknc(char* str, const char* delimiters) {
     int i = 0;

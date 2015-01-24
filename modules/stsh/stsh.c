@@ -25,7 +25,7 @@ int main(int argc, char* args[])
                 pargs[n] = strtoknc(0, " ");
             } while(pargs[n++] != 0);
 
-            sexec(instr, pargs);
+            sexec(cmd, pargs);
 
             printf("\n");
         }
