@@ -53,10 +53,8 @@ static char* strtokncesc(char* str, const char* delimiters,
 	/* find the end of the substring, and replace the delimiter with null*/
 	while (*sp != '\0') {
 		for (escI = 0; escI < escLen; escI++) {
-			if (*sp == escChars[escI]) {
+			if (*sp == escChars[escI])
 				esc = !esc;
-			}
-			printf("%c->%x\n", *sp, esc);
 		}
 		if (!esc) {
 			for (i = 0; i < len; i++) {
@@ -76,6 +74,9 @@ static char* strtokncesc(char* str, const char* delimiters,
 }
 
 static char* strreplall(char* str, const char* patterns) {
+	if (!str)
+		return NULL ;
+
 	int len = strlen(str);
 	int i;
 	int pos = 0;
@@ -118,14 +119,30 @@ int main(int argc, char* args[]) {
 		char* cmd = strreplall(strtokncesc(instr, " ", "\""), "\"");
 
 		if (cmd != 0) {
+			int type = 0;
+
+			char* arg;
 			char* pargs[64];
 			int n = 0;
 
-			do {
-				pargs[n] = strreplall(strtokncesc(0, " ", "\""), "\"");
-			} while (pargs[n++] != 0);
+			char* outstream = NULL;
 
-			sexec(cmd, pargs);
+			do {
+				arg = strreplall(strtokncesc(0, " ", "\""), "\"");
+
+				if (strcmp(arg, ">\0")) {
+					type = 1;
+				} else if (type == 1) {
+					outstream = arg;
+					type = 0;
+				} else {
+					pargs[n++] = arg;
+				}
+			} while (arg != 0);
+
+			int pid = dexec(cmd, pargs);
+			if (outstream) setpstdout(outstream, pid);
+			while(pexists(pid)) yield();
 
 			printf("\n");
 		}
