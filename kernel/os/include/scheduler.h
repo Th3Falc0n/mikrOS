@@ -58,9 +58,9 @@ struct task {
 
     struct hl_node* handle_list;
 
-    struct task* subOf;
-    struct task* blockedBySub;
-    struct task* childOf;
+    struct task* sub_of;
+    struct task* blocked_by_sub;
+    struct task* child_of;
 };
 
 struct hl_node {

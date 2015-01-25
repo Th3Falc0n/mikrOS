@@ -220,6 +220,11 @@ struct res_handle* vfs_open(char* path, uint32_t filemode) {
 
     node = vfs_get_node(path);
 
+    if(node == 0) {
+    	vfs_set_error(PE_FILE_NOT_FOUND);
+    	return 0;
+    }
+
     if(node->res_type == RES_KERNDRV) {
         struct res_kfile* kf = (struct res_kfile*)node->res_ptr;
         struct res_handle* handle = kf->driver->open(kf, filemode);
@@ -227,6 +232,7 @@ struct res_handle* vfs_open(char* path, uint32_t filemode) {
         return handle;
     }
 
+	vfs_set_error(PE_INVALID);
     return 0;
 }
 
@@ -460,11 +466,11 @@ uint32_t vfs_exec(char* path, char* args[], char* execPath, char* stdin, char* s
     vmm_activate_pagedir(old_pdir);
 
     if(sub) {
-    	get_current_task()->blockedBySub = task;
-    	task->subOf = get_current_task();
+    	get_current_task()->blocked_by_sub = task;
+    	task->sub_of = get_current_task();
     }
 
-    task->childOf = get_current_task();
+    task->child_of = get_current_task();
 
     free(modsrc);
 

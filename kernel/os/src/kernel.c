@@ -29,7 +29,15 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
     {
         char* path = strclone((char*) cpu->ebx);
 
-		cpu->eax = vfs_exec(path, (char**) cpu->ecx, 0, 0, 0, 0, cpu->edx);
+        if(cpu->esi) {
+        	char** std = (char**) cpu->esi;
+
+    		cpu->eax = vfs_exec(path, (char**) cpu->ecx, 0, std[0], std[1], std[2], cpu->edx);
+        }
+        else
+        {
+    		cpu->eax = vfs_exec(path, (char**) cpu->ecx, 0, 0, 0, 0, cpu->edx);
+        }
 
         free(path);
 
@@ -247,7 +255,7 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
 		        break;
 	    	}
 
-	    	if(tsk->childOf != get_current_task()) {
+	    	if(tsk->child_of != get_current_task()) {
 	    		schedule_exception(cpu); //Task tried to manipulate other task!!!
 	    	}
 	    }

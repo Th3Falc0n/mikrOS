@@ -131,13 +131,13 @@ void cd(char* path) {
     if(!changeExecPath(path)) printFilesystemError(path, getLastVFSErr());
 }
 
-int exec(char* path, char** args, int asSubtask) {
+int exec(char* path, char** args, int asSubtask, char** std) {
     struct regstate state = {
         .eax = 3,
         .ebx = (uint32_t) path,
         .ecx = (uint32_t) args,
         .edx = asSubtask,
-        .esi = 0,
+        .esi = (uint32_t) std,
         .edi = 0
     };
 
@@ -147,7 +147,7 @@ int exec(char* path, char** args, int asSubtask) {
 }
 
 int dexec(char* path, char** args) {
-    uint32_t res = exec(path, args, 0);
+    int res = exec(path, args, 0, 0);
 
     if(!res) {
         printFilesystemError(path, getLastVFSErr());
@@ -156,14 +156,46 @@ int dexec(char* path, char** args) {
     return res;
 }
 
+int fdexec(char* path, char** args, char* in, char* out, char* err) {
+	char* std[3];
+
+	std[0] = in;
+	std[1] = out;
+	std[2] = err;
+
+	int res = exec(path, args, 0, std);
+
+	if(!res) {
+		printFilesystemError(path, getLastVFSErr());
+	}
+
+	return res;
+}
+
 int sexec(char* path, char** args) {
-    uint32_t res = exec(path, args, 1);
+    int res = exec(path, args, 1, 0);
 
     if(!res) {
         printFilesystemError(path, getLastVFSErr());
     }
 
     return res;
+}
+
+int fsexec(char* path, char** args, char* in, char* out, char* err) {
+	char* std[3];
+
+	std[0] = in;
+	std[1] = out;
+	std[2] = err;
+
+	int res = exec(path, args, 1, std);
+
+	if(!res) {
+		printFilesystemError(path, getLastVFSErr());
+	}
+
+	return res;
 }
 
 void printFilesystemError(char* path, uint32_t code) {

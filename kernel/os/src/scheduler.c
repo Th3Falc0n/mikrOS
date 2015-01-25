@@ -100,8 +100,8 @@ struct cpu_state* terminate_current(struct cpu_state* cpu) {
     struct task* prev = current_task->prev;
     struct task* old = current_task;
 
-    if(current_task->subOf) {
-    	current_task->subOf->blockedBySub = 0;
+    if(current_task->sub_of) {
+    	current_task->sub_of->blocked_by_sub = 0;
 
     	/*TODO the complete environment[1] of the subtask has to be carried to the parent task,
     	 * as they should behave as being a single environment
@@ -109,8 +109,8 @@ struct cpu_state* terminate_current(struct cpu_state* cpu) {
     	 * 1: stdin,err,out are not part of the environment!
     	 */
 
-    	free(current_task->subOf->execPath);
-    	current_task->subOf->execPath = current_task->execPath;
+    	free(current_task->sub_of->execPath);
+    	current_task->sub_of->execPath = current_task->execPath;
     }
 
     vmm_free_current_pagetables();
@@ -159,8 +159,8 @@ struct task* init_task(uint32_t task_pagedir, void* entry) {
     ntask->next = (void*) first_task;
     ntask->prev = (void*) 0;
 
-    ntask->subOf = 0;
-    ntask->blockedBySub = 0;
+    ntask->sub_of = 0;
+    ntask->blocked_by_sub = 0;
 
     if (first_task != 0) {
         first_task->prev = ntask;
@@ -236,7 +236,7 @@ struct cpu_state* schedule(struct cpu_state* cpu) {
 			if (next == 0) {
 				next = first_task;
 			}
-        } while(next->blockedBySub);
+        } while(next->blocked_by_sub);
 
         save_cpu_state(cpu);
 
