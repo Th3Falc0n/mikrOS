@@ -3,107 +3,27 @@
 #include "stdio.h"
 #include "process.h"
 #include "string.h"
+#include "list.h"
 
-static char* sp = NULL; /* the start position of the string */
+static struct list* gc_list = 0;
 
-static char* strtokncesc(char* str, const char* delimiters,
-		const char* escChars) {
-	int i = 0;
-	int len = strlen(delimiters);
+static void* gc(void* p) {
+	if (!gc_list)
+		gc_list = list_new();
 
-	int escI = 0;
-	int escLen = strlen(escChars);
-	int esc = 0;
-
-	/* check in the delimiters */
-	if (len == 0)
-		return 0;
-
-	/* if the original string has nothing left */
-	if (!str && !sp)
-		return 0;
-
-	/* initialize the sp during the first call */
-	if (str) {
-		sp = str;
+	struct list* first = list_first(gc_list);
+	if (first) {
+		free(first->data);
+		list_free(first);
 	}
 
-	/* find the start of the substring, skip delimiters */
-	char* p_start = sp;
+	list_append(gc_list, p);
 
-	while (1) {
-		for (i = 0; i < len; i++) {
-			if (*p_start == delimiters[i]) {
-				p_start++;
-				break;
-			}
-		}
-
-		if (i == len) {
-			sp = p_start;
-			break;
-		}
-	}
-
-	/* return NULL if nothing left */
-	if (*sp == '\0') {
-		sp = NULL;
-		return sp;
-	}
-
-	/* find the end of the substring, and replace the delimiter with null*/
-	while (*sp != '\0') {
-		for (escI = 0; escI < escLen; escI++) {
-			if (*sp == escChars[escI])
-				esc = !esc;
-		}
-		if (!esc) {
-			for (i = 0; i < len; i++) {
-				if (*sp == delimiters[i]) {
-					*sp = '\0';
-					break;
-				}
-			}
-		}
-
-		sp++;
-		if (i < len)
-			break;
-	}
-
-	return p_start;
+	return p;
 }
 
-static char* strreplall(char* str, const char* patterns) {
-	if (!str)
-		return NULL ;
-
-	int len = strlen(str);
-	int i;
-	int pos = 0;
-
-	int patLen = strlen(patterns);
-	int patI;
-	int pat;
-
-	char* ret = malloc(sizeof(char) * len + 1);
-
-	for (i = 0; i < len; i++) {
-		pat = 0;
-		for (patI = 0; patI < patLen; patI++) {
-			if (str[i] == patterns[patI]) {
-				pat = 1;
-				break;
-			}
-		}
-		if (!pat) {
-			ret[pos] = str[i];
-			pos++;
-		}
-	}
-	ret[pos] = '\0';
-
-	return ret;
+static char* format(char* str) {
+	return replaceAll(gc(replaceAll(str, "\"", "", "\\")), "\\\"", "\"", "");
 }
 
 int main(int argc, char* args[]) {
@@ -117,19 +37,20 @@ int main(int argc, char* args[]) {
 		printf("#%s> ", epath);
 		getln(instr);
 
-		char* cmd = strreplall(strtokncesc(instr, " ", "\""), "\"");
+		char* split = split(instr, " ", "\"", "\\");
 
-		if (cmd != 0) {
+		if (split[0] != 0) {
 			int type = 0;
 
 			char* arg;
 			char* pargs[64];
 			int n = 0;
+			int i = 0;
 
-			char* outstream = NULL;
+			char* outstream = 0;
 
 			do {
-				arg = strreplall(strtokncesc(0, " ", "\""), "\"");
+				arg = gc(format(split[i]));
 
 				if (!strcmp(arg, ">")) {
 					type = 1;
@@ -139,11 +60,10 @@ int main(int argc, char* args[]) {
 				} else {
 					pargs[n++] = arg;
 				}
+				i++;
 			} while (arg != 0);
 
-			int pid = dexec(cmd, pargs);
-			if (outstream) setpstdout(outstream, pid);
-			while(pexists(pid)) yield();
+			fsexec(gc(format(split[0])), pargs, 0, outstream, 0);
 
 			printf("\n");
 		}
