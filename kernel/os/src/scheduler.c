@@ -171,14 +171,13 @@ struct task* init_task(uint32_t task_pagedir, void* entry) {
     uint32_t rest_pdir = vmm_get_current_pagedir();
     vmm_activate_pagedir(task_pagedir);
 
-    for(uint8_t* addr = ntask->user_stack_bottom; (uint32_t)addr < 0xFFFFF000; addr += 0x1000) {
+    for(uint8_t* addr = ntask->user_stack_bottom; (uint32_t)addr != 0x0; addr += 0x1000) {
         vmm_alloc_addr(addr, 0);
     }
 
     struct cpu_state nstate = { .eax = 0, .ebx = 0, .ecx = 0, .edx = 0,
-            .esi = 0, .edi = 0, .ebp = 0, .esp =
-                    (uint32_t) ntask->user_stack_bottom + 4096, .eip =
-                    (uint32_t) entry,
+            .esi = 0, .edi = 0, .ebp = 0, .esp = 0,
+			.eip = (uint32_t) entry,
 
             /* Ring-3-Segmentregister */
             .cs = 0x18 | 0x03, .ss = 0x20 | 0x03,
