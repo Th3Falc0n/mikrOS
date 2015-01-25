@@ -1,5 +1,6 @@
 #include "string.h"
 #include "stdlib.h"
+#include "list.h"
 
 void* memset(void* buf, int c, size_t n) {
     unsigned char* p = buf;
@@ -233,7 +234,7 @@ char** split(char* str, const char* delimiters, const char* escChars,
 		list_append(lst, part);
 	}
 
-	char** ret = list_toarray(lst, -1);
+	char** ret = (char**)list_toarray(lst, -1);
 
 	list_free(lst);
 

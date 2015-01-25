@@ -111,13 +111,19 @@ void list_free(struct list* lst) {
 }
 
 void** list_toarray(struct list* lst, int length) {
+	if (!lst->prev)
+		lst = lst->next;
+
+	if (!lst)
+		return 0;
+
 	if (length < 0)
 		length = list_size_after(lst);
 
 	void** array = malloc(sizeof(void*) * (length + 1));
 
 	for (int i = 0; i < length; i++) {
-		array[i] = lst;
+		array[i] = lst->data;
 		lst = lst->next;
 	}
 	array[length] = 0;

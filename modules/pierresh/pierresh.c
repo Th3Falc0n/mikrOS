@@ -37,20 +37,20 @@ int main(int argc, char* args[]) {
 		printf("#%s> ", epath);
 		getln(instr);
 
-		char* split = split(instr, " ", "\"", "\\");
+		char** array = split(instr, " ", "\"", "\\");
 
-		if (split[0] != 0) {
+		if (array[0] != 0) {
 			int type = 0;
 
 			char* arg;
 			char* pargs[64];
 			int n = 0;
-			int i = 0;
+			int i = 1;
 
 			char* outstream = 0;
 
 			do {
-				arg = gc(format(split[i]));
+				arg = format(array[i]);
 
 				if (!strcmp(arg, ">")) {
 					type = 1;
@@ -63,7 +63,7 @@ int main(int argc, char* args[]) {
 				i++;
 			} while (arg != 0);
 
-			fsexec(gc(format(split[0])), pargs, 0, outstream, 0);
+			fsexec(gc(format(array[0])), pargs, 0, outstream, 0);
 
 			printf("\n");
 		}
