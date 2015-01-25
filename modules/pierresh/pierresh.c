@@ -131,7 +131,7 @@ int main(int argc, char* args[]) {
 			do {
 				arg = strreplall(strtokncesc(0, " ", "\""), "\"");
 
-				if (strcmp(arg, ">\0")) {
+				if (!strcmp(arg, ">")) {
 					type = 1;
 				} else if (type == 1) {
 					outstream = arg;
