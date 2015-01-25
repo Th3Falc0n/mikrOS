@@ -5,13 +5,6 @@
 #include "ramfs/tar.h"
 #include "ramfs/vgacntrl.h"
 
-struct exec_info {
-    char* execPath;
-    char* stdin;
-    char* stdout;
-    char* stderr;
-};
-
 struct cpu_state* syscall(struct cpu_state* cpu) {
     cpu = save_cpu_state(cpu);
 
@@ -155,14 +148,16 @@ struct cpu_state* syscall(struct cpu_state* cpu) {
         char* name = strclone((char*) cpu->ebx);
         vfs_create_kfile(name, ramfs_fifo_driver_struct(), &(uint32_t){4096}); //default to 4k Buffer-size
 
-        struct res_handle* handle = vfs_open(name, FM_READ | FM_WRITE);
-        if(handle) {
-            register_handle(handle);
-            cpu->eax = (uint32_t) handle;
-        }
-        else
-        {
-            cpu->eax = 0;
+        if(cpu->ecx) {
+			struct res_handle* handle = vfs_open(name, FM_READ | FM_WRITE);
+			if(handle) {
+				register_handle(handle);
+				cpu->eax = (uint32_t) handle;
+			}
+			else
+			{
+				cpu->eax = 0;
+			}
         }
 
         free(name);

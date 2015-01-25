@@ -34,11 +34,12 @@ typedef uint32_t HANDLE;
 uint32_t getLastVFSErr();
 
 uint32_t favailable(uint32_t handle);
-HANDLE   fopen  (char* path, uint32_t filemode);
-HANDLE   fmkfifo(char* path);
-int      fclose (HANDLE handle);
-uint32_t fwrite (HANDLE handle, const void* src , uint32_t length);
-uint32_t fread  (HANDLE handle, void* dest, uint32_t length);
+HANDLE   fopen     (char* path, uint32_t filemode);
+HANDLE   fmkfifo   (char* path);
+void     fnomkfifo (char* path);
+int      fclose    (HANDLE handle);
+uint32_t fwrite    (HANDLE handle, const void* src , uint32_t length);
+uint32_t fread     (HANDLE handle, void* dest, uint32_t length);
 
 int    fopenpmhandle (uint32_t pmid, char* path, int pid);
 

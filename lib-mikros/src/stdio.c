@@ -202,6 +202,21 @@ HANDLE fmkfifo(char* path) {
     return (HANDLE)state.eax;
 }
 
+void fnomkfifo(char* path) {
+    struct regstate state = {
+      .eax = 14,
+      .ebx = (uint32_t)path,
+      .ecx = 1,
+      .edx = 0,
+      .esi = 0,
+      .edi = 0
+    };
+
+    syscall(&state);
+
+    return;
+}
+
 char fgetc(HANDLE hdl) {
     hdl = resolveHandle(hdl);
     char in = 0;
