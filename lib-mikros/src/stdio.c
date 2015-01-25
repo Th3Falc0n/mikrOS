@@ -191,7 +191,7 @@ HANDLE fmkfifo(char* path) {
     struct regstate state = {
       .eax = 14,
       .ebx = (uint32_t)path,
-      .ecx = 0,
+      .ecx = 1,
       .edx = 0,
       .esi = 0,
       .edi = 0
@@ -206,7 +206,7 @@ void fnomkfifo(char* path) {
     struct regstate state = {
       .eax = 14,
       .ebx = (uint32_t)path,
-      .ecx = 1,
+      .ecx = 0,
       .edx = 0,
       .esi = 0,
       .edi = 0
