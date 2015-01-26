@@ -5,25 +5,44 @@
 #include "string.h"
 #include "list.h"
 
-static struct list* gc_list = 0;
-
-static void* gc(void* p) {
-	if (!gc_list)
-		gc_list = list_new();
-
-	struct list* first = list_first(gc_list);
-	if (first) {
-		free(first->data);
-		list_free(first);
-	}
-
-	list_append(gc_list, p);
-
-	return p;
+static char* format(char* str) {
+	char* tmp = replaceAll(str, "\"", "", "\\");
+	char* ret = replaceAll(tmp, "\\\"", "\"", "");
+	free(tmp);
+	return ret;
 }
 
-static char* format(char* str) {
-	return replaceAll(gc(replaceAll(str, "\"", "", "\\")), "\\\"", "\"", "");
+static void interpret(struct list* args) {
+	struct list* i = list_first(args);
+
+	if (i) {
+		int type = 0;
+		struct list* newArgs = list_new();
+		char* outstream = 0;
+
+		while ((i = i->next)) {
+			char* str = i->data;
+			if (!strcmp(str, ">")) {
+				type = 0;
+			} else if (type == 1) {
+				outstream = str;
+				type = 0;
+			} else {
+				list_append(newArgs, str);
+			}
+		}
+
+		fsexec(list_first(args)->data, (char**) list_toarray(newArgs, -1), 0,
+				outstream, 0);
+
+		printf("\n");
+	}
+}
+
+static void func_reformat(struct list* entry) {
+	char* oldStr = (char*) entry->data;
+	entry->data = format(oldStr);
+	free(oldStr);
 }
 
 int main(int argc, char* args[]) {
@@ -39,34 +58,12 @@ int main(int argc, char* args[]) {
 
 		char** array = split(instr, " ", "\"", "\\");
 
-		if (array[0] != 0) {
-			int type = 0;
+		struct list* newArgs = list_fromarray((void**) array, -1);
+		free(array);
 
-			char* arg;
-			char* pargs[64];
-			int n = 0;
-			int i = 1;
+		list_foreach(newArgs, func_reformat);
 
-			char* outstream = 0;
-
-			do {
-				arg = format(array[i]);
-
-				if (!strcmp(arg, ">")) {
-					type = 1;
-				} else if (type == 1) {
-					outstream = arg;
-					type = 0;
-				} else {
-					pargs[n++] = arg;
-				}
-				i++;
-			} while (arg != 0);
-
-			fsexec(gc(format(array[0])), pargs, 0, outstream, 0);
-
-			printf("\n");
-		}
+		interpret(newArgs);
 	}
 
 	return 0;
