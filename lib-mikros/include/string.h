@@ -14,5 +14,11 @@ char*        strtoknc(char* str, const char* delimiters);
 char*        strcpy(char* dest, const char* src);
 char*        strclone(char* src);
 
+//
+
+char*        strtokncesc(char* str, const char* delimiters, const char* escChars, const char* escEscChars);
+char**       split(char* str, const char* delimiters, const char* escChars, const char* escEscChars);
+char*        replaceAll(const char* str, const char* pattern, const char* repl, const char* escChars);
+
 #endif
 
